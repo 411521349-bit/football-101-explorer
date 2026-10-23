@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Football 101: Read the Game</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0e2a2f;--panel:#14383f;--line:#e9efe6;--grass1:#1d6b3a;--grass2:#22763f;--ball:#ff7a1a;--mute:#a9c1bd;--opp:#6fb7ff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--line);font:17px/1.55 Barlow,system-ui,sans-serif}
+h1,h2{font-family:"Barlow Condensed","Arial Narrow",sans-serif;font-weight:700;line-height:1.05;margin:0}
+h1{font-size:clamp(46px,9vw,92px);max-width:11ch}
+h2{font-size:34px;margin-bottom:6px}
+main{max-width:980px;margin:0 auto;padding:0 20px 60px}
+header{padding:48px 0 28px}
+header p{max-width:52ch;color:var(--mute);font-size:19px}
+section{padding:34px 0;border-top:1px solid #ffffff22}
+.lead{color:var(--mute);max-width:60ch;margin:0 0 18px}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;align-items:start}
+@media(max-width:760px){.grid{grid-template-columns:1fr}}
+svg{width:100%;height:auto;display:block;border-radius:6px}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+button,select{font:inherit;color:var(--line);background:var(--panel);border:1px solid #ffffff44;border-radius:6px;padding:7px 14px;cursor:pointer}
+button[aria-pressed="true"]{background:var(--ball);color:#1a1005;border-color:var(--ball);font-weight:500}
+:focus-visible{outline:3px solid var(--ball);outline-offset:2px}
+.card{background:var(--panel);border-radius:8px;padding:16px 18px}
+.card h3{margin:0 0 4px;font:700 26px "Barlow Condensed",sans-serif}
+.dot{cursor:pointer}
+.dot circle{stroke:var(--line);stroke-width:2}
+.dot:focus-visible circle,.dot.sel circle{stroke:var(--ball);stroke-width:4}
+.verdict{font:700 30px "Barlow Condensed",sans-serif;margin:8px 0 2px}
+.on{color:#7ee2a0}.off{color:#ff8a8a}
+label{display:block;margin:10px 0 2px;color:var(--mute)}
+input[type=range]{width:100%;accent-color:var(--ball)}
+details{background:var(--panel);border-radius:8px;padding:12px 18px;margin-bottom:8px}
+summary{cursor:pointer;font-weight:500}
+details p{margin:8px 0 0;color:var(--mute)}
+.q{margin-bottom:18px}.q p{margin:0 0 8px;font-weight:500}
+.opt{display:block;width:100%;text-align:left;margin-bottom:6px}
+.opt.right{border-color:#7ee2a0;background:#1b4d3a}.opt.wrong{border-color:#ff8a8a}
+.fb{color:var(--mute);margin:4px 0 0;font-size:15px}
+footer{color:var(--mute);font-size:14px;padding-top:24px;border-top:1px solid #ffffff22}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <h1>Football 101: read the game</h1>
+  <p>A short, hands-on guide for anyone who wants to watch a match with friends and actually follow it. Explore formations, test the offside rule, then check what you learned.</p>
+</header>
+
+<section aria-labelledby="h-form">
+  <h2 id="h-form">Where do players stand?</h2>
+  <p class="lead">Pick a formation. The numbers count outfield players from defence to attack. Select any player to see what the role does.</p>
+  <div class="btns" id="formBtns"></div>
+  <div class="grid">
+    <svg id="pitch" viewBox="0 0 300 420" role="group" aria-label="Football pitch with eleven players"></svg>
+    <div class="card" aria-live="polite"><h3 id="roleName">Goalkeeper</h3><p id="roleText"></p></div>
+  </div>
+</section>
+
+<section aria-labelledby="h-off">
+  <h2 id="h-off">Offside lab</h2>
+  <p class="lead">Your team attacks the top goal. Move the attacker and the passer to see when offside is called.</p>
+  <div class="grid">
+    <svg id="offside" viewBox="0 0 300 420" role="img" aria-label="Offside demonstration pitch"></svg>
+    <div class="card">
+      <label for="restart">How is the ball played?</label>
+      <select id="restart"><option value="open">Normal play (pass)</option><option value="throw">Throw-in</option><option value="goalkick">Goal kick</option><option value="corner">Corner kick</option></select>
+      <label for="att">Attacker position: <span id="attV"></span></label>
+      <input id="att" type="range" min="35" max="98" value="85">
+      <label for="pas">Passer position: <span id="pasV"></span></label>
+      <input id="pas" type="range" min="30" max="90" value="60">
+      <div class="verdict" id="verdict" aria-live="polite"></div>
+      <p id="why" class="fb"></p>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="h-rules">
+  <h2 id="h-rules">Rules in plain words</h2>
+  <div id="rules"></div>
+</section>
+
+<section aria-labelledby="h-quiz">
+  <h2 id="h-quiz">Check yourself</h2>
+  <div id="quiz"></div>
+  <p id="score" class="verdict"></p>
+</section>
+
+<footer>Based on the IFAB Laws of the Game. Built with AI assistance as a university midterm project. This is a learning aid, not an official rulebook.</footer>
+</main>
+
+<script>
+const ROLES={
+GK:["Goalkeeper","The only player allowed to handle the ball with hands, and only inside their own penalty area. Last line of defence and often the one who starts attacks."],
+CB:["Centre-back","Defends the middle of the goal area. Wins headers, blocks shots and marks the opposing striker."],
+LB:["Left-back","Defends the left side and often runs forward to support attacks down the wing."],
+RB:["Right-back","Defends the right side and often runs forward to support attacks down the wing."],
+LWB:["Left wing-back","Plays the whole left side, defending and attacking. Needs a lot of stamina."],
+RWB:["Right wing-back","Plays the whole right side, defending and attacking. Needs a lot of stamina."],
+DM:["Defensive midfielder","Sits in front of the defence, breaks up opposition attacks and gives simple passes to teammates."],
+CM:["Central midfielder","The engine of the team. Links defence and attack, passes, tackles and runs the most."],
+LM:["Left midfielder","Works the left side of midfield, delivers crosses and helps the left-back."],
+RM:["Right midfielder","Works the right side of midfield, delivers crosses and helps the right-back."],
+AM:["Attacking midfielder","Plays just behind the striker. Creates chances with creative passes and sometimes scores."],
+LW:["Left winger","Stays wide on the left, dribbles past defenders and crosses or cuts in to shoot."],
+RW:["Right winger","Stays wide on the right, dribbles past defenders and crosses or cuts in to shoot."],
+ST:["Striker","The main goalscorer. Plays closest to the opponent’s goal and tries to finish chances."]};
+const D4=[["LB",15,72],["CB",38,74],["CB",62,74],["RB",85,72]];
+const F={
+"4-4-2":[...D4,["LM",15,50],["CM",38,52],["CM",62,52],["RM",85,50],["ST",38,24],["ST",62,24]],
+"4-3-3":[...D4,["CM",28,50],["DM",50,58],["CM",72,50],["LW",16,26],["ST",50,22],["RW",84,26]],
+"3-5-2":[["CB",25,74],["CB",50,76],["CB",75,74],["LWB",9,54],["CM",30,52],["AM",50,42],["CM",70,52],["RWB",91,54],["ST",38,24],["ST",62,24]],
+"4-2-3-1":[...D4,["DM",38,58],["DM",62,58],["LW",18,40],["AM",50,40],["RW",82,40],["ST",50,20]]};
+const NS="http://www.w3.org/2000/svg";
+function el(t,a,p){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
+function drawPitch(svg){
+  svg.innerHTML="";
+  for(let i=0;i<10;i++)el("rect",{x:0,y:i*42,width:300,height:42,fill:i%2?"var(--grass1)":"var(--grass2)"},svg);
+  const L={stroke:"#e9efe6","stroke-width":2,fill:"none",opacity:.85};
+  el("rect",{x:8,y:8,width:284,height:404,...L},svg);
+  el("line",{x1:8,y1:210,x2:292,y2:210,...L},svg);
+  el("circle",{cx:150,cy:210,r:36,...L},svg);
+  el("rect",{x:75,y:8,width:150,height:60,...L},svg);
+  el("rect",{x:75,y:352,width:150,height:60,...L},svg);
+  el("rect",{x:115,y:8,width:70,height:22,...L},svg);
+  el("rect",{x:115,y:390,width:70,height:22,...L},svg);
+}
+/* Formation explorer */
+const pitch=document.getElementById("pitch"),fb=document.getElementById("formBtns");
+function showRole(c){const r=ROLES[c];document.getElementById("roleName").textContent=r[0];document.getElementById("roleText").textContent=r[1]}
+function setForm(name){
+  [...fb.children].forEach(b=>b.setAttribute("aria-pressed",b.textContent===name));
+  drawPitch(pitch);
+  const pl=[["GK",50,92],...F[name]];
+  pl.forEach(([c,x,y])=>{
+    const g=el("g",{class:"dot",tabindex:0,role:"button","aria-label":ROLES[c][0]},pitch);
+    el("circle",{cx:x*2.84+8,cy:y*4.04+4,r:15,fill:c==="GK"?"var(--ball)":"#14383f"},g);
+    const t=el("text",{x:x*2.84+8,y:y*4.04+9,"text-anchor":"middle","font-size":12,"font-weight":700,fill:c==="GK"?"#1a1005":"#e9efe6"},g);t.textContent=c;
+    const pick=()=>{pitch.querySelectorAll(".dot").forEach(d=>d.classList.remove("sel"));g.classList.add("sel");showRole(c)};
+    g.addEventListener("click",pick);g.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();pick()}});
+  });
+  showRole("GK");
+}
+Object.keys(F).forEach(n=>{const b=document.createElement("button");b.textContent=n;b.onclick=()=>setForm(n);fb.appendChild(b)});
+setForm("4-4-2");
+/* Offside lab */
+const os=document.getElementById("offside"),att=document.getElementById("att"),pas=document.getElementById("pas"),rs=document.getElementById("restart");
+const DEF=80,Y=p=>410-p*4;
+function drawOff(){
+  const a=+att.value,b=+pas.value,mode=rs.value;
+  document.getElementById("attV").textContent=a+"%";document.getElementById("pasV").textContent=b+"%";
+  drawPitch(os);
+  const line=(p,c,lab)=>{el("line",{x1:8,x2:292,y1:Y(p),y2:Y(p),stroke:c,"stroke-width":2,"stroke-dasharray":"6 4"},os);const t=el("text",{x:14,y:Y(p)-5,"font-size":11,fill:c},os);t.textContent=lab};
+  line(DEF,"#6fb7ff","second-last defender");
+  line(b,"#ff7a1a","ball");
+  const ctr=(x,p,col,txt)=>{el("circle",{cx:x,cy:Y(p),r:12,fill:col,stroke:"#e9efe6","stroke-width":2},os);if(txt){const t=el("text",{x,y:Y(p)+4,"text-anchor":"middle","font-size":11,"font-weight":700,fill:"#0e2a2f"},os);t.textContent=txt}};
+  [90,150,210].forEach(x=>ctr(x,DEF,"var(--opp)"));
+  ctr(150,95,"var(--opp)","GK");
+  ctr(110,b,"#f3f6ee","P");
+  el("circle",{cx:134,cy:Y(b)-2,r:5,fill:"#ff7a1a"},os);
+  ctr(235,a,"#f3f6ee","A");
+  const offPos=a>50&&a>b&&a>DEF;
+  const free=mode!=="open";
+  const v=document.getElementById("verdict"),w=document.getElementById("why");
+  const names={throw:"throw-in",goalkick:"goal kick",corner:"corner kick"};
+  if(free){v.textContent="Onside";v.className="verdict on";w.textContent="You can’t be offside directly from a "+names[mode]+(offPos?", even though the attacker is ahead of the defenders.":".")}
+  else if(offPos){v.textContent="Offside";v.className="verdict off";w.textContent="When the pass is played, the attacker is in the opponent’s half and closer to the goal line than both the ball and the second-last defender."}
+  else{v.textContent="Onside";v.className="verdict on";w.textContent=a<=50?"The attacker is in their own half, so offside cannot apply.":a<=b?"The attacker is level with or behind the ball.":"The attacker is level with or behind the second-last defender. Level counts as onside."}
+}
+[att,pas,rs].forEach(e=>e.addEventListener("input",drawOff));drawOff();
+/* Rules */
+const RULES=[
+["The match","Each team has up to 11 players on the pitch, including one goalkeeper. A match has two halves of 45 minutes, plus added time for stoppages."],
+["How a goal counts","The whole ball must cross the goal line between the posts and under the crossbar. The team with more goals wins."],
+["Corner kick or goal kick?","If the ball crosses the goal line outside the goal, the last team to touch it decides. Defender touched it last: corner kick to the attackers. Attacker touched it last: goal kick to the defenders."],
+["Throw-in","When the ball fully crosses a sideline, the team that did not touch it last restarts play with a two-handed throw."],
+["Fouls and penalties","A foul is careless, reckless or excessive force against an opponent. A foul by a defender inside their own penalty area gives a penalty kick from 11 metres."],
+["Yellow and red cards","A yellow card is a caution. Two yellow cards in one match become a red card. A red card means the player leaves the pitch and cannot be replaced."],
+["VAR","The Video Assistant Referee reviews goals, penalties, direct red cards and mistaken identity. The referee on the pitch still makes the final decision."]];
+document.getElementById("rules").innerHTML=RULES.map(r=>"<details><summary>"+r[0]+"</summary><p>"+r[1]+"</p></details>").join("");
+/* Quiz */
+const Q=[
+["Can a player be offside directly from a throw-in?",["Yes, if ahead of the defenders","No, never directly","Only in the second half"],1,"There is no offside offence directly from a throw-in, goal kick or corner kick."],
+["The ball crosses a team’s own goal line (outside the goal) after a defender touched it last. What happens?",["Goal kick","Corner kick to the attackers","Throw-in"],1,"Last touch by a defender means a corner kick for the attacking team."],
+["In a 4-3-3, how many outfield players are there?",["10","11","9"],0,"4 + 3 + 3 = 10 outfield players. The 11th player is the goalkeeper."],
+["A player gets a second yellow card. What follows?",["A warning only","A red card and they leave the pitch","A free substitution"],1,"A second yellow becomes a red card, and the team plays one player short."],
+["An attacker is exactly level with the second-last defender when the ball is passed. Verdict?",["Offside","Onside","Depends on the referee’s mood"],1,"Level is onside. The attacker must be nearer the goal line to be in an offside position."]];
+let sc=0,done=0;const qb=document.getElementById("quiz");
+Q.forEach((q,i)=>{
+  const d=document.createElement("div");d.className="q";
+  d.innerHTML="<p>"+(i+1)+". "+q[0]+"</p>";
+  const f=document.createElement("p");f.className="fb";f.setAttribute("aria-live","polite");
+  q[1].forEach((o,j)=>{
+    const b=document.createElement("button");b.className="opt";b.textContent=o;
+    b.onclick=()=>{
+      if(d.dataset.done)return;d.dataset.done=1;done++;
+      const ok=j===q[2];if(ok)sc++;
+      b.classList.add(ok?"right":"wrong");
+      if(!ok)d.querySelectorAll(".opt")[q[2]].classList.add("right");
+      f.textContent=(ok?"Correct. ":"Not quite. ")+q[3];
+      if(done===Q.length)document.getElementById("score").textContent="Your score: "+sc+" / "+Q.length;
+    };
+    d.appendChild(b);
+  });
+  d.appendChild(f);qb.appendChild(d);
+});
+</script>
+</body>
+</html>
