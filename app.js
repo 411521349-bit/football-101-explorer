@@ -318,6 +318,9 @@ function editionHtml(e,kind){
   if(e.rows)h+='<div class="road">'+e.rows.map(x=>matchRow(x[0],x[1],x[2],x[3],x[4],x[5],kind)).join("")+'</div>';
   if(e.table)h+='<table class="ltable"><thead><tr><th>#</th><th>Club</th><th>W</th><th>D</th><th>L</th><th>Pts</th></tr></thead><tbody>'+e.table.map((t,i)=>'<tr'+(i?'':' class="champ"')+'><td>'+(i+1)+'</td><td><span class="nm">'+teamIcon(t[0],"clubs")+esc(t[0])+(i?'':' <b class="ct">Champions</b>')+'</span></td><td>'+t[1]+'</td><td>'+t[2]+'</td><td>'+t[3]+'</td><td><b>'+t[4]+'</b></td></tr>').join("")+'</tbody></table>';
   if(e.note)h+='<p class="anote">'+esc(e.note)+'</p>';
+  const tm=t=>Array.isArray(t)?flag(t[1])+esc(t[0]):teamIcon(t,kind)+esc(t);
+  if(e.groups)h+='<p class="sub">Groups in '+e.year+'</p><div class="groups">'+Object.entries(e.groups).map(([g,ts])=>'<div class="grp"><b>Group '+g+'</b>'+ts.map(t=>'<div>'+tm(t)+'</div>').join("")+'</div>').join("")+'</div>';
+  else if(e.teams)h+='<p class="sub">Teams in '+e.year+' ('+e.teams.length+')</p><div class="chips">'+e.teams.map(t=>'<span class="chipx">'+tm(t)+'</span>').join("")+'</div>';
   return h;
 }
 function roadHtml(id,kind){
@@ -343,7 +346,7 @@ function openComp(id){
   let finals="";
   if(id==="wc")finals='<p class="sub">Every World Cup final (winner in green)</p><div class="road">'+WC.slice().reverse().map(w=>matchRow(w[0],w[2],w[4],w[3],0,w[5]+" · Host: "+w[1],"nations")).join("")+'</div>';
   d.style.setProperty("--cc",c.col);
-  d.innerHTML='<div class="dlg-head">'+trophy(c.icon,c.col,c.stripes).replace('class="trophy"','width="64" height="64"')+'<div><p class="kicker" style="margin:0">Since '+c.since+'</p><h2 id="dlgTitle">'+c.name+'</h2></div><button class="x" aria-label="Close">✕</button></div><div class="dlg-body"><p style="color:var(--mute);margin:6px 0 0">'+c.about+'</p><div class="facts"><div><small>Holder</small><b>'+esc(c.holder)+'</b></div><div><small>Next</small><b>'+esc(c.next)+'</b></div></div>'+roadHtml(id,c.kind==="nations"?"nations":"clubs")+'<p class="sub">'+(c.titlesLabel||"Most titles")+'</p>'+board+'<p class="sub">Latest edition: '+c.latestLabel+'</p>'+latest+finals+'</div>';
+  d.innerHTML='<div class="dlg-head">'+trophy(c.icon,c.col,c.stripes).replace('class="trophy"','width="64" height="64"')+'<div><p class="kicker" style="margin:0">Since '+c.since+'</p><h2 id="dlgTitle">'+c.name+'</h2></div><button class="x" aria-label="Close">✕</button></div><div class="dlg-body"><p style="color:var(--mute);margin:6px 0 0">'+c.about+'</p><div class="facts"><div><small>Holder</small><b>'+esc(c.holder)+'</b></div><div><small>Next</small><b>'+esc(c.next)+'</b></div></div>'+roadHtml(id,c.kind==="nations"?"nations":"clubs")+'<p class="sub">'+(c.titlesLabel||"Most titles")+'</p>'+board+finals+'</div>';
   d.querySelector(".x").onclick=()=>d.close();
   d.showModal();d.scrollTop=0;
 }
