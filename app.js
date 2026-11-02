@@ -306,14 +306,24 @@ function matchRow(round,a,b,score,w,note,kind){
   const cls=i=>w===-1?"d":w===i?"w":"l";
   return '<div class="match"><span class="rnd">'+round+'</span><div class="tm '+cls(0)+'">'+teamIcon(a,kind)+'<span>'+esc(a)+'</span></div><div class="sc">'+score+'</div><div class="tm r '+cls(1)+'"><span>'+esc(b)+'</span>'+teamIcon(b,kind)+'</div>'+(note?'<small class="mnote">'+esc(note)+'</small>':'')+'</div>';
 }
-function roadHtml(id,kind){
-  const r=ROADS[id];if(!r)return"";
-  let h='<p class="sub">'+r.title+'</p>';
-  if(r.rows)h+='<div class="road">'+r.rows.map(x=>matchRow(x[0],x[1],x[2],x[3],x[4],x[5],kind)).join("")+'</div>';
-  if(r.table)h+='<table class="ltable"><thead><tr><th>#</th><th>Club</th><th>W</th><th>D</th><th>L</th><th>Pts</th></tr></thead><tbody>'+r.table.map((t,i)=>'<tr'+(i?'':' class="champ"')+'><td>'+(i+1)+'</td><td><span class="nm">'+teamIcon(t[0],"clubs")+esc(t[0])+(i?'':' <b class="ct">Champions</b>')+'</span></td><td>'+t[1]+'</td><td>'+t[2]+'</td><td>'+t[3]+'</td><td><b>'+t[4]+'</b></td></tr>').join("")+'</tbody></table>';
-  if(r.note)h+='<p class="anote">'+esc(r.note)+'</p>';
+function editionHtml(e,kind){
+  let h='<p class="sub">'+e.title+'</p>';
+  if(e.rows)h+='<div class="road">'+e.rows.map(x=>matchRow(x[0],x[1],x[2],x[3],x[4],x[5],kind)).join("")+'</div>';
+  if(e.table)h+='<table class="ltable"><thead><tr><th>#</th><th>Club</th><th>W</th><th>D</th><th>L</th><th>Pts</th></tr></thead><tbody>'+e.table.map((t,i)=>'<tr'+(i?'':' class="champ"')+'><td>'+(i+1)+'</td><td><span class="nm">'+teamIcon(t[0],"clubs")+esc(t[0])+(i?'':' <b class="ct">Champions</b>')+'</span></td><td>'+t[1]+'</td><td>'+t[2]+'</td><td>'+t[3]+'</td><td><b>'+t[4]+'</b></td></tr>').join("")+'</tbody></table>';
+  if(e.note)h+='<p class="anote">'+esc(e.note)+'</p>';
   return h;
 }
+function roadHtml(id,kind){
+  const eds=ROADS[id];if(!eds)return"";
+  const chips='<div class="years" role="group" aria-label="Choose a year"><span>Choose a year:</span>'+eds.map((e,i)=>'<button data-y="'+i+'" aria-pressed="'+(i===0)+'">'+e.year+'</button>').join("")+'</div>';
+  return '<div class="roadbox" data-id="'+id+'" data-kind="'+kind+'">'+chips+'<div class="roadin">'+editionHtml(eds[0],kind)+'</div></div>';
+}
+document.addEventListener("click",e=>{
+  const b=e.target.closest(".years button");if(!b)return;
+  const box=b.closest(".roadbox"),ed=ROADS[box.dataset.id][+b.dataset.y];
+  box.querySelectorAll(".years button").forEach(x=>x.setAttribute("aria-pressed",x===b));
+  box.querySelector(".roadin").innerHTML=editionHtml(ed,box.dataset.kind);
+});
 function openComp(id){
   const c=COMPS.find(x=>x.id===id),d=$("dlg"),max=c.titles[0][1];
   let latest="";

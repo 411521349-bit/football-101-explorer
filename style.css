@@ -292,3 +292,9 @@ footer a{color:var(--mute)}
 .sig svg{max-width:170px}
 .comp .trophy{width:80px;height:80px}
 @media(max-width:600px){.match .tm span{white-space:normal;overflow:visible;line-height:1.15}.match .tm .flag{width:22px;height:16px}.match .sc{font-size:17px}}
+.roadbox{margin-top:18px;background:#ffffff08;border:1px solid var(--rule);border-radius:14px;padding:4px 14px 14px}
+.years{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:10px}
+.years span{color:var(--mute);font-size:13px;font-weight:600;margin-right:4px}
+.years button{padding:4px 12px;border-radius:99px;font:600 14px Barlow,sans-serif}
+.years button[aria-pressed="true"]{background:var(--cc,var(--ball));border-color:var(--cc,var(--ball));color:#111}
+@media(max-width:600px){.ltable{font-size:13px}.ltable td,.ltable th{padding:7px 5px}.ltable .ct{display:none}.ltable tr.champ td:nth-child(2) .nm::after{content:"★";color:var(--gold)}.roadbox{padding:4px 10px 10px}}
