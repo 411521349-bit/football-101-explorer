@@ -383,7 +383,7 @@ details.lclub[open]{grid-column:span 2;background:var(--panel2)}
 .stkey{flex-wrap:wrap}
 
 /* ---------- Player stats in competitions ---------- */
-.stgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+.stgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr));gap:10px}
 .stb{background:var(--panel);border-radius:12px;padding:12px 14px;display:grid;gap:6px;align-content:start}
 .stt{font:700 18px "Barlow Condensed",sans-serif;color:var(--cc,var(--gold));margin-bottom:2px}
 .str{position:relative;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:5px 8px;border-radius:8px;overflow:hidden;font-size:14px}
@@ -471,3 +471,11 @@ details.lclub[open]{grid-column:span 2;background:var(--panel2)}
 .vn>span{align-items:flex-start;text-align:left}
 .vn>span>b{justify-content:flex-start}
 @media(min-width:900px){nav.top a.nl{padding:6px 7px;font-size:14px}}
+.srk{position:relative;z-index:1;width:18px;flex:none;color:var(--mute);font:600 13px "Barlow Condensed",sans-serif;text-align:right}
+.str .sn{flex:1}
+.stsrc{color:var(--mute);font-size:13px;margin:8px 0 0}
+.bestp{margin:0 0 10px}
+.seas td{white-space:normal;vertical-align:top}
+.seas .nm{display:inline-flex;align-items:center;gap:5px;margin-right:6px}
+.seas .mute{color:var(--mute)}
+.seas td:first-child{white-space:nowrap}

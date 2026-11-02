@@ -438,7 +438,7 @@ function openComp(id){
   let finals="";
   if(id==="wc")finals='<p class="sub">Every World Cup final (winner in green)</p><div class="road">'+WC.slice().reverse().map(w=>matchRow(w[0],w[2],w[4],w[3],0,w[5]+" · Host: "+w[1],"nations")).join("")+'</div>';
   d.style.setProperty("--cc",c.col);
-  d.innerHTML='<div class="dlg-head">'+trophy(c.icon,c.col,c.stripes).replace('class="trophy"','width="64" height="64"')+'<div><p class="kicker" style="margin:0">Since '+c.since+'</p><h2 id="dlgTitle">'+c.name+'</h2></div><button class="x" aria-label="Close">✕</button></div><div class="dlg-body"><p style="color:var(--mute);margin:6px 0 0">'+c.about+'</p><div class="facts"><div><small>Holder</small><b>'+esc(c.holder)+'</b></div><div><small>Next</small><b>'+esc(c.next)+'</b></div></div>'+roadHtml(id,c.kind==="nations"?"nations":"clubs")+'<p class="sub">'+(c.titlesLabel||"Most titles")+'</p>'+board+finals+'</div>';
+  d.innerHTML='<div class="dlg-head">'+trophy(c.icon,c.col,c.stripes).replace('class="trophy"','width="64" height="64"')+'<div><p class="kicker" style="margin:0">Since '+c.since+'</p><h2 id="dlgTitle">'+c.name+'</h2></div><button class="x" aria-label="Close">✕</button></div><div class="dlg-body"><p style="color:var(--mute);margin:6px 0 0">'+c.about+'</p><div class="facts"><div><small>Holder</small><b>'+esc(c.holder)+'</b></div><div><small>Next</small><b>'+esc(c.next)+'</b></div></div>'+roadHtml(id,c.kind==="nations"?"nations":"clubs")+seasonsHtml(id)+'<p class="sub">'+(c.titlesLabel||"Most titles")+'</p>'+board+finals+'</div>';
   d.querySelector(".x").onclick=()=>d.close();
   d.showModal();d.scrollTop=0;
 }
@@ -449,18 +449,32 @@ $("dlg").addEventListener("click",e=>{if(e.target.id==="dlg")e.target.close()});
 const CNAME={};for(const k in ISO)if(!CNAME[ISO[k]])CNAME[ISO[k]]=k;
 Object.assign(CNAME,{"gb-eng":"England","gb-sct":"Scotland","gb-wls":"Wales","gb-nir":"Northern Ireland","xk":"Kosovo","gq":"Equatorial Guinea","ae":"UAE","ir":"Iran","me":"Montenegro","ve":"Venezuela","ge":"Georgia","sk":"Slovakia","bg":"Bulgaria","ru":"Russia","ua":"Ukraine","pe":"Peru","do":"Dominican Republic","lu":"Luxembourg","mz":"Mozambique","am":"Armenia","uz":"Uzbekistan","dz":"Algeria","gh":"Ghana","gn":"Guinea","ci":"Ivory Coast","sn":"Senegal","ec":"Ecuador","ie":"Ireland"});
 const cname=c=>CNAME[c]||c.toUpperCase();
-function statList(title,unit,rows){
-  if(!rows||!rows.length)return"";const max=rows[0][3];
-  return '<div class="stb"><b class="stt">'+title+'</b>'+rows.map((r,i)=>'<div class="str'+(i===0?" lead1":"")+'"><span class="sn">'+flag(r[1])+'<span><b>'+esc(r[0])+'</b><small>'+esc(r[2])+'</small></span></span><span class="sbar" style="width:'+(r[3]/max*100)+'%"></span><span class="sv">'+r[3]+'<small> '+unit+'</small></span></div>').join("")+'</div>';
+function rankRows(rows){let r=0,prev=null;return rows.map((x,i)=>{if(x[3]!==prev){r=i+1;prev=x[3]}return r})}
+function statList(title,unit,rows,extra){
+  if(!rows||!rows.length)return"";const max=rows[0][3],rk=rankRows(rows);
+  return '<div class="stb"><b class="stt">'+title+'</b>'+rows.map((r,i)=>'<div class="str'+(rk[i]===1?" lead1":"")+'"><span class="srk">'+rk[i]+'</span><span class="sn">'+(r[1]?flag(r[1]):"")+'<span><b>'+esc(r[0])+'</b><small>'+esc(r[2])+(extra?extra(r):"")+'</small></span></span><span class="sbar" style="width:'+(r[3]/max*100)+'%"></span><span class="sv">'+r[3]+'<small> '+unit+'</small></span></div>').join("")+'</div>';
+}
+function gaRows(x){
+  if(!x.a)return[];const m={};
+  x.s.forEach(r=>{m[r[0]]={r,g:r[3],a:null}});
+  x.a.forEach(r=>{if(m[r[0]])m[r[0]].a=r[3]});
+  return Object.values(m).filter(v=>v.a!=null).map(v=>[v.r[0],v.r[1],v.r[2],v.g+v.a,v.g,v.a]).sort((p,q)=>q[3]-p[3]||q[4]-p[4]);
 }
 function statsHtml(id,year){
   const x=STATS[id]&&STATS[id][year];if(!x)return"";
-  let ga="";
-  if(x.a){const m={};x.s.forEach(r=>{m[r[0]]={r,g:r[3],a:0}});x.a.forEach(r=>{m[r[0]]=m[r[0]]||{r,g:0,a:0};m[r[0]].a=r[3]});
-    const L=Object.values(m).filter(v=>v.g&&v.a).map(v=>[v.r[0],v.r[1],v.r[2],v.g+v.a,v.g,v.a]).sort((a,b)=>b[3]-a[3]);
-    if(L.length)ga='<div class="stb"><b class="stt">Goals + assists (G/A)</b>'+L.map((r,i)=>'<div class="str'+(i===0?" lead1":"")+'"><span class="sn">'+flag(r[1])+'<span><b>'+esc(r[0])+'</b><small>'+r[4]+' goals · '+r[5]+' assists</small></span></span><span class="sbar" style="width:'+(r[3]/L[0][3]*100)+'%"></span><span class="sv">'+r[3]+'</span></div>').join("")+'<small class="stn">Only players who appear in both lists above.</small></div>'}
+  const ga=gaRows(x);
   const best=x.best?'<div class="bestp">'+x.best.map(b=>'<div><small>'+esc(b[0])+'</small><b>'+flag(b[2])+esc(b[1])+'</b></div>').join("")+'</div>':"";
-  return '<p class="sub">Player stats, '+esc(year)+'</p><div class="stgrid">'+statList(x.s.length>1&&x.s[0][3]===x.s[1][3]?"Top scorers (joint)":"Top scorer"+(x.s.length>1?"s":""),"goals",x.s)+statList("Most assists","assists",x.a)+ga+statList("Most clean sheets","clean sheets",x.cs)+'</div>'+best+(x.note?'<p class="anote">'+esc(x.note)+'</p>':'');
+  const tie=x.s.length>1&&x.s[0][3]===x.s[1][3];
+  let h='<p class="sub">Player stats, '+esc(year)+'</p>'+best+'<div class="stgrid">'+statList(tie?"Top scorers (joint winners)":"Top scorers","goals",x.s)+statList("Most assists","assists",x.a)+(ga.length?statList("Goals + assists (G/A)","G/A",ga,r=>' · '+r[4]+' G + '+r[5]+' A'):"")+statList("Most clean sheets","clean sheets",x.cs)+'</div>';
+  const no=[];if(!x.a)no.push("assists");if(!x.cs)no.push("clean sheets");
+  h+='<p class="stsrc">Source: '+esc(x.src||"official records")+'.'+(ga.length?' G/A is shown for players who appear in both the scorers and assists lists.':'')+(no.length?' No reliable '+no.join(" or ")+' list was found for this edition.':'')+'</p>';
+  if(x.note)h+='<p class="anote">'+esc(x.note)+'</p>';
+  return h;
+}
+function seasonsHtml(id){
+  const S=STATS[id];if(!S)return"";const ys=Object.keys(S);
+  const nm=rows=>{if(!rows||!rows.length)return'<span class="mute">–</span>';const t=rows[0][3],w=rows.filter(r=>r[3]===t);return w.map(r=>'<span class="nm">'+(r[1]?flag(r[1]):"")+esc(r[0])+'</span>').join("")+' <b>'+t+'</b>'};
+  return '<p class="sub">Leaders in every season on this site</p><div class="stwrap"><table class="sttable seas"><thead><tr><th>Season</th><th>Top scorer (goals)</th><th>Most assists</th><th>Best G/A</th><th>Clean sheets</th></tr></thead><tbody>'+ys.map(y=>{const x=S[y],g=gaRows(x);return '<tr><td><b>'+esc(y)+'</b></td><td>'+nm(x.s)+'</td><td>'+nm(x.a)+'</td><td>'+(g.length?nm([g[0]]):'<span class="mute">–</span>')+'</td><td>'+nm(x.cs)+'</td></tr>'}).join("")+'</tbody></table></div>';
 }
 
 /* ---------- Squads ---------- */
