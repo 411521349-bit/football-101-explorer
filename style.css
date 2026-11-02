@@ -479,3 +479,4 @@ details.lclub[open]{grid-column:span 2;background:var(--panel2)}
 .seas .nm{display:inline-flex;align-items:center;gap:5px;margin-right:6px}
 .seas .mute{color:var(--mute)}
 .seas td:first-child{white-space:nowrap}
+.apx{color:var(--gold);margin-left:2px}
