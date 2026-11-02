@@ -514,12 +514,12 @@ inits.squads=function(){
     d.innerHTML='<div class="dlg-head">'+avatar(n,"#1a454d").replace('class="avatar"','class="avatar" width="64" height="64"')+'<div><p class="kicker" style="margin:0">'+teamIcon(cur,"clubs",18)+' '+esc(cur)+' · #'+(p[0]??"–")+'</p><h2>'+esc(n)+(p[1]===q.captain?' <span class="cap">C</span>':'')+'</h2></div><button class="x" aria-label="Close">✕</button></div><div class="dlg-body"><div class="facts">'+
       row("Age",f.age!=null?f.age+(f.born?' <small class="pn">(born '+esc(f.born)+')</small>':''):null)+
       row("Position",f.pos?esc(f.pos)+' <small class="pn">'+(PN2[f.pos]||"")+'</small>':p[2]+' <small class="pn">'+PN[p[2]]+'</small>')+
-      row("Nationality",p[3]?flag(p[3])+esc(cname(p[3])):null)+
+      row("Nationality",p[3]?flag(p[3])+esc(cname(p[3]))+(f.nat2?' <small class="pn">also '+esc(f.nat2.length<4?cname(f.nat2):f.nat2)+'</small>':''):null)+
       row("Preferred foot",f.foot?esc(f.foot):null)+
       row("Height",f.h?f.h+" cm":null)+row("Weight",f.w?f.w+" kg":null)+
       row("Market value",f.value!=null?money(f.value):null)+
       row("This season",p[4]!=null||p[5]!=null?(p[4]??0)+" goals · "+(p[5]??0)+" assists":null)+
-      '</div><p class="sub">Club history</p>'+(f.history&&f.history.length?'<ol class="hist">'+f.history.map(h=>'<li><span>'+esc(h[0])+'</span>'+teamIcon(h[1],"clubs",20)+'<b>'+esc(h[1])+'</b>'+(h[2]?' <small class="pn">'+esc(h[2])+'</small>':'')+'</li>').join("")+'</ol>':'<p class="pn">Not added yet.</p>')+(f.src?'<p class="stsrc">Source: '+esc(f.src)+'</p>':'')+'</div>';
+      '</div><p class="sub">Club history</p>'+(!(f.history&&f.history.length)&&f.joinedFrom?'<ol class="hist"><li><span>Before</span>'+teamIcon(f.joinedFrom,"clubs",20)+'<b>'+esc(f.joinedFrom)+'</b></li><li><span>2026-27</span>'+teamIcon(cur,"clubs",20)+'<b>'+esc(cur)+'</b> <small class="pn">current club</small></li></ol><p class="stsrc">Full career history not added yet.</p>':'')+(f.history&&f.history.length?'<ol class="hist">'+f.history.map(h=>'<li><span>'+esc(h[0])+'</span>'+teamIcon(h[1],"clubs",20)+'<b>'+esc(h[1])+'</b>'+(h[2]?' <small class="pn">'+esc(h[2])+'</small>':'')+'</li>').join("")+'</ol>':f.joinedFrom?'':'<p class="pn">Not added yet.</p>')+(f.src?'<p class="stsrc">Source: '+esc(f.src)+'</p>':'')+'</div>';
     d.querySelector(".x").onclick=()=>d.close();d.showModal();d.scrollTop=0;
   }
   $("sqTable").addEventListener("click",e=>{const r=e.target.closest("tr.pl");if(r)profile(r.dataset.n)});
