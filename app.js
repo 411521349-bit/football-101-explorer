@@ -494,14 +494,35 @@ inits.squads=function(){
     let star=null;if(hasStats){star=q.p.reduce((a,b)=>ga(b)>ga(a)?b:a);if(!ga(star))star=null}
     const nats={};q.p.forEach(p=>{if(p[3])nats[p[3]]=(nats[p[3]]||0)+1});
     const club=CLUBS.find(c=>c[0]===cur);
+    const PF=n=>(window.PROFILES||{})[cur+"|"+n]||{};const vals=q.p.map(p=>PF(p[1]).value).filter(v=>v!=null),tot=vals.reduce((a,b)=>a+b,0);
+    const money=v=>v>=1000?"€"+(v/1000).toFixed(2).replace(/\.?0+$/,"")+"bn":"€"+v+"m";
     $("sqHead").innerHTML='<div class="sqcard">'+teamIcon(cur,"clubs",72)+'<div><h3>'+esc(cur)+' <small>2026-27</small></h3>'+(club?'<div class="meta">'+flag(club[3])+esc(club[4])+' · '+esc(club[6])+'</div>':'')+'</div>'+
-      '<div class="facts sqf"><div><small>Head coach</small><b>'+esc(q.coach)+'</b></div><div><small>Captain</small><b>'+(q.captain?'<span class="cap">C</span> '+esc(q.captain):'Not named in source')+'</b></div><div><small>Squad size</small><b>'+q.p.length+' players · '+Object.keys(nats).length+' nations</b></div>'+(star?'<div class="starbox"><small>★ Brightest player (most G/A)</small><b>'+flag(star[3])+esc(star[1])+' · '+star[4]+'G '+(star[5]!=null?star[5]+'A':'')+'</b></div>':'')+'</div>'+
+      '<div class="facts sqf"><div><small>Head coach</small><b>'+esc(q.coach)+'</b></div><div><small>Captain</small><b>'+(q.captain?'<span class="cap">C</span> '+esc(q.captain):'Not named in source')+'</b></div><div><small>Squad size</small><b>'+q.p.length+' players · '+Object.keys(nats).length+' nations</b></div><div><small>Squad market value</small><b>'+(vals.length?money(tot)+(vals.length<q.p.length?' <small class="pn">('+vals.length+' of '+q.p.length+' players)</small>':''):'Not added yet')+'</b></div>'+(star?'<div class="starbox"><small>★ Brightest player (most G/A)</small><b>'+flag(star[3])+esc(star[1])+' · '+star[4]+'G '+(star[5]!=null?star[5]+'A':'')+'</b></div>':'')+'</div>'+
       '<div class="honours"><small>Trophies won last season (2025-26)</small>'+(q.honours.length?q.honours.map(h=>'<span class="hon">🏆 '+esc(h)+'</span>').join(""):'<span class="none">No league or European title</span>')+'</div></div>'+
       '<div class="natbar">'+Object.entries(nats).sort((a,b)=>b[1]-a[1]).map(([c,n])=>'<span title="'+esc(cname(c))+'">'+flag(c)+esc(cname(c))+' <b>'+n+'</b></span>').join("")+'</div>';
     const rows=q.p.filter(p=>pos==="all"||p[2]===pos).slice().sort((a,b)=>"GKDFMFFW".indexOf(a[2])-"GKDFMFFW".indexOf(b[2])||(a[0]??999)-(b[0]??999));
-    $("sqTable").innerHTML='<thead><tr><th>No.</th><th>Player</th><th>Position</th><th>Nationality</th>'+(hasStats?'<th title="Goals">G</th>'+(hasA?'<th title="Assists">A</th><th title="Goals plus assists">G/A</th>':''):'')+'</tr></thead><tbody>'+rows.map(p=>{const isC=p[1]===q.captain,isS=star&&p===star;return '<tr class="'+(isS?"star":"")+'"><td><span class="shirtno">'+(p[0]??"–")+'</span></td><td><b>'+esc(p[1])+'</b>'+(isC?' <span class="cap" title="Captain">C</span>':'')+(isS?' <span class="stari" title="Brightest player: most goals + assists">★</span>':'')+'</td><td><span class="pos p'+p[2]+'">'+p[2]+'</span> <small class="pn">'+PN[p[2]]+'</small></td><td>'+(p[3]?flag(p[3])+esc(cname(p[3])):'<span class="pn">–</span>')+'</td>'+(hasStats?'<td>'+(p[4]??"–")+(p[6]?'<sup class="apx" title="Approximate: the source gave a range">≈</sup>':'')+'</td>'+(hasA?'<td>'+(p[5]??"–")+'</td><td><b>'+ga(p)+'</b></td>':''):'')+'</tr>'}).join("")+'</tbody>';
+    $("sqTable").innerHTML='<thead><tr><th>No.</th><th>Player</th><th>Position</th><th>Nationality</th>'+(hasStats?'<th title="Goals">G</th>'+(hasA?'<th title="Assists">A</th><th title="Goals plus assists">G/A</th>':''):'')+'</tr></thead><tbody>'+rows.map(p=>{const isC=p[1]===q.captain,isS=star&&p===star;return '<tr class="pl'+(isS?" star":"")+'" data-n="'+esc(p[1])+'" tabindex="0" title="Show player profile"><td><span class="shirtno">'+(p[0]??"–")+'</span></td><td><b>'+esc(p[1])+'</b>'+(isC?' <span class="cap" title="Captain">C</span>':'')+(isS?' <span class="stari" title="Brightest player: most goals + assists">★</span>':'')+'</td><td><span class="pos p'+p[2]+'">'+p[2]+'</span> <small class="pn">'+PN[p[2]]+'</small></td><td>'+(p[3]?flag(p[3])+esc(cname(p[3])):'<span class="pn">–</span>')+'</td><td>'+(PF(p[1]).value!=null?'<b>'+money(PF(p[1]).value)+'</b>':'<span class="pn">–</span>')+'</td>'+(hasStats?'<td>'+(p[4]??"–")+(p[6]?'<sup class="apx" title="Approximate: the source gave a range">≈</sup>':'')+'</td>'+(hasA?'<td>'+(p[5]??"–")+'</td><td><b>'+ga(p)+'</b></td>':''):'')+'</tr>'}).join("")+'</tbody>';
     $("sqMeta").textContent="Squad as of "+q.asOf+" · source: "+q.src+(hasStats?" · goals"+(hasA?" and assists":"")+" are for 2026-27 so far, all competitions":" · this source has no goal figures yet")+(q.p.some(p=>p[6])?" · ≈ = approximate, the source gave a range":"");
   }
+  const PN2={GK:"Goalkeeper",CB:"Centre-back",LB:"Left-back",RB:"Right-back",LWB:"Left wing-back",RWB:"Right wing-back",DM:"Defensive midfielder",CM:"Central midfielder",AM:"Attacking midfielder",LM:"Left midfielder",RM:"Right midfielder",LW:"Left winger",RW:"Right winger",SS:"Second striker",CF:"Centre-forward",ST:"Striker"};
+  function profile(n){
+    const q=SQUADS[cur],p=q.p.find(x=>x[1]===n);if(!p)return;const f=(window.PROFILES||{})[cur+"|"+n]||{},d=$("dlg");
+    const row=(k,v)=>'<div><small>'+k+'</small><b>'+(v!=null&&v!==""?v:'<span class="pn">Not added yet</span>')+'</b></div>';
+    const money=v=>v>=1000?"€"+(v/1000)+"bn":"€"+v+"m";
+    d.style.setProperty("--cc","#f5c542");
+    d.innerHTML='<div class="dlg-head">'+avatar(n,"#1a454d").replace('class="avatar"','class="avatar" width="64" height="64"')+'<div><p class="kicker" style="margin:0">'+teamIcon(cur,"clubs",18)+' '+esc(cur)+' · #'+(p[0]??"–")+'</p><h2>'+esc(n)+(p[1]===q.captain?' <span class="cap">C</span>':'')+'</h2></div><button class="x" aria-label="Close">✕</button></div><div class="dlg-body"><div class="facts">'+
+      row("Age",f.age!=null?f.age+(f.born?' <small class="pn">(born '+esc(f.born)+')</small>':''):null)+
+      row("Position",f.pos?esc(f.pos)+' <small class="pn">'+(PN2[f.pos]||"")+'</small>':p[2]+' <small class="pn">'+PN[p[2]]+'</small>')+
+      row("Nationality",p[3]?flag(p[3])+esc(cname(p[3])):null)+
+      row("Preferred foot",f.foot?esc(f.foot):null)+
+      row("Height",f.h?f.h+" cm":null)+row("Weight",f.w?f.w+" kg":null)+
+      row("Market value",f.value!=null?money(f.value):null)+
+      row("This season",p[4]!=null||p[5]!=null?(p[4]??0)+" goals · "+(p[5]??0)+" assists":null)+
+      '</div><p class="sub">Club history</p>'+(f.history&&f.history.length?'<ol class="hist">'+f.history.map(h=>'<li><span>'+esc(h[0])+'</span>'+teamIcon(h[1],"clubs",20)+'<b>'+esc(h[1])+'</b>'+(h[2]?' <small class="pn">'+esc(h[2])+'</small>':'')+'</li>').join("")+'</ol>':'<p class="pn">Not added yet.</p>')+(f.src?'<p class="stsrc">Source: '+esc(f.src)+'</p>':'')+'</div>';
+    d.querySelector(".x").onclick=()=>d.close();d.showModal();d.scrollTop=0;
+  }
+  $("sqTable").addEventListener("click",e=>{const r=e.target.closest("tr.pl");if(r)profile(r.dataset.n)});
+  $("sqTable").addEventListener("keydown",e=>{const r=e.target.closest("tr.pl");if(r&&e.key==="Enter")profile(r.dataset.n)});
   render();
 };
 

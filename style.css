@@ -480,3 +480,7 @@ details.lclub[open]{grid-column:span 2;background:var(--panel2)}
 .seas .mute{color:var(--mute)}
 .seas td:first-child{white-space:nowrap}
 .apx{color:var(--gold);margin-left:2px}
+.sqt tr.pl{cursor:pointer}.sqt tr.pl:hover td,.sqt tr.pl:focus td{background:var(--panel2)}
+.hist{list-style:none;padding:0;margin:0;display:grid;gap:6px}
+.hist li{display:flex;align-items:center;gap:8px;background:var(--panel);border-radius:8px;padding:6px 10px}
+.hist li>span{color:var(--gold);font:600 15px "Barlow Condensed",sans-serif;min-width:84px}
