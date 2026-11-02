@@ -7,18 +7,26 @@ function press(box,btn){[...box.querySelectorAll("button")].forEach(b=>b.setAttr
 function flag(code,cls){const iso=ISO[code]||code;if(!iso)return"";return '<img class="flag'+(cls?" "+cls:"")+'" src="https://flagcdn.com/w80/'+iso+'.png" alt="" loading="lazy" onerror="this.style.visibility=\'hidden\'">'}
 
 /* ---------- Illustrations (original, generic designs) ---------- */
-function trophy(kind,col){
-  const base='<rect x="22" y="50" width="20" height="4" rx="1" fill="'+col+'"/><rect x="17" y="54" width="30" height="7" rx="2" fill="#3b2a14"/><rect x="21" y="56" width="22" height="2" rx="1" fill="'+col+'" opacity=".6"/>';
+let _gid=0;
+function shade(hex,amt){const n=parseInt(hex.slice(1),16);let r=n>>16,g=(n>>8)&255,b=n&255;const t=amt<0?0:255,p=Math.abs(amt);r=Math.round((t-r)*p+r);g=Math.round((t-g)*p+g);b=Math.round((t-b)*p+b);return"#"+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1)}
+function trophy(kind,col,stripes){
+  const id="m"+(++_gid),M="url(#"+id+")",S="url(#"+id+"s)";
+  const defs='<defs><linearGradient id="'+id+'" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="'+shade(col,-.35)+'"/><stop offset=".35" stop-color="'+shade(col,.45)+'"/><stop offset=".55" stop-color="'+col+'"/><stop offset="1" stop-color="'+shade(col,-.45)+'"/></linearGradient><radialGradient id="'+id+'s" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="'+shade(col,.6)+'"/><stop offset=".5" stop-color="'+col+'"/><stop offset="1" stop-color="'+shade(col,-.5)+'"/></radialGradient></defs>';
+  const base='<path d="M24 50h16l2 4H22z" fill="'+M+'"/><rect x="18" y="54" width="28" height="7" rx="2" fill="#2a2018"/><rect x="18" y="54" width="28" height="2" fill="#ffffff" opacity=".12"/>';
   const k={
-   cup:'<path d="M21 12h22v13a11 11 0 0 1-22 0z" fill="'+col+'"/><path d="M21 15h-6a7 7 0 0 0 7 10M43 15h6a7 7 0 0 1-7 10" fill="none" stroke="'+col+'" stroke-width="3"/><rect x="29" y="36" width="6" height="14" fill="'+col+'"/><path d="M26 15v9" stroke="#fff" stroke-width="2" opacity=".5" stroke-linecap="round"/>',
-   cup2:'<path d="M25 8h14l-2 24a5 5 0 0 1-10 0z" fill="'+col+'"/><rect x="23" y="5" width="18" height="4" rx="2" fill="'+col+'"/><path d="M25 12q-7 2-4 10M39 12q7 2 4 10" fill="none" stroke="'+col+'" stroke-width="2.5"/><path d="M30 37h4l2 13h-8z" fill="'+col+'"/><path d="M29 12v14" stroke="#fff" stroke-width="2" opacity=".5" stroke-linecap="round"/>',
-   globe:'<circle cx="32" cy="20" r="13" fill="'+col+'"/><path d="M32 7v26M19 20h26M22 12q10 8 20 0M22 28q10-8 20 0" fill="none" stroke="#000" stroke-width="1.2" opacity=".35"/><path d="M26 32q6 6 12 0l-3 18h-6z" fill="'+col+'"/><circle cx="27" cy="15" r="3" fill="#fff" opacity=".45"/>',
-   shield:'<path d="M32 4l20 7v14c0 14-9 22-20 27C21 47 12 39 12 25V11z" fill="'+col+'"/><path d="M32 9l15 5v11c0 10-6 17-15 21-9-4-15-11-15-21V14z" fill="#000" opacity=".18"/><path d="M32 15l3 7 7 .5-5.5 4.5 2 7L32 30l-6.5 4 2-7L22 22.5l7-.5z" fill="#fff" opacity=".85"/>',
-   ball:'<circle cx="32" cy="26" r="20" fill="'+col+'"/><path d="M32 17l8 6-3 9h-10l-3-9z" fill="#000" opacity=".3"/><path d="M32 6v11M40 23l10-3M37 32l6 9M27 32l-6 9M24 23l-10-3" stroke="#000" stroke-width="1.6" opacity=".3"/><circle cx="25" cy="18" r="4" fill="#fff" opacity=".45"/><path d="M26 46h12l3 4H23z" fill="'+col+'"/>',
-   star:'<path d="M24 4h6l2 14 2-14h6l-6 22h-4z" fill="#2b5fa8"/><circle cx="32" cy="34" r="15" fill="'+col+'"/><path d="M32 24l3 6.5 7 .7-5.3 4.7 1.6 7L32 39.3 25.7 43l1.6-7L22 31.2l7-.7z" fill="#fff" opacity=".85"/>',
-   boot:'<path d="M8 40V20q0-4 4-4h10l2 10q16 1 28 6 6 3 4 9H11q-3 0-3-1z" fill="'+col+'"/><path d="M13 21h7M13 25h8" stroke="#000" stroke-width="1.5" opacity=".3"/><path d="M12 41v4M22 41v4M34 41v4M46 41v4" stroke="'+col+'" stroke-width="3"/>',
-   glove:'<rect x="19" y="20" width="26" height="26" rx="8" fill="'+col+'"/><rect x="19" y="6" width="6" height="20" rx="3" fill="'+col+'"/><rect x="26" y="4" width="6" height="20" rx="3" fill="'+col+'"/><rect x="33" y="5" width="6" height="20" rx="3" fill="'+col+'"/><rect x="40" y="9" width="5" height="17" rx="2.5" fill="'+col+'"/><rect x="10" y="22" width="12" height="6" rx="3" transform="rotate(30 16 25)" fill="'+col+'"/><rect x="21" y="44" width="22" height="6" rx="2" fill="#000" opacity=".25"/>'};
-  return '<svg class="trophy" viewBox="0 0 64 64" aria-hidden="true">'+(k[kind]||k.cup)+(["boot","glove"].includes(kind)?"":base)+'</svg>';
+   globe:'<circle cx="32" cy="18" r="13" fill="'+S+'"/><path d="M19 18h26M32 5c-7 8-7 18 0 26M32 5c7 8 7 18 0 26M21 11h22M21 25h22" fill="none" stroke="#000" stroke-width=".9" opacity=".25"/><path d="M24 29q8 5 16 0l-4 6-2 15h-4l-2-15z" fill="'+M+'"/><path d="M27 36h10" stroke="#000" opacity=".2"/>'+base,
+   goblet:'<path d="M20 6h24l-1 14q-2 12-11 13-9-1-11-13z" fill="'+M+'"/><path d="M20 6h24" stroke="'+shade(col,.6)+'" stroke-width="2"/><path d="M32 12l2 4.5 5 .4-3.8 3.2 1.2 4.9L32 22.3 27.6 25l1.2-4.9L25 16.9l5-.4z" fill="#fff" opacity=".7"/><path d="M29 33h6l1 17h-8z" fill="'+M+'"/><ellipse cx="32" cy="41" rx="5" ry="1.8" fill="'+shade(col,.4)+'"/>'+base,
+   chalice:'<path d="M18 10h28q0 16-14 20Q18 26 18 10z" fill="'+M+'"/><ellipse cx="32" cy="10" rx="14" ry="3" fill="'+shade(col,.5)+'"/><ellipse cx="32" cy="10" rx="10" ry="1.8" fill="'+shade(col,-.4)+'"/><path d="M30 30h4v8h-4z" fill="'+M+'"/><circle cx="32" cy="40" r="3.5" fill="'+S+'"/><path d="M30 43h4l2 7h-8z" fill="'+M+'"/>'+base,
+   cup:'<path d="M20 10h24v12a12 12 0 0 1-24 0z" fill="'+M+'"/><path d="M20 13h-6q-1 10 8 12M44 13h6q1 10-8 12" fill="none" stroke="'+M+'" stroke-width="3"/><rect x="18" y="8" width="28" height="3" rx="1.5" fill="'+shade(col,.5)+'"/><path d="M29 34h6v16h-6z" fill="'+M+'"/>'+base,
+   tall:'<circle cx="32" cy="12" r="8" fill="'+S+'"/><path d="M20 20h24q-2 8-8 10l-1 20h-6l-1-20q-6-2-8-10z" fill="'+M+'"/><g fill="'+S+'"><circle cx="22" cy="20" r="2.5"/><circle cx="27" cy="20" r="2.5"/><circle cx="32" cy="20" r="2.5"/><circle cx="37" cy="20" r="2.5"/><circle cx="42" cy="20" r="2.5"/></g>'+base,
+   plate:'<circle cx="32" cy="24" r="18" fill="'+M+'"/><circle cx="32" cy="24" r="13" fill="'+S+'"/><circle cx="32" cy="24" r="13" fill="none" stroke="#000" opacity=".2"/><path d="M32 16l2.4 5 5.6.5-4.2 3.6 1.3 5.4L32 27.6l-5.1 2.9 1.3-5.4L24 21.5l5.6-.5z" fill="#fff" opacity=".8"/><path d="M28 42h8l1 8h-10z" fill="'+M+'"/>'+base,
+   medal:'<path d="M22 2h8l2 14 2-14h8l-6 18h-8z" fill="#2b5fa8"/><path d="M32 16l5 6 7 1-3 7 3 7-7 1-5 6-5-6-7-1 3-7-3-7 7-1z" fill="'+M+'"/><circle cx="32" cy="30" r="8" fill="'+S+'"/><path d="M28 46h8v4h-8z" fill="'+M+'"/>'+base,
+   shield:'<path d="M32 4l20 7v14c0 14-9 22-20 27C21 47 12 39 12 25V11z" fill="'+M+'"/><clipPath id="'+id+'c"><path d="M32 9l15 5v11c0 10-6 17-15 21-9-4-15-11-15-21V14z"/></clipPath><g clip-path="url(#'+id+'c)">'+((stripes||["#fff"]).map((c,i,a)=>'<rect x="'+(17+i*30/a.length)+'" y="8" width="'+(30/a.length+.5)+'" height="40" fill="'+c+'"/>').join(""))+'</g><path d="M32 9l15 5v11c0 10-6 17-15 21-9-4-15-11-15-21V14z" fill="none" stroke="#000" opacity=".3"/><circle cx="32" cy="26" r="8" fill="'+S+'" stroke="#000" stroke-opacity=".3"/><path d="M32 21l1.6 3.4 3.7.4-2.8 2.4.9 3.6L32 29l-3.4 1.8.9-3.6-2.8-2.4 3.7-.4z" fill="#fff"/>',
+   ball:'<circle cx="32" cy="24" r="18" fill="'+S+'"/><path d="M32 16l7 5-2.7 8h-8.6L25 21z" fill="#000" opacity=".22"/><path d="M32 6v10M39 21l9-3M36.3 29l5 8M27.7 29l-5 8M25 21l-9-3" stroke="#000" stroke-width="1.4" opacity=".22"/><path d="M26 42h12l2 8H24z" fill="'+M+'"/>'+base,
+   star:'<path d="M22 2h8l2 14 2-14h8l-6 18h-8z" fill="#2b5fa8"/><circle cx="32" cy="32" r="15" fill="'+S+'"/><circle cx="32" cy="32" r="12" fill="none" stroke="#fff" stroke-opacity=".35"/><path d="M32 23l2.8 6 6.5.6-4.9 4.3 1.5 6.4L32 37l-5.9 3.3 1.5-6.4-4.9-4.3 6.5-.6z" fill="#fff" opacity=".9"/>',
+   boot:'<path d="M8 38V18q0-4 4-4h10l3 10q15 1 27 7 6 3 4 9H11q-3 0-3-2z" fill="'+M+'"/><path d="M13 19h8M13 23h9M13 27h10" stroke="#000" stroke-width="1.4" opacity=".25"/><path d="M12 40v5M22 40v5M34 40v5M46 40v5" stroke="'+shade(col,-.3)+'" stroke-width="3" stroke-linecap="round"/><rect x="10" y="48" width="44" height="8" rx="2" fill="#2a2018"/>',
+   glove:'<rect x="19" y="20" width="26" height="24" rx="8" fill="'+M+'"/><rect x="19" y="5" width="6" height="20" rx="3" fill="'+M+'"/><rect x="26" y="3" width="6" height="21" rx="3" fill="'+M+'"/><rect x="33" y="4" width="6" height="21" rx="3" fill="'+M+'"/><rect x="40" y="8" width="5" height="17" rx="2.5" fill="'+M+'"/><rect x="9" y="22" width="13" height="6" rx="3" transform="rotate(30 16 25)" fill="'+M+'"/><rect x="20" y="42" width="24" height="8" rx="2" fill="#2a2018"/><path d="M22 46h20" stroke="'+col+'" stroke-width="2"/>'};
+  return '<svg class="trophy" viewBox="0 0 64 64" aria-hidden="true">'+defs+(k[kind]||k.cup)+'</svg>';
 }
 function jersey(c1,c2,size){
   const s=size||52;
@@ -170,17 +178,26 @@ function drawPitch(svg){
 
 /* ---------- Rules: referee signals ---------- */
 (function(){
-  const sh={L:[48,42],R:[72,42]},down={L:[42,80],R:[78,80]};
-  const P={adv:{L:[16,64],R:[104,64]},dfk:{R:[110,42]},ifk:{R:[74,2]},pen:{R:[100,84]},gk:{R:[108,60]},ck:{R:[104,12]}};
-  const props={pen:'<circle cx="104" cy="122" r="4" fill="#fff"/><path d="M100 120l4-4" stroke="none"/>',gk:'<path d="M98 112h20v14M98 112v14" stroke="#fff" stroke-width="2" fill="none"/><path d="M98 126h20" stroke="#fff" stroke-width="1" opacity=".5"/>',ck:'<path d="M108 30v-20" stroke="#fff" stroke-width="2"/><path d="M108 10l10 4-10 4z" fill="#ffd60a"/>',ifk:'',dfk:'<path d="M112 46l6-4-6-4" stroke="#fff" stroke-width="2" fill="none"/>',adv:''};
+  const SK="#e3b58f",SH="#1d2b2f",TR="#c6ff00";
+  const SL=[56,60],SR=[84,60],DL=[50,104],DR=[90,104],MOUTH=[66,46];
+  const P={adv:{L:[18,84],R:[122,84]},dfk:{L:MOUTH,R:[130,60]},ifk:{L:MOUTH,R:[88,8]},pen:{R:[124,100]},gk:{L:MOUTH,R:[128,74]},ck:{L:MOUTH,R:[122,22]},yc:{R:[88,16],card:"#ffd60a"},rc:{R:[88,16],card:"#e5383b"}};
+  const props={pen:'<ellipse cx="128" cy="152" rx="5" ry="2.5" fill="#fff"/>',gk:'<path d="M112 136h26v20M112 136v20" stroke="#fff" stroke-width="2.5" fill="none"/><path d="M114 138l22 16M136 138l-22 16" stroke="#fff" stroke-width=".6" opacity=".5"/>',ck:'<path d="M130 40V8" stroke="#fff" stroke-width="2"/><path d="M130 8l12 5-12 5z" fill="#ff7a1a"/>',dfk:'<path d="M134 54l6 6-6 6" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round"/>',ifk:'',adv:'<path d="M8 74l-6 10 6 2M132 74l6 10-6 2" stroke="#fff" stroke-width="2" fill="none" opacity=".7"/>',yc:'',rc:''};
+  function arm(s,h){const m=[s[0]+(h[0]-s[0])*.4,s[1]+(h[1]-s[1])*.4];
+    return '<path d="M'+s+'L'+m+'" stroke="'+SH+'" stroke-width="12" stroke-linecap="round"/><path d="M'+m+'L'+h+'" stroke="'+SK+'" stroke-width="8" stroke-linecap="round"/><path d="M'+(m[0]-.01)+','+m[1]+'L'+m+'" stroke="'+TR+'" stroke-width="12"/><circle cx="'+h[0]+'" cy="'+h[1]+'" r="5.5" fill="'+SK+'"/>'}
   function fig(pose){
-    const p=P[pose],L=p.L||down.L,R=p.R||down.R;
-    const armL='<path d="M'+sh.L+'L'+L+'" stroke="#1b1b1b" stroke-width="8" stroke-linecap="round"/><circle cx="'+L[0]+'" cy="'+L[1]+'" r="4.5" fill="#e0b48a"/>';
-    const armR='<path d="M'+sh.R+'L'+R+'" stroke="#1b1b1b" stroke-width="8" stroke-linecap="round"/><circle cx="'+R[0]+'" cy="'+R[1]+'" r="4.5" fill="#e0b48a"/>';
-    return '<svg viewBox="0 0 120 140" aria-hidden="true"><rect width="120" height="140" rx="10" fill="var(--grass1)"/><path d="M0 128h120" stroke="#fff" stroke-width="1" opacity=".3"/>'+props[pose]+
-     '<path d="M52 98l-4 30M68 98l4 30" stroke="#1b1b1b" stroke-width="7" stroke-linecap="round"/><rect x="46" y="86" width="28" height="16" rx="3" fill="#111"/>'+
-     '<rect x="46" y="38" width="28" height="50" rx="6" fill="#1b1b1b"/><path d="M46 44h28" stroke="#c6ff00" stroke-width="2"/>'+armL+armR+
-     '<circle cx="60" cy="26" r="10" fill="#e0b48a"/><path d="M50 23q10-10 20 0" fill="#3b2a14"/></svg>';
+    const p=P[pose],L=p.L||DL,R=p.R||DR;
+    const card=p.card?'<rect x="80" y="-4" width="17" height="24" rx="2" fill="'+p.card+'" stroke="#0004" transform="rotate(6 88 8)"/>':'';
+    const whistle=L===MOUTH?'<rect x="62" y="44" width="9" height="4" rx="2" fill="#bbb"/>':'';
+    return '<svg viewBox="0 -8 140 172" aria-hidden="true"><defs><linearGradient id="gr'+pose+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1d6b3a"/><stop offset="1" stop-color="#14532c"/></linearGradient></defs><rect x="0" y="-8" width="140" height="172" rx="12" fill="url(#gr'+pose+')"/><ellipse cx="70" cy="158" rx="30" ry="4" fill="#000" opacity=".25"/>'+props[pose]+
+     '<path d="M60 112l-3 34M80 112l3 34" stroke="'+SK+'" stroke-width="9" stroke-linecap="round"/>'+
+     '<path d="M57 130l-1 16M83 130l1 16" stroke="#111" stroke-width="10" stroke-linecap="round"/><path d="M56.5 131h0M83.5 131h0" stroke="'+TR+'" stroke-width="10"/>'+
+     '<path d="M50 152h12M78 152h12" stroke="#0a0a0a" stroke-width="6" stroke-linecap="round"/>'+
+     '<path d="M54 98h32l2 18H74l-4-6-4 6H52z" fill="#0d0d0d"/>'+
+     '<path d="M56 58q14-6 28 0l4 42H52z" fill="'+SH+'"/><path d="M63 55l7 8 7-8" fill="none" stroke="'+TR+'" stroke-width="2.5"/><path d="M57 72h4M60 74v8" stroke="'+TR+'" stroke-width="1.6" opacity=".7"/>'+
+     '<path d="M66 50h8v7h-8z" fill="'+SK+'"/>'+
+     arm(SL,L)+arm(SR,R)+card+
+     '<circle cx="70" cy="38" r="12" fill="'+SK+'"/><path d="M58 36q1-14 12-14t12 14q-3-6-12-7-9 1-12 7z" fill="#2b1d12"/><circle cx="58" cy="39" r="2.5" fill="'+SK+'"/><circle cx="82" cy="39" r="2.5" fill="'+SK+'"/><circle cx="66" cy="39" r="1.2" fill="#222"/><circle cx="74" cy="39" r="1.2" fill="#222"/>'+whistle+
+     '</svg>';
   }
   const box=$("sigs");
   box.innerHTML=SIGNALS.map((s,i)=>'<button class="sig" data-i="'+i+'" aria-pressed="false">'+fig(s[1])+'<b>'+s[0]+'</b></button>').join("");
@@ -277,13 +294,25 @@ inits.nations=function(){
 /* ---------- Competitions ---------- */
 inits.competitions=function(){
   const G=[["International tournaments",["wc","euro","copa","asian","afcon","wwc"]],["Club competitions",["ucl","cwc"]],["Domestic leagues",["pl","liga","seriea","bundes","ligue1","portugal","ered"]]];
-  $("compList").innerHTML=G.map(([g,ids])=>'<p class="cgroup">'+g+'</p><div class="cgrid">'+ids.map(id=>{const c=COMPS.find(x=>x.id===id);return '<button class="comp" data-c="'+id+'" style="--cc:'+c.col+'">'+trophy(c.icon,c.col)+'<b>'+(c.flag?flag(c.flag)+" ":"")+c.name+'</b><small>Since '+c.since+'</small><div class="hold"><span>Holder: </span>'+esc(c.holder.length>40?c.holder.split(":")[0]:c.holder)+'</div></button>'}).join("")+'</div>').join("");
+  $("compList").innerHTML=G.map(([g,ids])=>'<p class="cgroup">'+g+'</p><div class="cgrid">'+ids.map(id=>{const c=COMPS.find(x=>x.id===id);return '<button class="comp" data-c="'+id+'" style="--cc:'+c.col+'">'+trophy(c.icon,c.col,c.stripes)+'<b>'+(c.flag?flag(c.flag)+" ":"")+c.name+'</b><small>Since '+c.since+'</small><div class="hold"><span>Holder: </span>'+esc(c.holder.length>40?c.holder.split(":")[0]:c.holder)+'</div></button>'}).join("")+'</div>').join("");
   $("compList").addEventListener("click",e=>{const b=e.target.closest(".comp");if(b)openComp(b.dataset.c)});
 };
 function teamIcon(name,kind){
   if(kind==="nations")return flag(name);
-  const c=CLUBS.find(x=>x[0]===name||x[0].replace("FC ","")===name);
-  return c?jersey(c[8][0],c[8][1],22):"";
+  const c=CLUBS.find(x=>x[0]===name||x[0].replace("FC ","")===name||x[0]==="FC "+name);
+  return c?jersey(c[8][0],c[8][1],22):(ISO[name]?flag(name):"");
+}
+function matchRow(round,a,b,score,w,note,kind){
+  const cls=i=>w===-1?"d":w===i?"w":"l";
+  return '<div class="match"><span class="rnd">'+round+'</span><div class="tm '+cls(0)+'">'+teamIcon(a,kind)+'<span>'+esc(a)+'</span></div><div class="sc">'+score+'</div><div class="tm r '+cls(1)+'"><span>'+esc(b)+'</span>'+teamIcon(b,kind)+'</div>'+(note?'<small class="mnote">'+esc(note)+'</small>':'')+'</div>';
+}
+function roadHtml(id,kind){
+  const r=ROADS[id];if(!r)return"";
+  let h='<p class="sub">'+r.title+'</p>';
+  if(r.rows)h+='<div class="road">'+r.rows.map(x=>matchRow(x[0],x[1],x[2],x[3],x[4],x[5],kind)).join("")+'</div>';
+  if(r.table)h+='<table class="ltable"><thead><tr><th>#</th><th>Club</th><th>W</th><th>D</th><th>L</th><th>Pts</th></tr></thead><tbody>'+r.table.map((t,i)=>'<tr'+(i?'':' class="champ"')+'><td>'+(i+1)+'</td><td><span class="nm">'+teamIcon(t[0],"clubs")+esc(t[0])+(i?'':' <b class="ct">Champions</b>')+'</span></td><td>'+t[1]+'</td><td>'+t[2]+'</td><td>'+t[3]+'</td><td><b>'+t[4]+'</b></td></tr>').join("")+'</tbody></table>';
+  if(r.note)h+='<p class="anote">'+esc(r.note)+'</p>';
+  return h;
 }
 function openComp(id){
   const c=COMPS.find(x=>x.id===id),d=$("dlg"),max=c.titles[0][1];
@@ -295,9 +324,9 @@ function openComp(id){
   let rank=0,prev=null;
   const board='<div class="board" style="--cc:'+c.col+'">'+c.titles.map((t,i)=>{if(t[1]!==prev){rank=i+1;prev=t[1]}return '<div class="brow"><span class="rk'+(rank===1?" g":"")+'">'+rank+'</span><span class="nm">'+teamIcon(t[0],c.kind==="nations"?"nations":"clubs")+esc(t[0])+'</span><span class="bar" style="width:'+(t[1]/max*100)+'%"></span><span class="n">'+t[1]+'</span></div>'}).join("")+'</div>';
   let finals="";
-  if(id==="wc")finals='<p class="sub">Every World Cup final</p><div class="wcwrap"><table class="wctable"><thead><tr><th>Year</th><th>Final</th><th>Host</th></tr></thead><tbody>'+WC.slice().reverse().map(w=>'<tr><td class="yr">'+w[0]+'</td><td>'+flag(w[2]==="West Germany"?"Germany":w[2])+' <b>'+w[2]+'</b> '+w[3]+' '+w[4]+'<span class="story">'+w[5]+'</span></td><td>'+w[1]+'</td></tr>').join("")+'</tbody></table></div>';
+  if(id==="wc")finals='<p class="sub">Every World Cup final (winner in green)</p><div class="road">'+WC.slice().reverse().map(w=>matchRow(w[0],w[2],w[4],w[3],0,w[5]+" · Host: "+w[1],"nations")).join("")+'</div>';
   d.style.setProperty("--cc",c.col);
-  d.innerHTML='<div class="dlg-head">'+trophy(c.icon,c.col).replace('class="trophy"','width="64" height="64"')+'<div><p class="kicker" style="margin:0">Since '+c.since+'</p><h2 id="dlgTitle">'+c.name+'</h2></div><button class="x" aria-label="Close">✕</button></div><div class="dlg-body"><p style="color:var(--mute);margin:6px 0 0">'+c.about+'</p><div class="facts"><div><small>Holder</small><b>'+esc(c.holder)+'</b></div><div><small>Next</small><b>'+esc(c.next)+'</b></div></div><p class="sub">'+(c.titlesLabel||"Most titles")+'</p>'+board+'<p class="sub">Latest edition: '+c.latestLabel+'</p>'+latest+finals+'</div>';
+  d.innerHTML='<div class="dlg-head">'+trophy(c.icon,c.col,c.stripes).replace('class="trophy"','width="64" height="64"')+'<div><p class="kicker" style="margin:0">Since '+c.since+'</p><h2 id="dlgTitle">'+c.name+'</h2></div><button class="x" aria-label="Close">✕</button></div><div class="dlg-body"><p style="color:var(--mute);margin:6px 0 0">'+c.about+'</p><div class="facts"><div><small>Holder</small><b>'+esc(c.holder)+'</b></div><div><small>Next</small><b>'+esc(c.next)+'</b></div></div>'+roadHtml(id,c.kind==="nations"?"nations":"clubs")+'<p class="sub">'+(c.titlesLabel||"Most titles")+'</p>'+board+'<p class="sub">Latest edition: '+c.latestLabel+'</p>'+latest+finals+'</div>';
   d.querySelector(".x").onclick=()=>d.close();
   d.showModal();d.scrollTop=0;
 }

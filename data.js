@@ -129,23 +129,23 @@ const COMPS=[
  titles:[["Brazil",5],["Germany",4],["Italy",4],["Argentina",3],["France",2],["Uruguay",2],["Spain",2],["England",1]],
  latestLabel:"2026 World Cup · 48 teams by group",
  groups:{"A":["Mexico","South Africa","South Korea","Czechia"],"B":["Canada","Bosnia & Herzegovina","Qatar","Switzerland"],"C":["Brazil","Morocco","Haiti","Scotland"],"D":["United States","Paraguay","Australia","Turkey"],"E":["Germany","Curaçao","Ivory Coast","Ecuador"],"F":["Netherlands","Japan","Sweden","Tunisia"],"G":["Belgium","Egypt","Iran","New Zealand"],"H":["Spain","Cape Verde","Saudi Arabia","Uruguay"],"I":["France","Senegal","Iraq","Norway"],"J":["Argentina","Algeria","Austria","Jordan"],"K":["Portugal","DR Congo","Uzbekistan","Colombia"],"L":["England","Croatia","Ghana","Panama"]}},
-{id:"ucl",name:"UEFA Champions League",icon:"cup",col:"#6fb7ff",kind:"clubs",since:"1955 · every year",about:"Europe's top club competition, called the European Cup until 1992.",holder:"Paris Saint-Germain (2026)",next:"2027 final: Madrid",
+{id:"ucl",name:"UEFA Champions League",icon:"goblet",col:"#b9c7d6",kind:"clubs",since:"1955 · every year",about:"Europe's top club competition, called the European Cup until 1992.",holder:"Paris Saint-Germain (2026)",next:"2027 final: Madrid",
  titles:[["Real Madrid",15],["AC Milan",7],["Bayern Munich",6],["Liverpool",6],["FC Barcelona",5],["Ajax",4],["Inter Milan",3],["Manchester United",3]],
  latestLabel:"2025-26 · 36 clubs in the league phase",
  list:[["Ajax","nl"],["Arsenal","gb-eng"],["Atalanta","it"],["Athletic Club","es"],["Atlético Madrid","es"],["Barcelona","es"],["Bayern Munich","de"],["Benfica","pt"],["Bodø/Glimt","no"],["Club Brugge","be"],["Chelsea","gb-eng"],["Copenhagen","dk"],["Borussia Dortmund","de"],["Eintracht Frankfurt","de"],["Galatasaray","tr"],["Inter Milan","it"],["Juventus","it"],["Kairat Almaty","kz"],["Bayer Leverkusen","de"],["Liverpool","gb-eng"],["Manchester City","gb-eng"],["Marseille","fr"],["Monaco","mc"],["Napoli","it"],["Newcastle United","gb-eng"],["Olympiacos","gr"],["Pafos","cy"],["Paris Saint-Germain","fr"],["PSV Eindhoven","nl"],["Qarabağ","az"],["Real Madrid","es"],["Slavia Prague","cz"],["Sporting CP","pt"],["Tottenham Hotspur","gb-eng"],["Union Saint-Gilloise","be"],["Villarreal","es"]]},
-{id:"euro",name:"UEFA European Championship",icon:"cup2",col:"#4d8bff",kind:"nations",since:"1960 · every 4 years",about:"“The Euros”: Europe's national-team championship.",holder:"Spain (2024)",next:"2028: UK & Ireland",
+{id:"euro",name:"UEFA European Championship",icon:"chalice",col:"#d6dde4",kind:"nations",since:"1960 · every 4 years",about:"“The Euros”: Europe's national-team championship.",holder:"Spain (2024)",next:"2028: UK & Ireland",
  titles:[["Spain",4],["Germany",3],["France",2],["Italy",2],["Netherlands",1],["Portugal",1],["Denmark",1],["Greece",1],["Czechoslovakia",1],["Soviet Union",1]],
  latestLabel:"Euro 2024 in Germany · 24 teams",
  list:["Germany","Scotland","Hungary","Switzerland","Spain","Croatia","Italy","Albania","Slovenia","Denmark","Serbia","England","Poland","Netherlands","Austria","France","Belgium","Slovakia","Romania","Ukraine","Turkey","Georgia","Portugal","Czechia"]},
-{id:"copa",name:"Copa América",icon:"cup",col:"#7ee2a0",kind:"nations",since:"1916",about:"The oldest international tournament still played, for South America (with invited guests).",holder:"Argentina (2024)",next:"To be confirmed",
+{id:"copa",name:"Copa América",icon:"cup",col:"#c9d6df",kind:"nations",since:"1916",about:"The oldest international tournament still played, for South America (with invited guests).",holder:"Argentina (2024)",next:"To be confirmed",
  titles:[["Argentina",16],["Uruguay",15],["Brazil",9],["Chile",2],["Paraguay",2],["Peru",2],["Bolivia",1],["Colombia",1]],
  latestLabel:"Copa América 2024 in the USA · 16 teams",
  list:["Argentina","Peru","Chile","Canada","Mexico","Ecuador","Venezuela","Jamaica","United States","Uruguay","Panama","Bolivia","Brazil","Colombia","Paraguay","Costa Rica"]},
-{id:"asian",name:"AFC Asian Cup",icon:"cup2",col:"#f5c542",kind:"nations",since:"1956 · every 4 years",about:"Asia's championship for national teams.",holder:"Qatar (2023 edition)",next:"2027: Saudi Arabia",
+{id:"asian",name:"AFC Asian Cup",icon:"plate",col:"#f5c542",kind:"nations",since:"1956 · every 4 years",about:"Asia's championship for national teams.",holder:"Qatar (2023 edition)",next:"2027: Saudi Arabia",
  titles:[["Japan",4],["Iran",3],["Saudi Arabia",3],["Qatar",2],["South Korea",2],["Australia",1],["Iraq",1],["Kuwait",1],["Israel",1]],
  latestLabel:"Asian Cup 2023 (played 2024 in Qatar) · 24 teams",
  list:["Qatar","Tajikistan","China","Lebanon","Australia","Uzbekistan","Syria","India","Iran","UAE","Hong Kong","Palestine","Japan","Iraq","Indonesia","Vietnam","Saudi Arabia","Thailand","Oman","Kyrgyzstan","South Korea","Jordan","Bahrain","Malaysia"]},
-{id:"afcon",name:"Africa Cup of Nations",icon:"cup",col:"#ff9f43",kind:"nations",since:"1957",about:"Africa's national-team championship, known as AFCON.",holder:"2025 title disputed: Senegal won the final; CAF later awarded it to Morocco and Senegal appealed to CAS",next:"2027: Kenya, Uganda & Tanzania",
+{id:"afcon",name:"Africa Cup of Nations",icon:"tall",col:"#f5b942",kind:"nations",since:"1957",about:"Africa's national-team championship, known as AFCON.",holder:"2025 title disputed: Senegal won the final; CAF later awarded it to Morocco and Senegal appealed to CAS",next:"2027: Kenya, Uganda & Tanzania",
  titles:[["Egypt",7],["Cameroon",5],["Ghana",4],["Nigeria",3],["Ivory Coast",3],["Algeria",2],["DR Congo",2]],
  latestLabel:"AFCON 2025 in Morocco · 24 teams",
  list:["Morocco","Mali","Zambia","Comoros","Egypt","South Africa","Angola","Zimbabwe","Nigeria","Tunisia","Uganda","Tanzania","Senegal","DR Congo","Benin","Botswana","Algeria","Burkina Faso","Equatorial Guinea","Sudan","Ivory Coast","Cameroon","Gabon","Mozambique"]},
@@ -153,35 +153,35 @@ const COMPS=[
  titles:[["United States",4],["Germany",2],["Norway",1],["Japan",1],["Spain",1]],
  latestLabel:"2023 in Australia & New Zealand · 32 teams",
  list:["Australia","New Zealand","Ireland","Nigeria","Canada","Philippines","Switzerland","Norway","Spain","Costa Rica","Zambia","Japan","England","Haiti","Denmark","China","United States","Vietnam","Netherlands","Portugal","France","Jamaica","Brazil","Panama","Sweden","South Africa","Italy","Argentina","Germany","Morocco","Colombia","South Korea"]},
-{id:"cwc",name:"FIFA Club World Cup",icon:"globe",col:"#c39bff",kind:"clubs",since:"2000 · 32 teams from 2025",about:"Club champions from every continent. Expanded to 32 clubs in 2025, held in the USA.",holder:"Chelsea (2025)",next:"2029",
+{id:"cwc",name:"FIFA Club World Cup",icon:"medal",col:"#c39bff",kind:"clubs",since:"2000 · 32 teams from 2025",about:"Club champions from every continent. Expanded to 32 clubs in 2025, held in the USA.",holder:"Chelsea (2025)",next:"2029",
  titles:[["Real Madrid",5],["FC Barcelona",3],["Bayern Munich",2],["Corinthians",2],["Chelsea",2]],
  latestLabel:"2025 in the USA · 32 clubs",
  list:[["Al Ahly","eg"],["Inter Miami","us"],["Palmeiras","br"],["FC Porto","pt"],["Paris Saint-Germain","fr"],["Atlético Madrid","es"],["Botafogo","br"],["Seattle Sounders","us"],["Bayern Munich","de"],["Auckland City","nz"],["Boca Juniors","ar"],["Benfica","pt"],["Flamengo","br"],["Espérance de Tunis","tn"],["Chelsea","gb-eng"],["Los Angeles FC","us"],["River Plate","ar"],["Urawa Red Diamonds","jp"],["Monterrey","mx"],["Inter Milan","it"],["Fluminense","br"],["Borussia Dortmund","de"],["Ulsan HD","kr"],["Mamelodi Sundowns","za"],["Manchester City","gb-eng"],["Wydad AC","ma"],["Al Ain","ae"],["Juventus","it"],["Real Madrid","es"],["Al Hilal","sa"],["Pachuca","mx"],["Red Bull Salzburg","at"]]},
-{id:"pl",name:"Premier League",icon:"shield",col:"#b07cff",kind:"league",flag:"gb-eng",since:"1992 (English league since 1888)",about:"England's top league and the most-watched league in the world. 20 clubs, 38 games each.",holder:"Arsenal (2025-26)",next:"2026-27 season in progress",
+{id:"pl",name:"Premier League",icon:"shield",col:"#b07cff",stripes:["#ffffff","#cf081f"],kind:"league",flag:"gb-eng",since:"1992 (English league since 1888)",about:"England's top league and the most-watched league in the world. 20 clubs, 38 games each.",holder:"Arsenal (2025-26)",next:"2026-27 season in progress",
  titlesLabel:"Most English titles (all-time)",titles:[["Liverpool",20],["Manchester United",20],["Arsenal",14],["Manchester City",10],["Everton",9],["Aston Villa",7],["Chelsea",6],["Sunderland",6]],
  latestLabel:"2025-26 season · 20 clubs",
  list:["Arsenal","Aston Villa","Bournemouth","Brentford","Brighton","Burnley","Chelsea","Crystal Palace","Everton","Fulham","Leeds United","Liverpool","Manchester City","Manchester United","Newcastle United","Nottingham Forest","Sunderland","Tottenham Hotspur","West Ham United","Wolves"]},
-{id:"liga",name:"La Liga",icon:"shield",col:"#ff6b6b",kind:"league",flag:"es",since:"1929",about:"Spain's top league, home of El Clásico between Real Madrid and Barcelona.",holder:"Barcelona (2025-26)",next:"2026-27 season in progress",
+{id:"liga",name:"La Liga",icon:"shield",col:"#ff6b6b",stripes:["#c60b1e","#ffc400"],kind:"league",flag:"es",since:"1929",about:"Spain's top league, home of El Clásico between Real Madrid and Barcelona.",holder:"Barcelona (2025-26)",next:"2026-27 season in progress",
  titlesLabel:"Most Spanish titles",titles:[["Real Madrid",36],["FC Barcelona",29],["Atlético Madrid",11],["Athletic Club",8],["Valencia",6]],
  latestLabel:"2025-26 season · 20 clubs",
  list:["Alavés","Athletic Club","Atlético Madrid","Barcelona","Celta Vigo","Elche","Espanyol","Getafe","Girona","Levante","Mallorca","Osasuna","Real Oviedo","Rayo Vallecano","Real Betis","Real Madrid","Real Sociedad","Sevilla","Valencia","Villarreal"]},
-{id:"seriea",name:"Serie A",icon:"shield",col:"#2f80ed",kind:"league",flag:"it",since:"1898 (Serie A since 1929)",about:"Italy's top league, famous for tactics and defending.",holder:"Inter Milan (2025-26)",next:"2026-27 season in progress",
+{id:"seriea",name:"Serie A",icon:"shield",col:"#2f80ed",stripes:["#009246","#ffffff","#ce2b37"],kind:"league",flag:"it",since:"1898 (Serie A since 1929)",about:"Italy's top league, famous for tactics and defending.",holder:"Inter Milan (2025-26)",next:"2026-27 season in progress",
  titlesLabel:"Most Italian titles",titles:[["Juventus",36],["Inter Milan",21],["AC Milan",19],["Genoa",9],["Bologna",7],["Torino",7],["Pro Vercelli",7],["Napoli",4]],
  latestLabel:"2025-26 season · 20 clubs",
  list:["Atalanta","Bologna","Cagliari","Como","Cremonese","Fiorentina","Genoa","Hellas Verona","Inter Milan","Juventus","Lazio","Lecce","AC Milan","Napoli","Parma","Pisa","Roma","Sassuolo","Torino","Udinese"]},
-{id:"bundes",name:"Bundesliga",icon:"shield",col:"#e5383b",kind:"league",flag:"de",since:"1963 (German champions since 1903)",about:"Germany's top league, known for packed stadiums and standing fans.",holder:"Bayern Munich (2025-26)",next:"2026-27 season in progress",
+{id:"bundes",name:"Bundesliga",icon:"shield",col:"#e5383b",stripes:["#000000","#dd0000","#ffce00"],kind:"league",flag:"de",since:"1963 (German champions since 1903)",about:"Germany's top league, known for packed stadiums and standing fans.",holder:"Bayern Munich (2025-26)",next:"2026-27 season in progress",
  titlesLabel:"Most German titles",titles:[["Bayern Munich",35],["1. FC Nürnberg",9],["Borussia Dortmund",8],["Schalke 04",7],["Hamburger SV",6],["VfB Stuttgart",5],["Borussia Mönchengladbach",5]],
  latestLabel:"2025-26 season · 18 clubs",
  list:["Bayern Munich","Bayer Leverkusen","Eintracht Frankfurt","Borussia Dortmund","SC Freiburg","Mainz 05","RB Leipzig","Werder Bremen","VfB Stuttgart","Borussia Mönchengladbach","VfL Wolfsburg","FC Augsburg","Union Berlin","St. Pauli","Hoffenheim","Heidenheim","1. FC Köln","Hamburger SV"]},
-{id:"ligue1",name:"Ligue 1",icon:"shield",col:"#3dd6d0",kind:"league",flag:"fr",since:"1932",about:"France's top league, a famous producer of young talent.",holder:"Paris Saint-Germain (2025-26)",next:"2026-27 season in progress",
+{id:"ligue1",name:"Ligue 1",icon:"shield",col:"#3dd6d0",stripes:["#0055a4","#ffffff","#ef4135"],kind:"league",flag:"fr",since:"1932",about:"France's top league, a famous producer of young talent.",holder:"Paris Saint-Germain (2025-26)",next:"2026-27 season in progress",
  titlesLabel:"Most French titles",titles:[["Paris Saint-Germain",14],["Saint-Étienne",10],["Marseille",9],["Monaco",8],["Nantes",8]],
  latestLabel:"2025-26 season · 18 clubs",
  list:["Paris Saint-Germain","Marseille","Monaco","Nice","Lille","Lyon","Strasbourg","Lens","Brest","Toulouse","Auxerre","Rennes","Nantes","Angers","Le Havre","Lorient","Paris FC","Metz"]},
-{id:"portugal",name:"Primeira Liga",icon:"shield",col:"#2ecc71",kind:"league",flag:"pt",since:"1934",about:"Portugal's top league, dominated by the “Big Three”: Benfica, Porto and Sporting.",holder:"FC Porto (2025-26)",next:"2026-27 season in progress",
+{id:"portugal",name:"Primeira Liga",icon:"shield",col:"#2ecc71",stripes:["#006600","#ff0000"],kind:"league",flag:"pt",since:"1934",about:"Portugal's top league, dominated by the “Big Three”: Benfica, Porto and Sporting.",holder:"FC Porto (2025-26)",next:"2026-27 season in progress",
  titlesLabel:"Most Portuguese titles",titles:[["Benfica",38],["FC Porto",31],["Sporting CP",21],["Belenenses",1],["Boavista",1]],
  latestLabel:"2025-26 season · 18 clubs",
  list:["Benfica","FC Porto","Sporting CP","Braga","Vitória de Guimarães","Santa Clara","Famalicão","Casa Pia","Estoril","Rio Ave","Moreirense","Arouca","Gil Vicente","Nacional","Estrela da Amadora","AVS","Alverca","Tondela"]},
-{id:"ered",name:"Eredivisie",icon:"shield",col:"#ff7a1a",kind:"league",flag:"nl",since:"1956 (Dutch champions since 1898)",about:"The Netherlands' top league, famous for attacking football and youth academies.",holder:"PSV Eindhoven (2025-26)",next:"2026-27 season in progress",
+{id:"ered",name:"Eredivisie",icon:"shield",col:"#ff7a1a",stripes:["#ae1c28","#ffffff","#21468b"],kind:"league",flag:"nl",since:"1956 (Dutch champions since 1898)",about:"The Netherlands' top league, famous for attacking football and youth academies.",holder:"PSV Eindhoven (2025-26)",next:"2026-27 season in progress",
  titlesLabel:"Most Dutch titles",titles:[["Ajax",36],["PSV Eindhoven",27],["Feyenoord",16]],
  latestLabel:"2025-26 season · 18 clubs",
  list:["Ajax","PSV Eindhoven","Feyenoord","AZ Alkmaar","FC Twente","FC Utrecht","Go Ahead Eagles","NEC Nijmegen","Heerenveen","Sparta Rotterdam","Fortuna Sittard","Heracles Almelo","NAC Breda","FC Groningen","PEC Zwolle","Excelsior","Telstar","FC Volendam"]}];
@@ -303,7 +303,9 @@ const SIGNALS=[
 ["Indirect free kick","ifk","One arm raised straight up until another player touches the ball."],
 ["Penalty kick","pen","The referee points to the penalty mark."],
 ["Goal kick","gk","The referee points towards the goal area."],
-["Corner kick","ck","The referee points to the corner flag."]];
+["Corner kick","ck","The referee points to the corner flag."],
+["Yellow card","yc","The card is held high above the head so everyone can see the caution."],
+["Red card","rc","The red card is held high: the player is sent off."]];
 
 /* Rules accordion */
 const RULES={
@@ -343,3 +345,49 @@ const QUIZ=[
 ["Clubs","Which club has won the most European Cups / Champions Leagues?",["AC Milan","Bayern Munich","Real Madrid"],2,"Real Madrid has won it 15 times."],
 ["Awards","Who has won the most Ballon d'Or awards?",["Cristiano Ronaldo","Lionel Messi","Johan Cruyff"],1,"Messi has won it eight times."],
 ["Fan talk","A player scores three goals in one game. What is it called?",["A brace","A clean sheet","A hat-trick"],2,"Three goals is a hat-trick."]];
+
+/* Extra flag codes for clubs and historic teams */
+Object.assign(ISO,{"West Germany":"de","Chelsea":"gb-eng","Arsenal":"gb-eng","Liverpool":"gb-eng","Benfica":"pt","Palmeiras":"br","Fluminense":"br","Flamengo":"br","Paris Saint-Germain":"fr","Los Angeles FC":"us","Espérance de Tunis":"tn","Monaco":"mc","Bayern Munich":"de"});
+
+/* Road to the title, latest edition.
+   Knockout rows: [round, teamA, teamB, score, winner (0 = A, 1 = B, -1 = draw), note]
+   League tables: [team, W, D, L, Pts] */
+const ROADS={
+wc:{title:"Spain's road to the 2026 title",rows:[
+ ["Group H","Spain","Cape Verde","0–0",-1],["Group H","Spain","Saudi Arabia","4–0",0],["Group H","Spain","Uruguay","1–0",0],
+ ["Round of 32","Spain","Austria","3–0",0],["Round of 16","Spain","Portugal","1–0",0],["Quarter-final","Spain","Belgium","2–1",0],
+ ["Semi-final","Spain","France","2–0",0],["Final","Spain","Argentina","1–0",0,"After extra time · MetLife Stadium, New Jersey"]]},
+euro:{title:"Spain's road to the Euro 2024 title",rows:[
+ ["Group B","Spain","Croatia","3–0",0],["Group B","Spain","Italy","1–0",0],["Group B","Spain","Albania","1–0",0],
+ ["Round of 16","Spain","Georgia","4–1",0],["Quarter-final","Spain","Germany","2–1",0,"After extra time"],
+ ["Semi-final","Spain","France","2–1",0],["Final","Spain","England","2–1",0,"Olympiastadion, Berlin"]]},
+copa:{title:"Argentina's road to the Copa América 2024 title",rows:[
+ ["Group A","Argentina","Canada","2–0",0],["Group A","Argentina","Chile","1–0",0],["Group A","Argentina","Peru","2–0",0],
+ ["Quarter-final","Argentina","Ecuador","1–1",0,"Argentina won 4–2 on penalties"],["Semi-final","Argentina","Canada","2–0",0],
+ ["Final","Argentina","Colombia","1–0",0,"After extra time · Miami"]]},
+asian:{title:"Qatar's road to the Asian Cup 2023 title",rows:[
+ ["Group A","Qatar","Lebanon","3–0",0],["Group A","Qatar","Tajikistan","1–0",0],["Group A","Qatar","China","1–0",0],
+ ["Round of 16","Qatar","Palestine","2–1",0],["Quarter-final","Qatar","Uzbekistan","1–1",0,"Qatar won 3–2 on penalties"],
+ ["Semi-final","Qatar","Iran","3–2",0],["Final","Qatar","Jordan","3–1",0,"Lusail Stadium"]]},
+afcon:{title:"AFCON 2025: Senegal's road to the final",note:"Senegal won the final on the pitch. In March 2026 CAF awarded the title to Morocco; Senegal appealed to the Court of Arbitration for Sport (CAS).",rows:[
+ ["Round of 16","Senegal","Sudan","3–1",0],["Quarter-final","Senegal","Mali","1–0",0],["Semi-final","Senegal","Egypt","1–0",0],
+ ["Final","Senegal","Morocco","1–0",0,"After extra time · Rabat"]]},
+wwc:{title:"Spain's road to the 2023 Women's World Cup title",rows:[
+ ["Group C","Spain","Costa Rica","3–0",0],["Group C","Spain","Zambia","5–0",0],["Group C","Spain","Japan","0–4",1],
+ ["Round of 16","Spain","Switzerland","5–1",0],["Quarter-final","Spain","Netherlands","2–1",0,"After extra time"],
+ ["Semi-final","Spain","Sweden","2–1",0],["Final","Spain","England","1–0",0,"Stadium Australia, Sydney"]]},
+ucl:{title:"Paris Saint-Germain's road to the 2026 title",rows:[
+ ["Knockout play-off","Paris Saint-Germain","Monaco","5–4",0,"Aggregate over two legs"],["Round of 16","Paris Saint-Germain","Chelsea","8–2",0,"Aggregate"],
+ ["Quarter-final","Paris Saint-Germain","Liverpool","4–0",0,"Aggregate"],["Semi-final","Paris Saint-Germain","Bayern Munich","6–5",0,"Aggregate"],
+ ["Final","Paris Saint-Germain","Arsenal","1–1",0,"PSG won 4–3 on penalties · Puskás Aréna, Budapest"]]},
+cwc:{title:"Chelsea's road to the 2025 title",rows:[
+ ["Group D","Chelsea","Los Angeles FC","2–0",0],["Group D","Chelsea","Flamengo","1–3",1],["Group D","Chelsea","Espérance de Tunis","3–0",0],
+ ["Round of 16","Chelsea","Benfica","4–1",0,"After extra time"],["Quarter-final","Chelsea","Palmeiras","2–1",0],
+ ["Semi-final","Chelsea","Fluminense","2–0",0],["Final","Chelsea","Paris Saint-Germain","3–0",0,"MetLife Stadium, New Jersey"]]},
+pl:{title:"How the 2025-26 title race finished",table:[["Arsenal",26,7,5,85],["Manchester City",23,9,6,78],["Manchester United",20,11,7,71],["Aston Villa",19,8,11,65]],note:"Relegated: West Ham United, Burnley, Wolves."},
+liga:{title:"How the 2025-26 title race finished",table:[["Barcelona",31,1,6,94],["Real Madrid",27,5,6,86],["Villarreal",22,6,10,72],["Atlético Madrid",21,6,11,69]]},
+seriea:{title:"How the 2025-26 title race finished",table:[["Inter Milan",27,6,5,87],["Napoli",23,7,8,76],["Roma",23,4,11,73],["Como",20,11,7,71]]},
+bundes:{title:"How the 2025-26 title race finished",table:[["Bayern Munich",28,5,1,89],["Borussia Dortmund",22,7,5,73],["RB Leipzig",20,5,9,65],["VfB Stuttgart",18,8,8,62]]},
+ligue1:{title:"How the 2025-26 title race finished",table:[["Paris Saint-Germain",24,4,6,76],["Lens",22,4,8,70],["Lille",18,7,9,61],["Lyon",18,6,10,60]]},
+portugal:{title:"How the 2025-26 title race finished",table:[["FC Porto",28,4,2,88],["Sporting CP",25,7,2,82],["Benfica",23,11,0,80],["Braga",16,11,7,59]],note:"Benfica went the whole season unbeaten and still finished third."},
+ered:{title:"How the 2025-26 title race finished",table:[["PSV Eindhoven",27,3,4,84],["Feyenoord",19,8,7,65],["NEC Nijmegen",16,11,7,59],["FC Twente",15,13,6,58]]}};
