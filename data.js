@@ -430,3 +430,43 @@ ROADS.bundes.push(T("2024-25","How the 2024-25 title race finished",[["Bayern Mu
 ROADS.ligue1.push(T("2024-25","How the 2024-25 title race finished",[["Paris Saint-Germain",26,6,2,84],["Marseille",20,5,9,65],["Monaco",18,7,9,61],["Nice",17,9,8,60]]),T("2023-24","How the 2023-24 title race finished",[["Paris Saint-Germain",22,10,2,76],["Monaco",20,7,7,67],["Brest",17,10,7,61],["Lille",16,11,7,59]]));
 ROADS.portugal.push(T("2024-25","How the 2024-25 title race finished",[["Sporting CP",25,7,2,82],["Benfica",25,5,4,80],["FC Porto",22,5,7,71],["Braga",21,5,8,68]]),T("2023-24","How the 2023-24 title race finished",[["Sporting CP",29,3,2,90],["Benfica",25,5,4,80],["FC Porto",22,6,6,72],["Braga",21,3,10,66]]));
 ROADS.ered.push(T("2024-25","How the 2024-25 title race finished",[["PSV Eindhoven",25,4,5,79],["Ajax",24,6,4,78],["Feyenoord",20,8,6,68],["FC Utrecht",19,9,6,66]],"PSV overtook Ajax in the final weeks."),T("2023-24","How the 2023-24 title race finished",[["PSV Eindhoven",29,4,1,91],["Feyenoord",25,5,4,80],["FC Twente",21,6,7,69],["AZ Alkmaar",17,8,9,59]]));
+
+/* Final-four brackets: semis [teamA, teamB, score, winner, note]; older editions also give the final */
+Object.assign(ISO,{"Bulgaria":"bg","Russia":"ru","Greece":"gr","Czech Republic":"cz","Lyon":"fr","Real Sociedad":"es","Al Ahly":"eg","Atlético Madrid":"es","Barcelona":"es","Villarreal":"es","AC Milan":"it","Union Berlin":"de","Lens":"fr","Marseille":"fr","Rennes":"fr","Braga":"pt","Sporting CP":"pt","Feyenoord":"nl","AZ Alkmaar":"nl","Ajax":"nl","PSV Eindhoven":"nl","Newcastle United":"gb-eng","Lazio":"it","Napoli":"it"});
+const SEMIS={
+ wc:{"2026":[["Spain","France","2–0",0],["Argentina","England","2–1",0]],"2022":[["Argentina","Croatia","3–0",0],["France","Morocco","2–0",0]],"2018":[["France","Belgium","1–0",0],["Croatia","England","2–1",0,"a.e.t."]],"2014":[["Germany","Brazil","7–1",0],["Argentina","Netherlands","0–0",0,"4–2 pens"]],"2010":[["Netherlands","Uruguay","3–2",0],["Spain","Germany","1–0",0]]},
+ euro:{"2024":[["Spain","France","2–1",0],["England","Netherlands","2–1",0]],"2020":[["Italy","Spain","1–1",0,"4–2 pens"],["England","Denmark","2–1",0,"a.e.t."]],"2016":[["Portugal","Wales","2–0",0],["France","Germany","2–0",0]],"2012":[["Spain","Portugal","0–0",0,"4–2 pens"],["Italy","Germany","2–1",0]]},
+ copa:{"2024":[["Argentina","Canada","2–0",0],["Colombia","Uruguay","1–0",0]],"2021":[["Argentina","Colombia","1–1",0,"3–2 pens"],["Brazil","Peru","1–0",0]],"2019":[["Brazil","Argentina","2–0",0],["Peru","Chile","3–0",0]]},
+ asian:{"2023":[["Jordan","South Korea","2–0",0],["Qatar","Iran","3–2",0]],"2019":[["Japan","Iran","3–0",0],["Qatar","UAE","4–0",0]]},
+ afcon:{"2025":[["Senegal","Egypt","1–0",0],["Morocco","Nigeria","0–0",0,"Morocco on pens"]],"2023":[["Ivory Coast","DR Congo","1–0",0],["Nigeria","South Africa","1–1",0,"4–2 pens"]],"2021":[["Senegal","Burkina Faso","3–1",0],["Egypt","Cameroon","0–0",0,"3–1 pens"]]},
+ wwc:{"2023":[["Spain","Sweden","2–1",0],["England","Australia","3–1",0]],"2019":[["United States","England","2–1",0],["Netherlands","Sweden","1–0",0,"a.e.t."]]},
+ ucl:{"2025-26":[["Paris Saint-Germain","Bayern Munich","6–5",0,"agg."],["Arsenal","Atlético Madrid","2–1",0,"agg."]],"2024-25":[["Paris Saint-Germain","Arsenal","3–1",0,"agg."],["Inter Milan","Barcelona","7–6",0,"agg., a.e.t."]],"2023-24":[["Real Madrid","Bayern Munich","4–3",0,"agg."],["Borussia Dortmund","Paris Saint-Germain","2–0",0,"agg."]],"2022-23":[["Manchester City","Real Madrid","5–1",0,"agg."],["Inter Milan","AC Milan","3–0",0,"agg."]],"2021-22":[["Real Madrid","Manchester City","6–5",0,"agg., a.e.t."],["Liverpool","Villarreal","5–2",0,"agg."]]},
+ cwc:{"2025":[["Chelsea","Fluminense","2–0",0],["Paris Saint-Germain","Real Madrid","4–0",0]],"2023":[["Manchester City","Urawa Red Diamonds","3–0",0],["Fluminense","Al Ahly","2–0",0]]}};
+for(const k in SEMIS)ROADS[k].forEach(e=>{if(SEMIS[k][e.year])e.semis=SEMIS[k][e.year]});
+const OLD=(year,title,semis,final)=>({year,title,semis,final});
+ROADS.wc.push(
+ OLD("2006","2006 in Germany: the final four",[["Italy","Germany","2–0",0,"a.e.t."],["France","Portugal","1–0",0]],["Italy","France","1–1",0,"Italy won 5–3 on penalties · Berlin"]),
+ OLD("2002","2002 in South Korea & Japan: the final four",[["Germany","South Korea","1–0",0],["Brazil","Turkey","1–0",0]],["Brazil","Germany","2–0",0,"Yokohama"]),
+ OLD("1998","1998 in France: the final four",[["Brazil","Netherlands","1–1",0,"4–2 pens"],["France","Croatia","2–1",0]],["France","Brazil","3–0",0,"Stade de France"]),
+ OLD("1994","1994 in the USA: the final four",[["Italy","Bulgaria","2–1",0],["Brazil","Sweden","1–0",0]],["Brazil","Italy","0–0",0,"Brazil won 3–2 on penalties · Pasadena"]),
+ OLD("1990","1990 in Italy: the final four",[["West Germany","England","1–1",0,"4–3 pens"],["Argentina","Italy","1–1",0,"4–3 pens"]],["West Germany","Argentina","1–0",0,"Rome"]),
+ OLD("1986","1986 in Mexico: the final four",[["Argentina","Belgium","2–0",0],["West Germany","France","2–0",0]],["Argentina","West Germany","3–2",0,"Estadio Azteca"]));
+ROADS.euro.push(
+ OLD("2008","Euro 2008 in Austria & Switzerland: the final four",[["Spain","Russia","3–0",0],["Germany","Turkey","3–2",0]],["Spain","Germany","1–0",0,"Vienna"]),
+ OLD("2004","Euro 2004 in Portugal: the final four",[["Portugal","Netherlands","2–1",0],["Greece","Czech Republic","1–0",0,"a.e.t."]],["Greece","Portugal","1–0",0,"Lisbon · one of the biggest shocks in football"]));
+ROADS.copa.push(
+ OLD("2016","Copa América Centenario 2016 (USA): the final four",[["Chile","Colombia","2–0",0],["Argentina","United States","4–0",0]],["Chile","Argentina","0–0",0,"Chile won 4–2 on penalties"]),
+ OLD("2015","Copa América 2015 in Chile: the final four",[["Chile","Peru","2–1",0],["Argentina","Paraguay","6–1",0]],["Chile","Argentina","0–0",0,"Chile won 4–1 on penalties · Santiago"]));
+ROADS.asian.push(OLD("2015","Asian Cup 2015 in Australia: the final four",[["Australia","UAE","2–0",0],["South Korea","Iraq","2–0",0]],["Australia","South Korea","2–1",0,"After extra time · Sydney"]));
+ROADS.wwc.push(OLD("2015","2015 in Canada: the final four",[["United States","Germany","2–0",0],["Japan","England","2–1",0]],["United States","Japan","5–2",0,"Vancouver · Carli Lloyd scored a hat-trick in 16 minutes"]));
+ROADS.ucl.push(
+ OLD("2020-21","2020-21: the final four",[["Chelsea","Real Madrid","3–1",0,"agg."],["Manchester City","Paris Saint-Germain","4–1",0,"agg."]],["Chelsea","Manchester City","1–0",0,"Porto"]),
+ OLD("2019-20","2019-20: the final four (one-off games in Lisbon)",[["Bayern Munich","Lyon","3–0",0],["Paris Saint-Germain","RB Leipzig","3–0",0]],["Bayern Munich","Paris Saint-Germain","1–0",0,"Lisbon · Bayern won every game that season"]));
+ROADS.pl.push(T("2022-23","How the 2022-23 title race finished",[["Manchester City",28,5,5,89],["Arsenal",26,6,6,84],["Manchester United",23,6,9,75],["Newcastle United",19,14,5,71]]));
+ROADS.liga.push(T("2022-23","How the 2022-23 title race finished",[["Barcelona",28,4,6,88],["Real Madrid",24,6,8,78],["Atlético Madrid",23,8,7,77],["Real Sociedad",21,8,9,71]]));
+ROADS.seriea.push(T("2022-23","How the 2022-23 title race finished",[["Napoli",28,6,4,90],["Lazio",22,8,8,74],["Inter Milan",23,3,12,72],["AC Milan",20,10,8,70]],"Napoli's first title since the Maradona era."));
+ROADS.bundes.push(T("2022-23","How the 2022-23 title race finished",[["Bayern Munich",21,8,5,71],["Borussia Dortmund",22,5,7,71],["RB Leipzig",20,6,8,66],["Union Berlin",18,8,8,62]],"Bayern won on goal difference on the final day."));
+ROADS.ligue1.push(T("2022-23","How the 2022-23 title race finished (20 clubs)",[["Paris Saint-Germain",27,4,7,85],["Lens",25,9,4,84],["Marseille",22,7,9,73],["Rennes",21,5,12,68]]));
+ROADS.portugal.push(T("2022-23","How the 2022-23 title race finished",[["Benfica",28,3,3,87],["FC Porto",27,4,3,85],["Braga",25,3,6,78],["Sporting CP",23,5,6,74]]));
+ROADS.ered.push(T("2022-23","How the 2022-23 title race finished",[["Feyenoord",25,7,2,82],["PSV Eindhoven",23,6,5,75],["Ajax",20,9,5,69],["AZ Alkmaar",20,7,7,67]]));
+Object.assign(ISO,{"Girona":"es","Roma":"it","Como":"it","VfB Stuttgart":"de","Nice":"fr","NEC Nijmegen":"nl","FC Twente":"nl","FC Utrecht":"nl"});

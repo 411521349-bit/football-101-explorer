@@ -298,3 +298,18 @@ footer a{color:var(--mute)}
 .years button{padding:4px 12px;border-radius:99px;font:600 14px Barlow,sans-serif}
 .years button[aria-pressed="true"]{background:var(--cc,var(--ball));border-color:var(--cc,var(--ball));color:#111}
 @media(max-width:600px){.ltable{font-size:13px}.ltable td,.ltable th{padding:7px 5px}.ltable .ct{display:none}.ltable tr.champ td:nth-child(2) .nm::after{content:"★";color:var(--gold)}.roadbox{padding:4px 10px 10px}}
+/* Final-four bracket */
+.bracket{display:grid;grid-template-columns:minmax(0,1fr) 28px minmax(0,1fr);align-items:center;gap:0}
+.bcol{display:grid;gap:12px}
+.bcol.fin{align-content:center}
+.blink{align-self:stretch;margin:44px 0;border:2px solid var(--rule);border-left:0;border-radius:0 10px 10px 0;position:relative}
+.blink::after{content:"";position:absolute;right:-30px;top:50%;width:28px;border-top:2px solid var(--rule)}
+.bk{background:var(--bg);border-radius:12px;padding:8px;display:grid;gap:4px}
+.bk .bl{font-size:12px;color:var(--mute);text-transform:uppercase;letter-spacing:.06em;font-weight:600;padding:0 4px}
+.bk .bt{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:8px;padding:7px 10px;border-radius:8px;font-weight:600;font-size:15px}
+.bk .bt span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bk .bt b{grid-row:span 2;font:700 18px "Barlow Condensed",sans-serif}
+.bk .bt.w{background:#1d6b3f}.bk .bt.l{background:#6b2525;font-weight:500}
+.bk small{color:var(--mute);font-size:13px;text-align:center}.bk small b{color:var(--line);font:700 17px "Barlow Condensed",sans-serif}
+.champ-b{text-align:center;font:700 20px "Barlow Condensed",sans-serif;color:var(--gold)}
+@media(max-width:600px){.bracket{grid-template-columns:1fr}.blink{display:none}.bk .bt{font-size:14px}}

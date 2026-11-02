@@ -306,8 +306,15 @@ function matchRow(round,a,b,score,w,note,kind){
   const cls=i=>w===-1?"d":w===i?"w":"l";
   return '<div class="match"><span class="rnd">'+round+'</span><div class="tm '+cls(0)+'">'+teamIcon(a,kind)+'<span>'+esc(a)+'</span></div><div class="sc">'+score+'</div><div class="tm r '+cls(1)+'"><span>'+esc(b)+'</span>'+teamIcon(b,kind)+'</div>'+(note?'<small class="mnote">'+esc(note)+'</small>':'')+'</div>';
 }
+function bracketHtml(e,kind){
+  const fin=e.final||(e.rows&&e.rows.filter(r=>r[0]==="Final").map(r=>[r[1],r[2],r[3],r[4],r[5]])[0]);
+  if(!e.semis||!fin)return"";
+  const box=(m,lab)=>'<div class="bk"><span class="bl">'+lab+'</span>'+[0,1].map(i=>'<div class="bt '+(m[3]===i?"w":"l")+'">'+teamIcon(m[i],kind)+'<span>'+esc(m[i])+'</span></div>').join("")+'<small><b>'+m[2]+'</b>'+(m[4]?' · '+esc(m[4]):'')+'</small></div>';
+  return '<p class="sub">The final four</p><div class="bracket"><div class="bcol">'+box(e.semis[0],"Semi-final 1")+box(e.semis[1],"Semi-final 2")+'</div><div class="blink" aria-hidden="true"></div><div class="bcol fin">'+box(fin,"Final")+'<div class="champ-b">🏆 '+esc(fin[fin[3]===1?1:0])+'</div></div></div>';
+}
 function editionHtml(e,kind){
-  let h='<p class="sub">'+e.title+'</p>';
+  let h=bracketHtml(e,kind)+'<p class="sub">'+e.title+'</p>';
+  if(!e.rows&&!e.table&&e.semis)h=bracketHtml(e,kind)+'<p class="anote">'+esc(e.title)+'</p>';
   if(e.rows)h+='<div class="road">'+e.rows.map(x=>matchRow(x[0],x[1],x[2],x[3],x[4],x[5],kind)).join("")+'</div>';
   if(e.table)h+='<table class="ltable"><thead><tr><th>#</th><th>Club</th><th>W</th><th>D</th><th>L</th><th>Pts</th></tr></thead><tbody>'+e.table.map((t,i)=>'<tr'+(i?'':' class="champ"')+'><td>'+(i+1)+'</td><td><span class="nm">'+teamIcon(t[0],"clubs")+esc(t[0])+(i?'':' <b class="ct">Champions</b>')+'</span></td><td>'+t[1]+'</td><td>'+t[2]+'</td><td>'+t[3]+'</td><td><b>'+t[4]+'</b></td></tr>').join("")+'</tbody></table>';
   if(e.note)h+='<p class="anote">'+esc(e.note)+'</p>';
