@@ -28,8 +28,11 @@ function trophy(kind,col,stripes){
    glove:'<rect x="19" y="20" width="26" height="24" rx="8" fill="'+M+'"/><rect x="19" y="5" width="6" height="20" rx="3" fill="'+M+'"/><rect x="26" y="3" width="6" height="21" rx="3" fill="'+M+'"/><rect x="33" y="4" width="6" height="21" rx="3" fill="'+M+'"/><rect x="40" y="8" width="5" height="17" rx="2.5" fill="'+M+'"/><rect x="9" y="22" width="13" height="6" rx="3" transform="rotate(30 16 25)" fill="'+M+'"/><rect x="20" y="42" width="24" height="8" rx="2" fill="#2a2018"/><path d="M22 46h20" stroke="'+col+'" stroke-width="2"/>'};
   return '<svg class="trophy" viewBox="0 0 64 64" aria-hidden="true">'+defs+(k[kind]||k.cup)+'</svg>';
 }
-function jersey(c1,c2,size,pat){
+function hashStr(t){let h=0;for(const ch of String(t))h=(h*31+ch.charCodeAt(0))>>>0;return h}
+const JDET=["none","shoulders","sidepanel","chestline","sleevestripe","pinstripes","yoke"],JCOL=["v","crew","polo"];
+function jersey(c1,c2,size,pat,name,v){
   const sz=size||52,id="j"+(++_gid),B="M21 6L11 10 3 21l8 7 4-4v30h30V24l4 4 8-7-8-11L39 6q-9 7-18 0z";
+  const h=hashStr(name||c1+c2),det=v&&v.d!=null?JDET[v.d]:JDET[h%JDET.length],col=v&&v.c!=null?JCOL[v.c]:JCOL[(h>>3)%3];
   const P={stripes:'<rect x="17" y="0" width="5" height="60" fill="'+c2+'"/><rect x="27.5" y="0" width="5" height="60" fill="'+c2+'"/><rect x="38" y="0" width="5" height="60" fill="'+c2+'"/>',
    hoops:'<rect x="0" y="15" width="60" height="6" fill="'+c2+'"/><rect x="0" y="27" width="60" height="6" fill="'+c2+'"/><rect x="0" y="39" width="60" height="6" fill="'+c2+'"/><rect x="0" y="51" width="60" height="6" fill="'+c2+'"/>',
    halves:'<rect x="30" y="0" width="30" height="60" fill="'+c2+'"/>',
@@ -38,25 +41,42 @@ function jersey(c1,c2,size,pat){
    vband:'<rect x="24.5" y="0" width="11" height="60" fill="'+c2+'"/><rect x="24.5" y="0" width="1.5" height="60" fill="#fff" opacity=".8"/><rect x="34" y="0" width="1.5" height="60" fill="#fff" opacity=".8"/>',
    diag:'<path d="M60 4L4 60h56z" fill="'+c2+'"/>',
    sleeves:'<path d="M15 11L11 10 3 21l8 7 4-4zM45 11l4-1 8 11-8 7-4-4z" fill="'+c2+'"/>'};
-  const cuff=pat==="sleeves"?c1:c2;
+  const D={none:'',shoulders:'<path d="M11 10l10-4q9 7 18 0l10 4-3 5H14z" fill="'+c2+'" opacity=".9"/>',
+   sidepanel:'<rect x="15" y="22" width="3.5" height="34" fill="'+c2+'"/><rect x="41.5" y="22" width="3.5" height="34" fill="'+c2+'"/>',
+   chestline:'<rect x="0" y="21" width="60" height="2.6" fill="'+c2+'"/>',
+   sleevestripe:'<path d="M6 17l9 8M54 17l-9 8" stroke="'+c2+'" stroke-width="2.2"/>',
+   pinstripes:[18,22,26,30,34,38,42].map(x=>'<rect x="'+x+'" y="0" width=".9" height="60" fill="'+c2+'" opacity=".55"/>').join(""),
+   yoke:'<path d="M15 14h30v4H15z" fill="'+c2+'"/>'};
+  const plain=!pat||pat==="plain";
+  const cuff=pat==="sleeves"?c1:c2,cc=pat==="vband"?"#fff":c2;
+  const C={v:'<path d="M21 6q9 7 18 0l-2-.8L30 12l-7-6.8z" fill="'+cc+'" stroke="#0b2226" stroke-width=".8" stroke-linejoin="round"/>',
+   crew:'<path d="M21 6q9 7 18 0" fill="none" stroke="'+cc+'" stroke-width="3.2"/><path d="M21 6q9 7 18 0" fill="none" stroke="#0b2226" stroke-width=".7" transform="translate(0 1.8)"/>',
+   polo:'<path d="M21 6l9 4 9-4-2 6-7-1.6-7 1.6z" fill="'+cc+'" stroke="#0b2226" stroke-width=".8" stroke-linejoin="round"/><path d="M30 10v8" stroke="#0b2226" stroke-width=".8"/><circle cx="30" cy="13" r=".8" fill="#0b2226"/><circle cx="30" cy="16" r=".8" fill="#0b2226"/>'};
   return '<svg width="'+sz+'" height="'+sz+'" viewBox="0 0 60 60" aria-hidden="true"><defs><clipPath id="'+id+'"><path d="'+B+'"/></clipPath><linearGradient id="'+id+'g" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".18"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".28"/></linearGradient></defs>'+
-   '<g clip-path="url(#'+id+')"><rect width="60" height="60" fill="'+c1+'"/>'+(P[pat]||"")+
+   '<g clip-path="url(#'+id+')"><rect width="60" height="60" fill="'+c1+'"/>'+(P[pat]||"")+(plain||det==="sleevestripe"||det==="shoulders"?D[det]:"")+
    '<path d="M15 24v30M45 24v30" stroke="#000" stroke-opacity=".18" stroke-width="1"/><path d="M22 30q8 3 16 0M20 42q10 3 20 0" stroke="#000" stroke-opacity=".08" fill="none"/>'+
    '<path d="M3 21l8 7 1.6-1.6-8-7.2zM57 21l-8 7-1.6-1.6 8-7.2z" fill="'+cuff+'"/>'+
    '<rect x="15" y="51" width="30" height="3" fill="'+c2+'" opacity=".9"/>'+
-   '<rect width="60" height="60" fill="url(#'+id+'g)"/></g>'+
-   '<path d="M21 6q9 7 18 0l-2-.8L30 12l-7-6.8z" fill="'+(pat==="vband"?"#fff":c2)+'" stroke="#0b2226" stroke-width=".8" stroke-linejoin="round"/>'+
+   '<rect width="60" height="60" fill="url(#'+id+'g)"/></g>'+C[col]+
    '<circle cx="37" cy="19" r="2.6" fill="#fff" opacity=".55"/><circle cx="37" cy="19" r="2.6" fill="none" stroke="#000" stroke-opacity=".25"/>'+
    '<path d="'+B+'" fill="none" stroke="#0b2226" stroke-width="1.4" stroke-linejoin="round"/></svg>';
 }
+/* give every club in a league a distinct look: bump detail/collar until the signature is unique */
+const JVAR={};
+(function(){
+  for(const l in LEAGUE_CLUBS){const seen=new Set();LEAGUE_CLUBS[l].forEach(c=>{
+    const h=hashStr(c[0]);let d=h%JDET.length,co=(h>>3)%3,plain=c[4]==="plain";
+    for(let i=0;i<21;i++){const sig=c[2]+c[3]+c[4]+(plain?d:"")+co;if(!seen.has(sig)){seen.add(sig);break}if(plain&&i%3!==2)d=(d+1)%JDET.length;else co=(co+1)%3}
+    JVAR[c[0]]={d,c:co}})}
+})();
 function avatar(name,col){
   const p=name.replace(/\(.*\)/,"").trim().split(/\s+/);const ini=(p[0][0]+(p.length>1?p[p.length-1][0]:"")).toUpperCase();
   return '<svg class="avatar" viewBox="0 0 140 140" aria-hidden="true"><defs><linearGradient id="av'+ini+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+col+'"/><stop offset="1" stop-color="#0b2226"/></linearGradient></defs><circle cx="70" cy="70" r="66" fill="url(#av'+ini+')" stroke="'+col+'" stroke-width="4"/><circle cx="70" cy="52" r="20" fill="#0b2226" opacity=".55"/><path d="M28 120q4-36 42-38 38 2 42 38" fill="#0b2226" opacity=".55"/><text x="70" y="114" text-anchor="middle" font-family="Barlow Condensed,sans-serif" font-weight="700" font-size="26" fill="#fff">'+ini+'</text></svg>';
 }
 
 /* ---------- Router ---------- */
-const PAGES=["home","first","formations","rules","clubs","nations","competitions","awards","glossary","quiz"];
-const TITLES={home:"Football 101: Read the Game",first:"Your first match",formations:"Formations",rules:"Rules",clubs:"Clubs",nations:"National teams",competitions:"Competitions",awards:"Player awards",glossary:"Fan glossary",quiz:"Quiz"};
+const PAGES=["home","first","formations","rules","clubs","nations","standings","competitions","awards","glossary","quiz"];
+const TITLES={home:"Football 101: Read the Game",first:"Your first match",formations:"Formations",rules:"Rules",clubs:"Clubs",nations:"National teams",standings:"League tables",competitions:"Competitions",awards:"Player awards",glossary:"Fan glossary",quiz:"Quiz"};
 const inits={};
 function route(){
   let id=(location.hash||"#home").slice(1);if(!PAGES.includes(id))id="home";
@@ -79,6 +99,7 @@ addEventListener("hashchange",route);
    ["rules","Rules","Cards, offside lab and referee signals",ic('<svg width="30" height="30" viewBox="0 0 24 24"><rect x="4" y="4" width="10" height="15" rx="1.5" fill="#ffd60a" transform="rotate(-10 9 11)"/><rect x="10" y="5" width="10" height="15" rx="1.5" fill="#e5383b" transform="rotate(8 15 12)"/></svg>')],
    ["clubs","Clubs","67 clubs by continent and league",ic(jersey("#ff7a1a","#ffffff",32))],
    ["nations","National teams","39 teams by confederation",ic('<svg width="30" height="30" viewBox="0 0 24 24"><path d="M5 3v19" stroke="#e9efe6" stroke-width="2"/><path d="M6 4h13l-3 4 3 4H6z" fill="#6fb7ff"/></svg>')],
+   ["standings","League tables","Live 2026-27 tables, updated weekly",ic('<svg width="30" height="30" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2" fill="none" stroke="#7ee2a0" stroke-width="2"/><path d="M3 9h18M3 14h18M9 4v16" stroke="#7ee2a0" stroke-width="2"/></svg>')],
    ["competitions","Competitions","Records and latest teams in 15 competitions",ic(trophy("cup","#f5c542").replace('class="trophy"','width="34" height="34"'))],
    ["awards","Player awards","Ballon d'Or, Golden Shoe, Kopa and more",ic(trophy("star","#f5c542").replace('class="trophy"','width="34" height="34"'))],
    ["glossary","Fan glossary","32 words fans use",ic('<svg width="30" height="30" viewBox="0 0 24 24"><path d="M4 4h7a2 2 0 0 1 2 2v14a2 2 0 0 0-2-2H4zM20 4h-5a2 2 0 0 0-2 2v14a2 2 0 0 1 2-2h5z" fill="#7ee2a0"/></svg>')],
@@ -283,13 +304,22 @@ inits.clubs=function(){
   }
   $("clubLeagues").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;st.l=b.dataset.l;press($("clubLeagues"),b);render()});
   $("clubSearch").addEventListener("input",e=>{st.q=e.target.value.trim().toLowerCase();render()});
+  const ALIAS={"Barcelona":"FC Barcelona","Roma":"AS Roma","Marseille":"Olympique de Marseille","Lyon":"Olympique Lyonnais","Monaco":"AS Monaco","Braga":"SC Braga","FC Porto":"FC Porto"};
+  const featured=n=>CLUBS.find(c=>c[0]===n||c[0]===ALIAS[n]);
   function render(){
+    const big=st.l!=="all"&&LEAGUE_CLUBS[st.l];
     const L=CLUBS.filter(c=>(st.r==="all"||c[1]===st.r)&&(st.l==="all"||c[2]===st.l)&&(!st.q||[c[0],c[3],c[4],c[7],c[2]].join(" ").toLowerCase().includes(st.q)));
-    $("clubCount").textContent="Showing "+L.length+" of "+CLUBS.length+" clubs";
-    $("clubGrid").innerHTML=L.length?L.map(c=>'<article class="team"><span class="lg">'+esc(c[2])+'</span><div class="head">'+jersey(c[8][0],c[8][1],60,PATTERN[c[0]])+'<div><h3>'+esc(c[0])+'</h3><div class="meta">'+flag(c[3])+esc(c[4])+', '+esc(c[3])+'</div></div></div><dl><dt>Nickname</dt><dd>'+esc(c[7])+'</dd><dt>Founded</dt><dd>'+c[5]+'</dd><dt>Home</dt><dd>'+esc(c[6])+'</dd></dl><p class="know">'+esc(c[9])+'</p></article>').join(""):'<p class="empty">No featured clubs match. Try another search or continent.</p>';
-    const ls=st.l!=="all"&&LEAGUE_CLUBS[st.l]?[st.l]:[];
-    $("leagueAll").innerHTML=ls.map(l=>{const all=LEAGUE_CLUBS[l].filter(c=>!st.q||(c[0]+" "+c[1]).toLowerCase().includes(st.q));
-      return '<p class="sub">All '+LEAGUE_CLUBS[l].length+' clubs in the '+esc(l)+' '+LEAGUE_SEASON+'</p><div class="lgrid">'+all.map(c=>'<div class="lclub">'+jersey(c[2],c[3],46,c[4])+'<div><b>'+esc(c[0])+'</b><small>'+esc(c[1])+'</small></div>'+(c[5]?'<span class="promo">Promoted</span>':'')+'</div>').join("")+'</div>'}).join("")||(st.r==="all"||st.r==="europe"?'<p class="anote">Tip: pick a league above (Premier League, La Liga, Serie A, Bundesliga, Ligue 1, Primeira Liga or Eredivisie) to see every club in it this season.</p>':'');
+    if(big){
+      const all=big.filter(c=>!st.q||(c[0]+" "+c[1]).toLowerCase().includes(st.q));
+      $("clubCount").textContent=all.length+" of "+big.length+" clubs in the "+st.l+" "+LEAGUE_SEASON+". Clubs marked ★ have a fact card: select them to open it.";
+      $("clubGrid").innerHTML="";
+      $("leagueAll").innerHTML='<div class="lgrid">'+all.map(c=>{const f=featured(c[0]);const head=jersey(c[2],c[3],46,c[4],c[0],JVAR[c[0]])+'<div><b>'+esc(c[0])+(f?' <span class="star">★</span>':'')+'</b><small>'+esc(c[1])+(c[5]?' <span class="promo">Promoted</span>':'')+'</small></div>';
+        return f?'<details class="lclub fx"><summary>'+head+'</summary><div class="fxbody"><dl><dt>Nickname</dt><dd>'+esc(f[7])+'</dd><dt>Founded</dt><dd>'+f[5]+'</dd><dt>Home</dt><dd>'+esc(f[6])+'</dd></dl><p>'+esc(f[9])+'</p></div></details>':'<div class="lclub">'+head+'</div>'}).join("")+'</div>';
+      return;
+    }
+    $("clubCount").textContent="Showing "+L.length+" of "+CLUBS.length+" featured clubs";
+    $("clubGrid").innerHTML=L.length?L.map(c=>'<article class="team"><span class="lg">'+esc(c[2])+'</span><div class="head">'+jersey(c[8][0],c[8][1],60,PATTERN[c[0]],c[0])+'<div><h3>'+esc(c[0])+'</h3><div class="meta">'+flag(c[3])+esc(c[4])+', '+esc(c[3])+'</div></div></div><dl><dt>Nickname</dt><dd>'+esc(c[7])+'</dd><dt>Founded</dt><dd>'+c[5]+'</dd><dt>Home</dt><dd>'+esc(c[6])+'</dd></dl><p class="know">'+esc(c[9])+'</p></article>').join(""):'<p class="empty">No clubs match. Try another search or continent.</p>';
+    $("leagueAll").innerHTML=(st.r==="all"||st.r==="europe")?'<p class="anote">Tip: pick the Premier League, La Liga, Serie A, Bundesliga, Ligue 1, Primeira Liga or Eredivisie above to see every club in it this season.</p>':'';
   }
   leagues();render();
 };
@@ -311,6 +341,23 @@ inits.nations=function(){
   render();
 };
 
+
+/* ---------- Standings ---------- */
+inits.standings=function(){
+  const S=window.STANDINGS;if(!S){$("stMeta").textContent="League tables could not be loaded.";return}
+  const tabs=$("stTabs"),names=Object.keys(S.leagues);
+  const kit=n=>{for(const l in LEAGUE_CLUBS){const c=LEAGUE_CLUBS[l].find(x=>x[0]===n);if(c)return jersey(c[2],c[3],26,c[4],c[0],JVAR[c[0]])}return""};
+  function show(l){
+    const L=S.leagues[l],n=L.rows.length;
+    tabs.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===l));
+    $("stMeta").textContent="Correct as of "+L.asOf+" · source: "+L.source+" · page data updated "+S.updated;
+    $("stTable").innerHTML='<thead><tr><th>#</th><th>Club</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th></tr></thead><tbody>'+L.rows.map((r,i)=>{const z=i<L.top?"top":i>=n-L.rel?"rel":"";const gd=r[5]>0?"+"+r[5]:r[5];return '<tr class="'+z+'"><td>'+(i+1)+'</td><td><span class="nm">'+kit(r[0])+esc(r[0])+'</span></td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td><td>'+r[4]+'</td><td>'+gd+'</td><td><b>'+r[6]+'</b></td></tr>'}).join("")+'</tbody>';
+  }
+  tabs.innerHTML=names.map(l=>{const c=COMPS.find(x=>x.name===l);return '<button data-l="'+esc(l)+'">'+(c&&c.flag?flag(c.flag)+" ":"")+esc(l)+'</button>'}).join("");
+  tabs.addEventListener("click",e=>{const b=e.target.closest("button");if(b)show(b.dataset.l)});
+  show(names[0]);
+};
+
 /* ---------- Competitions ---------- */
 inits.competitions=function(){
   const G=[["International tournaments",["wc","euro","copa","asian","afcon","wwc"]],["Club competitions",["ucl","cwc"]],["Domestic leagues",["pl","liga","seriea","bundes","ligue1","portugal","ered"]]];
@@ -320,7 +367,7 @@ inits.competitions=function(){
 function teamIcon(name,kind){
   if(kind==="nations")return flag(name);
   const c=CLUBS.find(x=>x[0]===name||x[0].replace("FC ","")===name||x[0]==="FC "+name);
-  return c?jersey(c[8][0],c[8][1],22,PATTERN[c[0]]):(ISO[name]?flag(name):"");
+  return c?jersey(c[8][0],c[8][1],22,PATTERN[c[0]],c[0]):(ISO[name]?flag(name):"");
 }
 function matchRow(round,a,b,score,w,note,kind){
   const cls=i=>w===-1?"d":w===i?"w":"l";

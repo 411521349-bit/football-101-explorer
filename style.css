@@ -336,3 +336,29 @@ footer a{color:var(--mute)}
 .hrow.rec{box-shadow:inset 3px 0 0 var(--cc);background:color-mix(in srgb,var(--cc) 14%,var(--panel))}
 .hrow.none{opacity:.5}
 @media(max-width:640px){.hrow{grid-template-columns:62px minmax(0,1fr);row-gap:4px}.hrow.hhead{display:none}.hrow>span:nth-child(3),.hrow>span:nth-child(4){grid-column:2}}
+.lclub .star{color:var(--gold)}
+details.lclub{display:block;padding:0;margin:0}
+details.lclub summary{display:flex;align-items:center;gap:10px;padding:8px 12px;cursor:pointer;list-style:none;font-weight:400}
+details.lclub summary::-webkit-details-marker{display:none}
+details.lclub[open]{grid-column:span 2;background:var(--panel2)}
+.fxbody{padding:0 12px 12px;font-size:14px}
+.fxbody dl{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;margin:0 0 6px}
+.fxbody dt{color:var(--mute)}.fxbody dd{margin:0}
+.fxbody p{margin:0;color:var(--line)}
+@media(max-width:600px){details.lclub[open]{grid-column:auto}}
+.stwrap{overflow-x:auto}
+.sttable{width:100%;border-collapse:separate;border-spacing:0 4px;font-size:15px;min-width:420px}
+.sttable th{text-align:left;color:var(--mute);font-weight:500;font-size:13px;padding:0 8px}
+.sttable td{background:var(--panel);padding:6px 8px}
+.sttable td:first-child{border-radius:8px 0 0 8px;font:700 17px "Barlow Condensed",sans-serif;color:var(--mute);width:32px;text-align:center}
+.sttable td:last-child{border-radius:0 8px 8px 0;font-size:16px}
+.sttable .nm{display:flex;align-items:center;gap:8px}
+.sttable tr.top td:first-child{box-shadow:inset 4px 0 0 #3fbf74;color:#7ee2a0}
+.sttable tr.rel td:first-child{box-shadow:inset 4px 0 0 #e5383b;color:#ff8a8a}
+.sttable tr.top td{background:#1a4a3a}
+.sttable tr.rel td{background:#4a2528}
+.stkey{display:flex;gap:18px;margin-top:10px;color:var(--mute);font-size:14px}
+.stkey .k{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.k.top{background:#3fbf74}.k.rel{background:#e5383b}
+.lgrid{align-items:start}
+.lclub .promo{position:static;display:inline-block;margin-left:4px;vertical-align:1px}

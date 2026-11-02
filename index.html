@@ -12,6 +12,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js" defer></script>
 <script src="data.js" defer></script>
+<script src="standings.js" defer></script>
 <script src="app.js" defer></script>
 </head>
 <body>
@@ -25,6 +26,7 @@
       <li><a class="nl" href="#rules">Rules</a></li>
       <li><a class="nl" href="#clubs">Clubs</a></li>
       <li><a class="nl" href="#nations">Nations</a></li>
+      <li><a class="nl" href="#standings">Standings</a></li>
       <li><a class="nl" href="#competitions">Competitions</a></li>
       <li><a class="nl" href="#awards">Awards</a></li>
       <li><a class="nl" href="#glossary">Glossary</a></li>
@@ -200,6 +202,17 @@
   </div>
   <p class="count" id="natCount" aria-live="polite"></p>
   <div class="tgrid" id="natGrid"></div>
+</section>
+
+<!-- STANDINGS -->
+<section class="page" id="pg-standings" aria-labelledby="h-st">
+  <p class="kicker">This season · 2026-27</p>
+  <h2 id="h-st">League tables</h2>
+  <p class="lead">Current standings in Europe's seven big leagues. The tables are refreshed every week.</p>
+  <div class="btns" id="stTabs" role="group" aria-label="League"></div>
+  <div id="stMeta" class="count"></div>
+  <div class="stwrap"><table class="sttable" id="stTable"></table></div>
+  <div class="stkey"><span><i class="k top"></i>Champions League places</span><span><i class="k rel"></i>Relegation zone</span></div>
 </section>
 
 <!-- COMPETITIONS -->
