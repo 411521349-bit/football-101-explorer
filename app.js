@@ -351,7 +351,7 @@ inits.standings=function(){
     const L=S.leagues[l],n=L.rows.length;
     tabs.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===l));
     $("stMeta").textContent="Correct as of "+L.asOf+" · source: "+L.source+" · page data updated "+S.updated;
-    $("stTable").innerHTML='<thead><tr><th>#</th><th>Club</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GD</th><th>Pts</th></tr></thead><tbody>'+L.rows.map((r,i)=>{const z=i<L.top?"top":i>=n-L.rel?"rel":"";const gd=r[5]>0?"+"+r[5]:r[5];return '<tr class="'+z+'"><td>'+(i+1)+'</td><td><span class="nm">'+kit(r[0])+esc(r[0])+'</span></td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td><td>'+r[4]+'</td><td>'+gd+'</td><td><b>'+r[6]+'</b></td></tr>'}).join("")+'</tbody>';
+    $("stTable").innerHTML='<thead><tr><th title="Position">Pos</th><th>Club</th><th title="Played">Played</th><th title="Won">Won</th><th title="Drawn">Drawn</th><th title="Lost">Lost</th><th title="Goals for">GF</th><th title="Goals against">GA</th><th title="Goal difference">GD</th><th>Points</th></tr></thead><tbody>'+L.rows.map((r,i)=>{const z=i<L.top?"top":i>=n-L.rel?"rel":"";const d=r[5]-r[6];return '<tr class="'+z+'"><td>'+(i+1)+'</td><td><span class="nm">'+kit(r[0])+esc(r[0])+'</span></td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td><td>'+r[4]+'</td><td>'+r[5]+'</td><td>'+r[6]+'</td><td>'+(d>0?"+"+d:d)+'</td><td><b>'+r[7]+'</b></td></tr>'}).join("")+'</tbody>';
   }
   tabs.innerHTML=names.map(l=>{const c=COMPS.find(x=>x.name===l);return '<button data-l="'+esc(l)+'">'+(c&&c.flag?flag(c.flag)+" ":"")+esc(l)+'</button>'}).join("");
   tabs.addEventListener("click",e=>{const b=e.target.closest("button");if(b)show(b.dataset.l)});
@@ -379,7 +379,16 @@ function bracketHtml(e,kind){
   const box=(m,lab)=>'<div class="bk"><span class="bl">'+lab+'</span>'+[0,1].map(i=>'<div class="bt '+(m[3]===i?"w":"l")+'">'+teamIcon(m[i],kind)+'<span>'+esc(m[i])+'</span></div>').join("")+'<small><b>'+m[2]+'</b>'+(m[4]?' · '+esc(m[4]):'')+'</small></div>';
   return '<p class="sub">The final four</p><div class="bracket"><div class="bcol">'+box(e.semis[0],"Semi-final 1")+box(e.semis[1],"Semi-final 2")+'</div><div class="blink" aria-hidden="true"></div><div class="bcol fin">'+box(fin,"Final")+'<div class="champ-b">🏆 '+esc(fin[fin[3]===1?1:0])+'</div></div></div>';
 }
+function koHtml(e,kind){
+  const rs=e.ko,fin=rs[rs.length-1].m[0],champ=fin[fin[3]];
+  const card=m=>{const onPath=m[0]===champ||m[1]===champ;return '<div class="km'+(onPath?" path":"")+'">'+[0,1].map(i=>'<div class="kt '+(m[3]===i?"w":"l")+'">'+teamIcon(m[i],kind)+'<span>'+esc(m[i])+'</span></div>').join("")+'<div class="ks"><b>'+m[2]+'</b>'+(m[4]?' '+esc(m[4]):'')+'</div></div>'};
+  return '<p class="sub">Knockout stage, '+esc(rs[0].name)+' to the final · the champion\'s path is outlined in gold</p><div class="kbr">'+rs.map(r=>'<div class="kcol"><div class="kh">'+esc(r.name)+'</div><div class="kms">'+r.m.map(card).join("")+'</div></div>').join("")+'<div class="kcol kchamp"><div class="kh">Champion</div><div class="kms"><div class="cbig">🏆<b>'+teamIcon(champ,kind)+esc(champ)+'</b></div></div></div></div>';
+}
 function editionHtml(e,kind){
+  if(e.ko){let h=koHtml(e,kind);if(e.note)h+='<p class="anote">'+esc(e.note)+'</p>';const tm=t=>Array.isArray(t)?flag(t[1])+esc(t[0]):teamIcon(t,kind)+esc(t);
+    if(e.groups)h+='<p class="sub">Groups in '+e.year+'</p><div class="groups">'+Object.entries(e.groups).map(([g,ts])=>'<div class="grp"><b>Group '+g+'</b>'+ts.map(t=>'<div>'+tm(t)+'</div>').join("")+'</div>').join("")+'</div>';
+    else if(e.teams)h+='<p class="sub">Teams in '+e.year+' ('+e.teams.length+')</p><div class="chips">'+e.teams.map(t=>'<span class="chipx">'+tm(t)+'</span>').join("")+'</div>';
+    return h}
   let h=bracketHtml(e,kind)+'<p class="sub">'+e.title+'</p>';
   if(!e.rows&&!e.table&&e.semis)h=bracketHtml(e,kind)+'<p class="anote">'+esc(e.title)+'</p>';
   if(e.rows)h+='<div class="road">'+e.rows.map(x=>matchRow(x[0],x[1],x[2],x[3],x[4],x[5],kind)).join("")+'</div>';
