@@ -13,6 +13,7 @@
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js" defer></script>
 <script src="data.js" defer></script>
 <script src="standings.js" defer></script>
+<script src="extra.js" defer></script>
 <script src="app.js" defer></script>
 </head>
 <body>
@@ -27,8 +28,10 @@
       <li><a class="nl" href="#clubs">Clubs</a></li>
       <li><a class="nl" href="#nations">Nations</a></li>
       <li><a class="nl" href="#standings">Standings</a></li>
+      <li><a class="nl" href="#squads">Squads</a></li>
       <li><a class="nl" href="#competitions">Competitions</a></li>
       <li><a class="nl" href="#awards">Awards</a></li>
+      <li><a class="nl" href="#transfers">Transfers</a></li>
       <li><a class="nl" href="#glossary">Glossary</a></li>
       <li><a class="nl" href="#quiz">Quiz</a></li>
     </ul>
@@ -208,11 +211,23 @@
 <section class="page" id="pg-standings" aria-labelledby="h-st">
   <p class="kicker">This season · 2026-27</p>
   <h2 id="h-st">League tables</h2>
-  <p class="lead">Current standings in Europe's seven big leagues. The tables are refreshed every week.</p>
+  <p class="lead">Current standings in Europe's seven big leagues and six leagues from the rest of the world: Brazil, the USA and Canada (MLS), Saudi Arabia, Japan, South Korea and Argentina. The tables are refreshed every week.</p>
   <div class="btns" id="stTabs" role="group" aria-label="League"></div>
   <div id="stMeta" class="count"></div>
-  <div class="stwrap"><table class="sttable" id="stTable"></table></div>
-  <div class="stkey"><span><i class="k top"></i>Champions League places</span><span><i class="k rel"></i>Relegation zone</span><span>GF = goals for · GA = goals against · GD = goal difference</span></div>
+  <div id="stOut"></div>
+  <div class="stkey"><span><i class="k top"></i><span id="stTopKey">Champions League places</span></span><span id="stRelKey"><i class="k rel"></i>Relegation zone</span><span>GF = goals for · GA = goals against · GD = goal difference</span></div>
+</section>
+
+<!-- SQUADS -->
+<section class="page" id="pg-squads" aria-labelledby="h-sq">
+  <p class="kicker">This season · 2026-27</p>
+  <h2 id="h-sq">Squads</h2>
+  <p class="lead">Pick a club to see every player with shirt number, position and nationality, plus the coach, the captain (<span class="cap">C</span>) and last season's trophies. The <span class="stari">★</span> marks the brightest player: the most goals plus assists so far this season.</p>
+  <div class="btns" id="sqClubs" role="group" aria-label="Club"></div>
+  <div id="sqHead"></div>
+  <div class="btns" id="sqPos" role="group" aria-label="Position"><button data-p="all">All players</button><button data-p="GK">Goalkeepers</button><button data-p="DF">Defenders</button><button data-p="MF">Midfielders</button><button data-p="FW">Forwards</button></div>
+  <p class="count" id="sqMeta"></p>
+  <div class="stwrap"><table class="sttable sqt" id="sqTable"></table></div>
 </section>
 
 <!-- COMPETITIONS -->
@@ -230,6 +245,17 @@
   <p class="lead">The prizes for the best individual players. Select an award to see its record holder and recent winners.</p>
   <div class="agrid" id="awardList" role="group" aria-label="Awards"></div>
   <div id="awardDetail" aria-live="polite"></div>
+</section>
+
+<!-- TRANSFERS -->
+<section class="page" id="pg-transfers" aria-labelledby="h-tr">
+  <p class="kicker">Money in football</p>
+  <h2 id="h-tr">Transfer market</h2>
+  <p class="lead">When a player moves to a new club while under contract, the new club pays a transfer fee. Here is how the record grew from £3 million to over €200 million, the biggest deal of every year, and who is worth most today.</p>
+  <div class="stats" id="trFacts"></div>
+  <div class="btns" id="trTabs" role="group" aria-label="View"><button data-t="record">World record over time</button><button data-t="year">Biggest deal each year</button><button data-t="top">Top 30 fees ever</button><button data-t="summer">Summer 2026</button><button data-t="value">Most valuable players</button></div>
+  <div id="trOut"></div>
+  <details class="trhelp"><summary>Transfer words explained</summary><dl><dt>Transfer fee</dt><dd>Money the buying club pays the selling club to end the player's contract early.</dd><dt>Add-ons</dt><dd>Extra money paid later if targets are met, for example titles or appearances. That is why sources give different fees.</dd><dt>Release clause</dt><dd>A fixed price written in the contract. If a club pays it, the player can leave. Neymar's €222m was his release clause.</dd><dt>Free transfer</dt><dd>When a contract ends, the player can join any club for no fee (the "Bosman" rule, 1995).</dd><dt>Loan</dt><dd>A player plays for another club for a season, then returns.</dd><dt>Transfer window</dt><dd>The periods when clubs may register new players: summer (around June to 1 September) and January.</dd></dl></details>
 </section>
 
 <!-- GLOSSARY -->

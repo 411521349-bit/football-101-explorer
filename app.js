@@ -75,8 +75,8 @@ function avatar(name,col){
 }
 
 /* ---------- Router ---------- */
-const PAGES=["home","first","formations","rules","clubs","nations","standings","competitions","awards","glossary","quiz"];
-const TITLES={home:"Football 101: Read the Game",first:"Your first match",formations:"Formations",rules:"Rules",clubs:"Clubs",nations:"National teams",standings:"League tables",competitions:"Competitions",awards:"Player awards",glossary:"Fan glossary",quiz:"Quiz"};
+const PAGES=["home","first","formations","rules","clubs","nations","standings","squads","competitions","awards","transfers","glossary","quiz"];
+const TITLES={home:"Football 101: Read the Game",first:"Your first match",formations:"Formations",rules:"Rules",clubs:"Clubs",nations:"National teams",standings:"League tables",competitions:"Competitions",awards:"Player awards",squads:"Squads",transfers:"Transfer market",glossary:"Fan glossary",quiz:"Quiz"};
 const inits={};
 function route(){
   let id=(location.hash||"#home").slice(1);if(!PAGES.includes(id))id="home";
@@ -99,9 +99,11 @@ addEventListener("hashchange",route);
    ["rules","Rules","Cards, offside lab and referee signals",ic('<svg width="30" height="30" viewBox="0 0 24 24"><rect x="4" y="4" width="10" height="15" rx="1.5" fill="#ffd60a" transform="rotate(-10 9 11)"/><rect x="10" y="5" width="10" height="15" rx="1.5" fill="#e5383b" transform="rotate(8 15 12)"/></svg>')],
    ["clubs","Clubs","67 clubs by continent and league",ic(jersey("#ff7a1a","#ffffff",32))],
    ["nations","National teams","39 teams by confederation",ic('<svg width="30" height="30" viewBox="0 0 24 24"><path d="M5 3v19" stroke="#e9efe6" stroke-width="2"/><path d="M6 4h13l-3 4 3 4H6z" fill="#6fb7ff"/></svg>')],
-   ["standings","League tables","Live 2026-27 tables, updated weekly",ic('<svg width="30" height="30" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2" fill="none" stroke="#7ee2a0" stroke-width="2"/><path d="M3 9h18M3 14h18M9 4v16" stroke="#7ee2a0" stroke-width="2"/></svg>')],
-   ["competitions","Competitions","Records and latest teams in 15 competitions",ic(trophy("cup","#f5c542").replace('class="trophy"','width="34" height="34"'))],
+   ["standings","League tables","13 leagues in Europe and around the world, updated weekly",ic('<svg width="30" height="30" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2" fill="none" stroke="#7ee2a0" stroke-width="2"/><path d="M3 9h18M3 14h18M9 4v16" stroke="#7ee2a0" stroke-width="2"/></svg>')],
+   ["squads","Squads","Every player, number and captain at 11 big clubs",ic(jersey("#1d428a","#f5c542",32,"stripes"))],
+   ["competitions","Competitions","Brackets, records and top scorers in 15 competitions",ic(trophy("cup","#f5c542").replace('class="trophy"','width="34" height="34"'))],
    ["awards","Player awards","Ballon d'Or, Golden Shoe, Kopa and more",ic(trophy("star","#f5c542").replace('class="trophy"','width="34" height="34"'))],
+   ["transfers","Transfer market","Record fees, biggest deals and most valuable players",ic('<svg width="30" height="30" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#f5c542"/><path d="M15 8.5c-.6-1-1.7-1.5-3-1.5-1.8 0-3 .9-3 2.3 0 3.2 6 1.6 6 4.9 0 1.4-1.3 2.3-3 2.3-1.4 0-2.6-.6-3.2-1.6M12 5v2M12 17v2" stroke="#1a1005" stroke-width="2" fill="none" stroke-linecap="round"/></svg>')],
    ["glossary","Fan glossary","32 words fans use",ic('<svg width="30" height="30" viewBox="0 0 24 24"><path d="M4 4h7a2 2 0 0 1 2 2v14a2 2 0 0 0-2-2H4zM20 4h-5a2 2 0 0 0-2 2v14a2 2 0 0 1 2-2h5z" fill="#7ee2a0"/></svg>')],
    ["quiz","Quiz","12 questions to test yourself",ic('<svg width="30" height="30" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#c39bff"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14" stroke="#1a1005" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="12" cy="17.5" r="1.2" fill="#1a1005"/></svg>')]];
   $("tiles").innerHTML=TL.map(t=>'<a class="tile" href="#'+t[0]+'">'+t[3]+'<div><b>'+t[1]+'</b><span>'+t[2]+'</span></div></a>').join("");
@@ -346,14 +348,21 @@ inits.nations=function(){
 inits.standings=function(){
   const S=window.STANDINGS;if(!S){$("stMeta").textContent="League tables could not be loaded.";return}
   const tabs=$("stTabs"),names=Object.keys(S.leagues);
-  const kit=n=>{for(const l in LEAGUE_CLUBS){const c=LEAGUE_CLUBS[l].find(x=>x[0]===n);if(c)return jersey(c[2],c[3],26,c[4],c[0],JVAR[c[0]])}return""};
+  const head='<thead><tr><th title="Position">Pos</th><th>Club</th><th title="Played">Played</th><th title="Won">Won</th><th title="Drawn">Drawn</th><th title="Lost">Lost</th><th title="Goals for">GF</th><th title="Goals against">GA</th><th title="Goal difference">GD</th><th>Points</th></tr></thead>';
+  const body=(rows,L)=>{const n=rows.length;return '<tbody>'+rows.map((r,i)=>{const z=i<L.top?"top":L.rel&&i>=n-L.rel?"rel":"";const d=r[5]-r[6];return '<tr class="'+z+'"><td>'+(i+1)+'</td><td><span class="nm">'+teamIcon(r[0],"clubs",26)+esc(r[0])+'</span></td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td><td>'+r[4]+'</td><td>'+r[5]+'</td><td>'+r[6]+'</td><td>'+(d>0?"+"+d:d)+'</td><td><b>'+r[7]+'</b></td></tr>'}).join("")+'</tbody>'};
   function show(l){
-    const L=S.leagues[l],n=L.rows.length;
+    const L=S.leagues[l];
     tabs.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===l));
+    $("stTopKey").textContent=L.topLabel||"Champions League places";
+    $("stRelKey").style.display=L.rel?"":"none";
+    if(L.pending){$("stMeta").textContent="Page data updated "+S.updated;$("stOut").innerHTML='<p class="empty">'+esc(L.pending)+'</p>';return}
     $("stMeta").textContent="Correct as of "+L.asOf+" · source: "+L.source+" · page data updated "+S.updated;
-    $("stTable").innerHTML='<thead><tr><th title="Position">Pos</th><th>Club</th><th title="Played">Played</th><th title="Won">Won</th><th title="Drawn">Drawn</th><th title="Lost">Lost</th><th title="Goals for">GF</th><th title="Goals against">GA</th><th title="Goal difference">GD</th><th>Points</th></tr></thead><tbody>'+L.rows.map((r,i)=>{const z=i<L.top?"top":i>=n-L.rel?"rel":"";const d=r[5]-r[6];return '<tr class="'+z+'"><td>'+(i+1)+'</td><td><span class="nm">'+kit(r[0])+esc(r[0])+'</span></td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td><td>'+r[4]+'</td><td>'+r[5]+'</td><td>'+r[6]+'</td><td>'+(d>0?"+"+d:d)+'</td><td><b>'+r[7]+'</b></td></tr>'}).join("")+'</tbody>';
+    const sets=L.groups&&Object.keys(L.groups).length?Object.entries(L.groups):[["",L.rows]];
+    $("stOut").innerHTML=sets.map(([g,rows])=>(g?'<p class="sub">'+esc(g)+'</p>':'')+'<div class="stwrap"><table class="sttable">'+head+body(rows,L)+'</table></div>').join("");
   }
-  tabs.innerHTML=names.map(l=>{const c=COMPS.find(x=>x.name===l);return '<button data-l="'+esc(l)+'">'+(c&&c.flag?flag(c.flag)+" ":"")+esc(l)+'</button>'}).join("");
+  const fl=l=>{const L=S.leagues[l];if(L.flag)return flag(L.flag)+" ";const c=COMPS.find(x=>x.name===l);return c&&c.flag?flag(c.flag)+" ":""};
+  const EU=names.filter(l=>!S.leagues[l].flag),WO=names.filter(l=>S.leagues[l].flag);
+  tabs.innerHTML='<span class="tabg">Europe</span>'+EU.map(l=>'<button data-l="'+esc(l)+'">'+fl(l)+esc(l)+'</button>').join("")+'<span class="tabg">Rest of the world</span>'+WO.map(l=>'<button data-l="'+esc(l)+'">'+fl(l)+esc(l)+'</button>').join("");
   tabs.addEventListener("click",e=>{const b=e.target.closest("button");if(b)show(b.dataset.l)});
   show(names[0]);
 };
@@ -388,7 +397,10 @@ function koHtml(e,kind){
   const card=m=>{const onPath=m[0]===champ||m[1]===champ;return '<div class="km'+(onPath?" path":"")+'">'+[0,1].map(i=>'<div class="kt '+(m[3]===i?"w":"l")+'">'+teamIcon(m[i],kind)+'<span>'+esc(m[i])+'</span></div>').join("")+'<div class="ks"><b>'+m[2]+'</b>'+(m[4]?' '+esc(m[4]):'')+'</div></div>'};
   return '<p class="sub">Knockout stage, '+esc(rs[0].name)+' to the final · the champion\'s path is outlined in gold</p><div class="kbr">'+rs.map(r=>'<div class="kcol"><div class="kh">'+esc(r.name)+'</div><div class="kms">'+r.m.map(card).join("")+'</div></div>').join("")+'<div class="kcol kchamp"><div class="kh">Champion</div><div class="kms"><div class="cbig">🏆<b>'+teamIcon(champ,kind)+esc(champ)+'</b></div></div></div></div>';
 }
-function editionHtml(e,kind){
+function editionHtml(e,kind,id){
+  return editionBody(e,kind)+statsHtml(id,e.year);
+}
+function editionBody(e,kind){
   if(e.ko){let h=koHtml(e,kind);if(e.note)h+='<p class="anote">'+esc(e.note)+'</p>';const tm=t=>Array.isArray(t)?flag(t[1])+esc(t[0]):teamIcon(t,kind)+esc(t);
     if(e.groups)h+='<p class="sub">Groups in '+e.year+'</p><div class="groups">'+Object.entries(e.groups).map(([g,ts])=>'<div class="grp"><b>Group '+g+'</b>'+ts.map(t=>'<div>'+tm(t)+'</div>').join("")+'</div>').join("")+'</div>';
     else if(e.teams)h+='<p class="sub">Teams in '+e.year+' ('+e.teams.length+')</p><div class="chips">'+e.teams.map(t=>'<span class="chipx">'+tm(t)+'</span>').join("")+'</div>';
@@ -406,13 +418,13 @@ function editionHtml(e,kind){
 function roadHtml(id,kind){
   const eds=ROADS[id];if(!eds)return"";
   const chips='<div class="years" role="group" aria-label="Choose a year"><span>Choose a year:</span>'+eds.map((e,i)=>'<button data-y="'+i+'" aria-pressed="'+(i===0)+'">'+e.year+'</button>').join("")+'</div>';
-  return '<div class="roadbox" data-id="'+id+'" data-kind="'+kind+'">'+chips+'<div class="roadin">'+editionHtml(eds[0],kind)+'</div></div>';
+  return '<div class="roadbox" data-id="'+id+'" data-kind="'+kind+'">'+chips+'<div class="roadin">'+editionHtml(eds[0],kind,id)+'</div></div>';
 }
 document.addEventListener("click",e=>{
   const b=e.target.closest(".years button");if(!b)return;
   const box=b.closest(".roadbox"),ed=ROADS[box.dataset.id][+b.dataset.y];
   box.querySelectorAll(".years button").forEach(x=>x.setAttribute("aria-pressed",x===b));
-  box.querySelector(".roadin").innerHTML=editionHtml(ed,box.dataset.kind);
+  box.querySelector(".roadin").innerHTML=editionHtml(ed,box.dataset.kind,box.dataset.id);
 });
 function openComp(id){
   const c=COMPS.find(x=>x.id===id),d=$("dlg"),max=c.titles[0][1];
@@ -431,6 +443,74 @@ function openComp(id){
   d.showModal();d.scrollTop=0;
 }
 $("dlg").addEventListener("click",e=>{if(e.target.id==="dlg")e.target.close()});
+
+
+/* ---------- Player stats inside competitions ---------- */
+const CNAME={};for(const k in ISO)if(!CNAME[ISO[k]])CNAME[ISO[k]]=k;
+Object.assign(CNAME,{"gb-eng":"England","gb-sct":"Scotland","gb-wls":"Wales","gb-nir":"Northern Ireland","xk":"Kosovo","gq":"Equatorial Guinea","ae":"UAE","ir":"Iran","me":"Montenegro","ve":"Venezuela","ge":"Georgia","sk":"Slovakia","bg":"Bulgaria","ru":"Russia","ua":"Ukraine","pe":"Peru","do":"Dominican Republic","lu":"Luxembourg","mz":"Mozambique","am":"Armenia","uz":"Uzbekistan","dz":"Algeria","gh":"Ghana","gn":"Guinea","ci":"Ivory Coast","sn":"Senegal","ec":"Ecuador","ie":"Ireland"});
+const cname=c=>CNAME[c]||c.toUpperCase();
+function statList(title,unit,rows){
+  if(!rows||!rows.length)return"";const max=rows[0][3];
+  return '<div class="stb"><b class="stt">'+title+'</b>'+rows.map((r,i)=>'<div class="str'+(i===0?" lead1":"")+'"><span class="sn">'+flag(r[1])+'<span><b>'+esc(r[0])+'</b><small>'+esc(r[2])+'</small></span></span><span class="sbar" style="width:'+(r[3]/max*100)+'%"></span><span class="sv">'+r[3]+'<small> '+unit+'</small></span></div>').join("")+'</div>';
+}
+function statsHtml(id,year){
+  const x=STATS[id]&&STATS[id][year];if(!x)return"";
+  let ga="";
+  if(x.a){const m={};x.s.forEach(r=>{m[r[0]]={r,g:r[3],a:0}});x.a.forEach(r=>{m[r[0]]=m[r[0]]||{r,g:0,a:0};m[r[0]].a=r[3]});
+    const L=Object.values(m).filter(v=>v.g&&v.a).map(v=>[v.r[0],v.r[1],v.r[2],v.g+v.a,v.g,v.a]).sort((a,b)=>b[3]-a[3]);
+    if(L.length)ga='<div class="stb"><b class="stt">Goals + assists (G/A)</b>'+L.map((r,i)=>'<div class="str'+(i===0?" lead1":"")+'"><span class="sn">'+flag(r[1])+'<span><b>'+esc(r[0])+'</b><small>'+r[4]+' goals · '+r[5]+' assists</small></span></span><span class="sbar" style="width:'+(r[3]/L[0][3]*100)+'%"></span><span class="sv">'+r[3]+'</span></div>').join("")+'<small class="stn">Only players who appear in both lists above.</small></div>'}
+  const best=x.best?'<div class="bestp">'+x.best.map(b=>'<div><small>'+esc(b[0])+'</small><b>'+flag(b[2])+esc(b[1])+'</b></div>').join("")+'</div>':"";
+  return '<p class="sub">Player stats, '+esc(year)+'</p><div class="stgrid">'+statList(x.s.length>1&&x.s[0][3]===x.s[1][3]?"Top scorers (joint)":"Top scorer"+(x.s.length>1?"s":""),"goals",x.s)+statList("Most assists","assists",x.a)+ga+statList("Most clean sheets","clean sheets",x.cs)+'</div>'+best+(x.note?'<p class="anote">'+esc(x.note)+'</p>':'');
+}
+
+/* ---------- Squads ---------- */
+inits.squads=function(){
+  const names=Object.keys(SQUADS);let cur=names[0],pos="all";
+  $("sqClubs").innerHTML=names.map(n=>'<button data-c="'+esc(n)+'">'+teamIcon(n,"clubs",24)+esc(n)+'</button>').join("");
+  $("sqClubs").addEventListener("click",e=>{const b=e.target.closest("button");if(b){cur=b.dataset.c;render()}});
+  $("sqPos").addEventListener("click",e=>{const b=e.target.closest("button");if(b){pos=b.dataset.p;render()}});
+  const PN={GK:"Goalkeeper",DF:"Defender",MF:"Midfielder",FW:"Forward"};
+  function render(){
+    const q=SQUADS[cur],hasStats=q.p.some(p=>p[4]!=null),hasA=q.p.some(p=>p[5]!=null);
+    $("sqClubs").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.c===cur));
+    $("sqPos").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.p===pos));
+    const ga=p=>(p[4]||0)+(p[5]||0);
+    let star=null;if(hasStats){star=q.p.reduce((a,b)=>ga(b)>ga(a)?b:a);if(!ga(star))star=null}
+    const nats={};q.p.forEach(p=>nats[p[3]]=(nats[p[3]]||0)+1);
+    const club=CLUBS.find(c=>c[0]===cur);
+    $("sqHead").innerHTML='<div class="sqcard">'+teamIcon(cur,"clubs",72)+'<div><h3>'+esc(cur)+' <small>2026-27</small></h3>'+(club?'<div class="meta">'+flag(club[3])+esc(club[4])+' · '+esc(club[6])+'</div>':'')+'</div>'+
+      '<div class="facts sqf"><div><small>Head coach</small><b>'+esc(q.coach)+'</b></div><div><small>Captain</small><b>'+(q.captain?'<span class="cap">C</span> '+esc(q.captain):'Not named in source')+'</b></div><div><small>Squad size</small><b>'+q.p.length+' players · '+Object.keys(nats).length+' nations</b></div>'+(star?'<div class="starbox"><small>★ Brightest player (most G/A)</small><b>'+flag(star[3])+esc(star[1])+' · '+star[4]+'G '+(star[5]!=null?star[5]+'A':'')+'</b></div>':'')+'</div>'+
+      '<div class="honours"><small>Trophies won last season (2025-26)</small>'+(q.honours.length?q.honours.map(h=>'<span class="hon">🏆 '+esc(h)+'</span>').join(""):'<span class="none">No league or European title</span>')+'</div></div>'+
+      '<div class="natbar">'+Object.entries(nats).sort((a,b)=>b[1]-a[1]).map(([c,n])=>'<span title="'+esc(cname(c))+'">'+flag(c)+esc(cname(c))+' <b>'+n+'</b></span>').join("")+'</div>';
+    const rows=q.p.filter(p=>pos==="all"||p[2]===pos).slice().sort((a,b)=>"GKDFMFFW".indexOf(a[2])-"GKDFMFFW".indexOf(b[2])||a[0]-b[0]);
+    $("sqTable").innerHTML='<thead><tr><th>No.</th><th>Player</th><th>Position</th><th>Nationality</th>'+(hasStats?'<th title="Goals">G</th>'+(hasA?'<th title="Assists">A</th><th title="Goals plus assists">G/A</th>':''):'')+'</tr></thead><tbody>'+rows.map(p=>{const isC=p[1]===q.captain,isS=star&&p===star;return '<tr class="'+(isS?"star":"")+'"><td><span class="shirtno">'+p[0]+'</span></td><td><b>'+esc(p[1])+'</b>'+(isC?' <span class="cap" title="Captain">C</span>':'')+(isS?' <span class="stari" title="Brightest player: most goals + assists">★</span>':'')+'</td><td><span class="pos p'+p[2]+'">'+p[2]+'</span> <small class="pn">'+PN[p[2]]+'</small></td><td>'+flag(p[3])+esc(cname(p[3]))+'</td>'+(hasStats?'<td>'+(p[4]??"–")+'</td>'+(hasA?'<td>'+(p[5]??"–")+'</td><td><b>'+ga(p)+'</b></td>':''):'')+'</tr>'}).join("")+'</tbody>';
+    $("sqMeta").textContent="Squad as of "+q.asOf+" · source: "+q.src+(hasStats?" · goals"+(hasA?" and assists":"")+" are for 2026-27 so far, all competitions":" · this source has no goal figures yet");
+  }
+  render();
+};
+
+/* ---------- Transfers ---------- */
+inits.transfers=function(){
+  const tabs=$("trTabs");
+  const V={
+    record:()=>{const max=RECORDS[RECORDS.length-1][5];return '<p class="count">Each time a club paid more than anyone before. Fees in pounds (£ million) at the time; €222m for Neymar in 2017 is still the record.</p><ol class="rtl">'+RECORDS.slice().reverse().map((r,i)=>'<li class="'+(i===0?"now":"")+'"><span class="ry">'+r[0]+'</span><div class="rc"><b>'+flag(r[2])+esc(r[1])+'</b><small>'+teamIcon(r[3],"clubs",18)+esc(r[3])+' → '+teamIcon(r[4],"clubs",18)+esc(r[4])+'</small><span class="rbar" style="width:'+Math.max(2,r[5]/max*100)+'%"></span></div><span class="rf">£'+r[5]+'m</span></li>').join("")+'</ol>'},
+    year:()=>{const max=Math.max(...YEAR_TOP.map(r=>r[5]));return '<p class="count">The most expensive signing of each calendar year since 2000 (£ million). Hover or tap a bar for the deal.</p><div class="ychart">'+YEAR_TOP.map(r=>'<div class="yc" tabindex="0"><span class="yv">£'+r[5]+'m</span><span class="yb" style="height:'+(r[5]/max*100)+'%"></span><span class="yl">'+r[0].slice(2)+'</span><div class="ytip"><b>'+r[0]+' · '+esc(r[1])+'</b><br>'+esc(r[3])+' → '+esc(r[4])+'<br>£'+r[5]+'m</div></div>').join("")+'</div><div class="stwrap"><table class="sttable trt"><thead><tr><th>Year</th><th>Player</th><th>From</th><th>To</th><th>Fee</th></tr></thead><tbody>'+YEAR_TOP.slice().reverse().map(r=>'<tr><td>'+r[0]+'</td><td>'+flag(r[2])+'<b>'+esc(r[1])+'</b></td><td><span class="nm">'+teamIcon(r[3],"clubs")+esc(r[3])+'</span></td><td><span class="nm">'+teamIcon(r[4],"clubs")+esc(r[4])+'</span></td><td><b>£'+r[5]+'m</b></td></tr>').join("")+'</tbody></table></div>'},
+    top:()=>{const yrs=[...new Set(TOP_FEES.map(r=>r[4]))].sort((a,b)=>b-a);const clubs=[...new Set(TOP_FEES.flatMap(r=>[r[2],r[3]]))].sort();
+      return '<p class="count">The '+TOP_FEES.length+' biggest transfer fees ever (€ million, including add-ons where reported). Filter by year, club or position.</p><div class="toolbar"><input type="search" id="tfQ" placeholder="Search a player" aria-label="Search a player"><select id="tfY" aria-label="Year"><option value="">All years</option>'+yrs.map(y=>'<option>'+y+'</option>').join("")+'</select><select id="tfC" aria-label="Club"><option value="">All clubs (buying or selling)</option>'+clubs.map(c=>'<option>'+esc(c)+'</option>').join("")+'</select><select id="tfP" aria-label="Position"><option value="">All positions</option><option value="FW">Forwards</option><option value="MF">Midfielders</option></select></div><p class="count" id="tfN"></p><div class="stwrap"><table class="sttable trt" id="tfT"></table></div>'},
+    summer:()=>{const max=SUMMER_2026[0][3];return '<p class="count">The biggest deals of the summer 2026 window, right after the World Cup (£ million). English clubs spent the most.</p><div class="vlist">'+SUMMER_2026.map((r,i)=>'<div class="vrow"><span class="rk">'+(i+1)+'</span><span class="vn"><b>'+esc(r[0])+'</b><small>'+teamIcon(r[1],"clubs",18)+esc(r[1])+' → '+teamIcon(r[2],"clubs",18)+esc(r[2])+'</small></span><span class="vbar" style="width:'+(r[3]/max*100)+'%"></span><span class="vv">£'+r[3]+'m</span></div>').join("")+'</div>'},
+    value:()=>{const max=VALUES[0][4];return '<p class="count">Market value is an estimate of what a player is worth today, not a fee anyone has paid. Figures from Transfermarkt after the 2026 World Cup (€ million).</p><div class="vlist">'+VALUES.map((r,i)=>'<div class="vrow"><span class="rk'+(i<2?" g":"")+'">'+(i+1)+'</span><span class="vn">'+avatar(r[0],"#1a454d")+'<span><b>'+flag(r[1])+esc(r[0])+'</b><small>'+teamIcon(r[2],"clubs",18)+esc(r[2])+' · '+({FW:"Forward",MF:"Midfielder"}[r[3]])+'</small></span></span><span class="vbar" style="width:'+(r[4]/max*100)+'%"></span><span class="vv">€'+r[4]+'m</span></div>').join("")+'</div><p class="anote">Lamine Yamal and Erling Haaland share the top value of €220m. Older year-by-year value rankings are not included because no reliable source lists them for every year.</p>'}
+  };
+  function filt(){const q=$("tfQ").value.trim().toLowerCase(),y=$("tfY").value,c=$("tfC").value,p=$("tfP").value;
+    const L=TOP_FEES.map((r,i)=>[r,i+1]).filter(([r])=>(!q||r[0].toLowerCase().includes(q))&&(!y||r[4]==y)&&(!c||r[2]===c||r[3]===c)&&(!p||r[6]===p));
+    $("tfN").textContent=L.length+" of "+TOP_FEES.length+" transfers";
+    $("tfT").innerHTML='<thead><tr><th>#</th><th>Player</th><th>From</th><th>To</th><th>Year</th><th>Fee</th></tr></thead><tbody>'+(L.length?L.map(([r,i])=>'<tr><td>'+i+'</td><td>'+flag(r[1])+'<b>'+esc(r[0])+'</b> <span class="pos p'+r[6]+'">'+r[6]+'</span></td><td><span class="nm">'+teamIcon(r[2],"clubs")+esc(r[2])+'</span></td><td><span class="nm">'+teamIcon(r[3],"clubs")+esc(r[3])+'</span></td><td>'+r[4]+'</td><td><b>€'+r[5]+'m</b></td></tr>').join(""):'<tr><td colspan="6" class="empty">No transfers match.</td></tr>')+'</tbody>'}
+  function show(k){tabs.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.t===k));$("trOut").innerHTML=V[k]();
+    if(k==="top"){["tfQ","tfY","tfC","tfP"].forEach(i=>$(i).addEventListener("input",filt));filt()}}
+  tabs.addEventListener("click",e=>{const b=e.target.closest("button");if(b)show(b.dataset.t)});
+  const rec=RECORDS[RECORDS.length-1],big=TOP_FEES[0];
+  $("trFacts").innerHTML=[["World record","€222m","Neymar, Barcelona → PSG, 2017"],["Most valuable now","€220m","Lamine Yamal and Erling Haaland"],["Biggest deal of 2026","£125m","Enzo Fernández, Chelsea → Man City"],["Record in 1982","£3m","Maradona, Boca → Barcelona"]].map(f=>'<div class="stat"><b>'+f[1]+'</b><span><strong>'+f[0]+'</strong><br>'+f[2]+'</span></div>').join("");
+  show("record");
+};
 
 /* ---------- Awards ---------- */
 inits.awards=function(){
