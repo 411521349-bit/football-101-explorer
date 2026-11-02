@@ -461,7 +461,7 @@ details.lclub[open]{grid-column:span 2;background:var(--panel2)}
 .vn>b,.vn>span>b{display:flex;align-items:center;gap:6px}
 .vn small{color:var(--mute);font-size:13px;display:flex;flex-wrap:wrap;align-items:center;gap:4px}
 .vn>span{display:flex;flex-direction:column;min-width:0}
-.vrow>.vn:not(:has(.avatar)){flex-direction:column;align-items:flex-start;gap:2px}
+.vrow>.vn:not(:has(svg)){flex-direction:column;align-items:flex-start;gap:2px}
 .vn .avatar{width:42px;height:42px;flex:none}
 .vv{font:700 22px "Barlow Condensed",sans-serif;white-space:nowrap}
 .trhelp{background:var(--panel);border-radius:12px;padding:12px 16px;margin-top:18px}
