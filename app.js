@@ -364,10 +364,14 @@ inits.competitions=function(){
   $("compList").innerHTML=G.map(([g,ids])=>'<p class="cgroup">'+g+'</p><div class="cgrid">'+ids.map(id=>{const c=COMPS.find(x=>x.id===id);return '<button class="comp" data-c="'+id+'" style="--cc:'+c.col+'">'+trophy(c.icon,c.col,c.stripes)+'<b>'+(c.flag?flag(c.flag)+" ":"")+c.name+'</b><small>Since '+c.since+'</small><div class="hold"><span>Holder: </span>'+esc(c.holder.length>40?c.holder.split(":")[0]:c.holder)+'</div></button>'}).join("")+'</div>').join("");
   $("compList").addEventListener("click",e=>{const b=e.target.closest(".comp");if(b)openComp(b.dataset.c)});
 };
-function teamIcon(name,kind){
+function teamIcon(name,kind,size){
+  const sz=size||22;
   if(kind==="nations")return flag(name);
   const c=CLUBS.find(x=>x[0]===name||x[0].replace("FC ","")===name||x[0]==="FC "+name);
-  return c?jersey(c[8][0],c[8][1],22,PATTERN[c[0]],c[0]):(ISO[name]?flag(name):"");
+  if(c)return jersey(c[8][0],c[8][1],sz,PATTERN[c[0]],c[0]);
+  for(const l in LEAGUE_CLUBS){const k=LEAGUE_CLUBS[l].find(x=>x[0]===name);if(k)return jersey(k[2],k[3],sz,k[4],k[0],JVAR[k[0]])}
+  const e=EXTRA_KITS[name];if(e)return jersey(e[0],e[1],sz,e[2],name);
+  return ISO[name]?flag(name):"";
 }
 function matchRow(round,a,b,score,w,note,kind){
   const cls=i=>w===-1?"d":w===i?"w":"l";
