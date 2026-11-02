@@ -28,9 +28,26 @@ function trophy(kind,col,stripes){
    glove:'<rect x="19" y="20" width="26" height="24" rx="8" fill="'+M+'"/><rect x="19" y="5" width="6" height="20" rx="3" fill="'+M+'"/><rect x="26" y="3" width="6" height="21" rx="3" fill="'+M+'"/><rect x="33" y="4" width="6" height="21" rx="3" fill="'+M+'"/><rect x="40" y="8" width="5" height="17" rx="2.5" fill="'+M+'"/><rect x="9" y="22" width="13" height="6" rx="3" transform="rotate(30 16 25)" fill="'+M+'"/><rect x="20" y="42" width="24" height="8" rx="2" fill="#2a2018"/><path d="M22 46h20" stroke="'+col+'" stroke-width="2"/>'};
   return '<svg class="trophy" viewBox="0 0 64 64" aria-hidden="true">'+defs+(k[kind]||k.cup)+'</svg>';
 }
-function jersey(c1,c2,size){
-  const s=size||52;
-  return '<svg width="'+s+'" height="'+s+'" viewBox="0 0 60 60" aria-hidden="true"><path d="M21 6L11 10 3 21l8 7 4-4v30h30V24l4 4 8-7-8-11L39 6q-9 7-18 0z" fill="'+c1+'" stroke="#0b2226" stroke-width="1.5" stroke-linejoin="round"/><path d="M3 21l8 7 3-3-7-8zM57 21l-8 7-3-3 7-8z" fill="'+c2+'"/><path d="M21 6q9 7 18 0l-2-1q-7 5-14 0z" fill="'+c2+'"/><path d="M15 50h30v4H15z" fill="'+c2+'" opacity=".9"/></svg>';
+function jersey(c1,c2,size,pat){
+  const sz=size||52,id="j"+(++_gid),B="M21 6L11 10 3 21l8 7 4-4v30h30V24l4 4 8-7-8-11L39 6q-9 7-18 0z";
+  const P={stripes:'<rect x="17" y="0" width="5" height="60" fill="'+c2+'"/><rect x="27.5" y="0" width="5" height="60" fill="'+c2+'"/><rect x="38" y="0" width="5" height="60" fill="'+c2+'"/>',
+   hoops:'<rect x="0" y="15" width="60" height="6" fill="'+c2+'"/><rect x="0" y="27" width="60" height="6" fill="'+c2+'"/><rect x="0" y="39" width="60" height="6" fill="'+c2+'"/><rect x="0" y="51" width="60" height="6" fill="'+c2+'"/>',
+   halves:'<rect x="30" y="0" width="30" height="60" fill="'+c2+'"/>',
+   sash:'<path d="M12 6h10l26 42v10h-9L12 16z" fill="'+c2+'"/>',
+   band:'<rect x="0" y="23" width="60" height="9" fill="'+c2+'"/>',
+   vband:'<rect x="24.5" y="0" width="11" height="60" fill="'+c2+'"/><rect x="24.5" y="0" width="1.5" height="60" fill="#fff" opacity=".8"/><rect x="34" y="0" width="1.5" height="60" fill="#fff" opacity=".8"/>',
+   diag:'<path d="M60 4L4 60h56z" fill="'+c2+'"/>',
+   sleeves:'<path d="M15 11L11 10 3 21l8 7 4-4zM45 11l4-1 8 11-8 7-4-4z" fill="'+c2+'"/>'};
+  const cuff=pat==="sleeves"?c1:c2;
+  return '<svg width="'+sz+'" height="'+sz+'" viewBox="0 0 60 60" aria-hidden="true"><defs><clipPath id="'+id+'"><path d="'+B+'"/></clipPath><linearGradient id="'+id+'g" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".18"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".28"/></linearGradient></defs>'+
+   '<g clip-path="url(#'+id+')"><rect width="60" height="60" fill="'+c1+'"/>'+(P[pat]||"")+
+   '<path d="M15 24v30M45 24v30" stroke="#000" stroke-opacity=".18" stroke-width="1"/><path d="M22 30q8 3 16 0M20 42q10 3 20 0" stroke="#000" stroke-opacity=".08" fill="none"/>'+
+   '<path d="M3 21l8 7 1.6-1.6-8-7.2zM57 21l-8 7-1.6-1.6 8-7.2z" fill="'+cuff+'"/>'+
+   '<rect x="15" y="51" width="30" height="3" fill="'+c2+'" opacity=".9"/>'+
+   '<rect width="60" height="60" fill="url(#'+id+'g)"/></g>'+
+   '<path d="M21 6q9 7 18 0l-2-.8L30 12l-7-6.8z" fill="'+(pat==="vband"?"#fff":c2)+'" stroke="#0b2226" stroke-width=".8" stroke-linejoin="round"/>'+
+   '<circle cx="37" cy="19" r="2.6" fill="#fff" opacity=".55"/><circle cx="37" cy="19" r="2.6" fill="none" stroke="#000" stroke-opacity=".25"/>'+
+   '<path d="'+B+'" fill="none" stroke="#0b2226" stroke-width="1.4" stroke-linejoin="round"/></svg>';
 }
 function avatar(name,col){
   const p=name.replace(/\(.*\)/,"").trim().split(/\s+/);const ini=(p[0][0]+(p.length>1?p[p.length-1][0]:"")).toUpperCase();
@@ -269,7 +286,10 @@ inits.clubs=function(){
   function render(){
     const L=CLUBS.filter(c=>(st.r==="all"||c[1]===st.r)&&(st.l==="all"||c[2]===st.l)&&(!st.q||[c[0],c[3],c[4],c[7],c[2]].join(" ").toLowerCase().includes(st.q)));
     $("clubCount").textContent="Showing "+L.length+" of "+CLUBS.length+" clubs";
-    $("clubGrid").innerHTML=L.length?L.map(c=>'<article class="team"><span class="lg">'+esc(c[2])+'</span><div class="head">'+jersey(c[8][0],c[8][1])+'<div><h3>'+esc(c[0])+'</h3><div class="meta">'+flag(c[3])+esc(c[4])+', '+esc(c[3])+'</div></div></div><dl><dt>Nickname</dt><dd>'+esc(c[7])+'</dd><dt>Founded</dt><dd>'+c[5]+'</dd><dt>Home</dt><dd>'+esc(c[6])+'</dd></dl><p class="know">'+esc(c[9])+'</p></article>').join(""):'<p class="empty">No clubs found. Try another search or continent.</p>';
+    $("clubGrid").innerHTML=L.length?L.map(c=>'<article class="team"><span class="lg">'+esc(c[2])+'</span><div class="head">'+jersey(c[8][0],c[8][1],60,PATTERN[c[0]])+'<div><h3>'+esc(c[0])+'</h3><div class="meta">'+flag(c[3])+esc(c[4])+', '+esc(c[3])+'</div></div></div><dl><dt>Nickname</dt><dd>'+esc(c[7])+'</dd><dt>Founded</dt><dd>'+c[5]+'</dd><dt>Home</dt><dd>'+esc(c[6])+'</dd></dl><p class="know">'+esc(c[9])+'</p></article>').join(""):'<p class="empty">No featured clubs match. Try another search or continent.</p>';
+    const ls=st.l!=="all"&&LEAGUE_CLUBS[st.l]?[st.l]:[];
+    $("leagueAll").innerHTML=ls.map(l=>{const all=LEAGUE_CLUBS[l].filter(c=>!st.q||(c[0]+" "+c[1]).toLowerCase().includes(st.q));
+      return '<p class="sub">All '+LEAGUE_CLUBS[l].length+' clubs in the '+esc(l)+' '+LEAGUE_SEASON+'</p><div class="lgrid">'+all.map(c=>'<div class="lclub">'+jersey(c[2],c[3],46,c[4])+'<div><b>'+esc(c[0])+'</b><small>'+esc(c[1])+'</small></div>'+(c[5]?'<span class="promo">Promoted</span>':'')+'</div>').join("")+'</div>'}).join("")||(st.r==="all"||st.r==="europe"?'<p class="anote">Tip: pick a league above (Premier League, La Liga, Serie A, Bundesliga, Ligue 1, Primeira Liga or Eredivisie) to see every club in it this season.</p>':'');
   }
   leagues();render();
 };
@@ -300,7 +320,7 @@ inits.competitions=function(){
 function teamIcon(name,kind){
   if(kind==="nations")return flag(name);
   const c=CLUBS.find(x=>x[0]===name||x[0].replace("FC ","")===name||x[0]==="FC "+name);
-  return c?jersey(c[8][0],c[8][1],22):(ISO[name]?flag(name):"");
+  return c?jersey(c[8][0],c[8][1],22,PATTERN[c[0]]):(ISO[name]?flag(name):"");
 }
 function matchRow(round,a,b,score,w,note,kind){
   const cls=i=>w===-1?"d":w===i?"w":"l";
@@ -360,13 +380,17 @@ inits.awards=function(){
   function show(id){
     box.querySelectorAll(".aw").forEach(b=>b.setAttribute("aria-pressed",b.dataset.a===id));
     const a=AWARDS.find(x=>x.id===id),top=a.most.filter(m=>m[2]===a.most[0][2]),max=a.most[0][2];
+    const H=HIST[id]||[],posOf=n=>{const r=H.find(h=>h[1].replace(/ \(.*\)/,"")===n);return r?r[4]:(POS[n]||"")};
     const heroCard='<div class="hero-player" style="--cc:'+a.col+'"><p class="kicker" style="color:'+a.col+'">'+(top.length>1?"Joint record holders":"Record holder")+'</p>'+
-      top.map(t=>avatar(t[0],a.col)+'<h3>'+esc(t[0])+'</h3><div class="flagrow">'+flag(t[1])+'</div>').join("")+
+      top.map(t=>{const yrs=H.filter(h=>!h[5]&&h[1].replace(/ \(.*\)/,"")===t[0]).map(h=>h[0]);return avatar(t[0],a.col)+'<h3>'+esc(t[0])+'</h3><div class="flagrow">'+flag(t[1])+'<span class="pos">'+esc(posOf(t[0]))+'</span></div>'+(yrs.length?'<div class="yrs">'+yrs.map(y=>'<span>'+y+'</span>').join("")+'</div>':'')}).join("")+
       '<div class="big">'+max+'×</div><small style="color:var(--mute)">'+a.name+' wins</small></div>';
     let rank=0,prev=null;
     const board='<div class="board" style="--cc:'+a.col+'">'+a.most.map((m,i)=>{if(m[2]!==prev){rank=i+1;prev=m[2]}return '<div class="brow"><span class="rk'+(rank===1?" g":"")+'">'+rank+'</span><span class="nm">'+flag(m[1])+esc(m[0])+'</span><span class="bar" style="width:'+(m[2]/max*100)+'%"></span><span class="n">'+m[2]+'</span></div>'}).join("")+'</div>';
-    const recent='<div class="recent" style="--cc:'+a.col+'">'+a.recent.map((r,i)=>'<div class="rrow'+(i?"":" latest")+'"><span class="y">'+r[0]+'</span><span class="p">'+flag(r[2])+'<b>'+esc(r[1])+'</b></span><span class="c">'+esc(r[3])+'</span></div>').join("")+'</div>';
-    $("awardDetail").innerHTML='<div class="adetail">'+heroCard+'<div><h3 style="font-size:32px">'+a.name+'</h3><p style="color:var(--mute);margin:4px 0 0">'+a.about+' Awarded by '+a.by+'.</p><p class="sub">Most wins</p>'+board+'<p class="sub">Recent winners</p>'+recent+'<p class="anote">'+a.note+'</p></div></div>';
+    const won=H.filter(h=>h[2]),pc={};won.forEach(h=>{const g=/Goalkeeper/.test(h[4])?"Goalkeepers":/back/.test(h[4])?"Defenders":/midfielder|Midfielder/.test(h[4])?"Midfielders":"Forwards";pc[g]=(pc[g]||0)+1});
+    const posChart='<div class="poschart">'+["Forwards","Midfielders","Defenders","Goalkeepers"].filter(k=>pc[k]).map(k=>'<div style="flex:'+pc[k]+'"><b>'+pc[k]+'</b><span>'+k+'</span></div>').join("")+'</div>';
+    const topN=new Set(top.map(t=>t[0]));
+    const hist='<div class="htable" style="--cc:'+a.col+'"><div class="hrow hhead"><span>Year</span><span>Winner</span><span>Position</span><span>Club</span></div>'+H.slice().reverse().map(h=>h[2]?'<div class="hrow'+(topN.has(h[1].replace(/ \(.*\)/,""))?" rec":"")+'"><span class="y">'+h[0]+'</span><span class="p">'+flag(h[2])+'<b>'+esc(h[1])+'</b>'+(h[5]?'<em>'+esc(h[5])+'</em>':'')+'</span><span><i class="pos">'+esc(h[4])+'</i></span><span class="c">'+esc(h[3])+'</span></div>':'<div class="hrow none"><span class="y">'+h[0]+'</span><span>Not awarded</span><span></span><span></span></div>').join("")+'</div>';
+    $("awardDetail").innerHTML='<div class="adetail">'+heroCard+'<div><h3 style="font-size:32px">'+a.name+'</h3><p style="color:var(--mute);margin:4px 0 0">'+a.about+' Awarded by '+a.by+'.</p><p class="sub">Most wins (all-time)</p>'+board+'<p class="sub">Winners by position, '+H[0][0]+' to now</p>'+posChart+'<p class="anote">'+a.note+'</p></div></div><p class="sub" style="margin-top:22px">Every winner, '+H[0][0]+' to now (record holder highlighted)</p>'+hist;
   }
   show("bdo");
 };

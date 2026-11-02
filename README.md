@@ -13,10 +13,10 @@ The site is split into pages; the home page only shows the overview, and the men
 - **Your first match:** an interactive match timeline and five things to watch for.
 - **Formations:** 17 formations in four groups (four at the back, three, five, historic), each with strengths, weaknesses and a famous example. Select any player to see the role.
 - **Rules:** a yellow/red card simulator (11 situations, including the second-yellow animation), the offside lab, illustrated referee signals (8, including how cards are shown) and 15 rules in plain words.
-- **Clubs:** 67 clubs filtered by continent (with map), league (Premier League, La Liga, Serie A, Bundesliga, Ligue 1, Primeira Liga, Eredivisie and more) and search. Each club has a shirt in its colours.
+- **Clubs:** 67 featured clubs filtered by continent (with map), league and search, plus every club in the Premier League, La Liga, Serie A, Bundesliga, Ligue 1, Primeira Liga and Eredivisie for 2026-27 (132 clubs, promoted clubs marked). Each club has a shirt in its home colours and pattern (stripes, hoops, halves, sash and more).
 - **National teams:** 39 teams by confederation with flags, World Cup and continental titles, search and sorting.
 - **Competitions:** 15 competitions. Each opens a panel with the champion's road to the title, with a year picker (68 editions; each year shows its own final-four bracket or league table, and its own groups or team list where available) (winner in green, loser in red; final top-4 table for leagues), the most-titles ranking and every team in that edition. The World Cup also lists every final since 1930.
-- **Player awards:** Ballon d'Or, Ballon d'Or Féminin, European Golden Shoe, The Best FIFA Men's Player, Kopa Trophy and Yashin Trophy, with record holders, most-wins ranking and recent winners up to 2026.
+- **Player awards:** Ballon d'Or, Ballon d'Or Féminin, European Golden Shoe, The Best FIFA Men's Player, Kopa Trophy and Yashin Trophy, with record holders (position and years won), most-wins ranking, winners by position and every winner since 2007 (or since the award began) with position and club.
 - **Fan glossary:** 32 terms with live search.
 - **Quiz:** 12 questions with instant feedback and a score.
 
