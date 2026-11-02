@@ -4,182 +4,29 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Football 101: Read the Game</title>
-<meta name="description" content="An interactive guide to football for beginners and fans: positions, the offside rule, rules in plain words, famous teams, World Cup history and a fan glossary.">
+<meta name="description" content="An interactive guide to football for beginners and fans: formations, rules and the offside lab, clubs and national teams by continent, competitions, individual awards and a fan glossary.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#0e2a2f;--bg2:#0b2226;--panel:#14383f;--panel2:#1a454d;--line:#e9efe6;
-  --grass1:#1d6b3a;--grass2:#22763f;--ball:#ff7a1a;--gold:#f5c542;--mute:#a9c1bd;
-  --opp:#6fb7ff;--good:#7ee2a0;--bad:#ff8a8a;--rule:#ffffff22;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:64px}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
-html,body{overflow-x:clip}
-body{margin:0;background:var(--bg);color:var(--line);font:17px/1.55 Barlow,system-ui,sans-serif}
-h1,h2,h3{font-family:"Barlow Condensed","Arial Narrow",sans-serif;font-weight:700;line-height:1.05;margin:0}
-h2{font-size:clamp(32px,5vw,44px);margin-bottom:6px}
-h3{font-size:24px}
-a{color:var(--ball)}
-main{max-width:1080px;margin:0 auto;padding:0 16px 60px}
-section{padding:44px 0;border-top:1px solid var(--rule)}
-.kicker{font:700 14px "Barlow Condensed",sans-serif;letter-spacing:.12em;text-transform:uppercase;color:var(--ball);margin:0 0 6px}
-.lead{color:var(--mute);max-width:62ch;margin:0 0 20px}
-.grid{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:24px;align-items:start}
-@media(max-width:780px){.grid{grid-template-columns:1fr}}
-svg{width:100%;height:auto;display:block;border-radius:8px}
-.btns{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
-button,select,input[type=search]{font:inherit;color:var(--line);background:var(--panel);border:1px solid #ffffff44;border-radius:8px;padding:7px 14px}
-button{cursor:pointer}
-button:hover{border-color:#ffffff88}
-button[aria-pressed="true"]{background:var(--ball);color:#1a1005;border-color:var(--ball);font-weight:600}
-:focus-visible{outline:3px solid var(--ball);outline-offset:2px}
-.card{background:var(--panel);border-radius:10px;padding:16px 18px}
-.card h3{margin:0 0 4px;font-size:26px}
-.card p{margin:0 0 8px}
-
-/* Nav */
-nav.top{position:sticky;top:0;z-index:20;background:rgba(11,34,38,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
-nav.top .in{max-width:1080px;margin:0 auto;padding:0 16px;display:flex;align-items:center;gap:16px;height:56px}
-nav.top .brand{font:700 22px "Barlow Condensed",sans-serif;color:var(--line);text-decoration:none;white-space:nowrap;display:flex;align-items:center;gap:8px}
-nav.top .brand span{color:var(--ball)}
-nav.top ul{list-style:none;margin:0;padding:0;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;flex:1}
-nav.top ul::-webkit-scrollbar{display:none}
-nav.top a.nl{display:block;padding:6px 10px;border-radius:6px;color:var(--mute);text-decoration:none;font-weight:500;white-space:nowrap;font-size:15px}
-nav.top a.nl:hover,nav.top a.nl.act{color:var(--line);background:var(--panel)}
-
-/* Hero */
-header.hero{position:relative;padding:64px 0 40px}
-header.hero::before{content:"";position:absolute;top:0;bottom:0;left:50%;width:100vw;margin-left:-50vw;z-index:-1;
-  background:
-   radial-gradient(circle at 78% 40%,transparent 0 118px,#ffffff10 119px 121px,transparent 122px),
-   linear-gradient(90deg,transparent calc(78% - 1px),#ffffff10 calc(78% - 1px) calc(78% + 1px),transparent calc(78% + 1px)),
-   radial-gradient(ellipse at 80% 0%,#1d6b3a55,transparent 60%),var(--bg2)}
-header.hero h1{font-size:clamp(50px,10vw,104px);max-width:11ch}
-header.hero h1 em{font-style:normal;color:var(--ball)}
-header.hero p.sub{max-width:54ch;color:var(--mute);font-size:19px;margin:16px 0 28px}
-.paths{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;max-width:760px}
-.path{display:block;text-decoration:none;color:var(--line);background:var(--panel);border:1px solid #ffffff22;border-radius:12px;padding:18px 20px;transition:transform .15s,border-color .15s}
-.path:hover{transform:translateY(-2px);border-color:var(--ball)}
-.path b{display:block;font:700 26px "Barlow Condensed",sans-serif}
-.path span{color:var(--mute);font-size:15px}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:34px}
-.stat{border-left:3px solid var(--ball);padding:2px 0 2px 12px}
-.stat b{display:block;font:700 40px/1 "Barlow Condensed",sans-serif}
-.stat span{color:var(--mute);font-size:14px}
-
-/* First match */
-.timeline{position:relative;margin:8px 0 26px}
-.tbar{display:flex;height:46px;border-radius:8px;overflow:hidden;font:600 14px Barlow,sans-serif}
-.tbar div{display:flex;align-items:center;justify-content:center;text-align:center;padding:0 4px;cursor:pointer;border-right:2px solid var(--bg)}
-.tbar div:last-child{border-right:0}
-.tbar div[aria-pressed="true"]{outline:3px solid var(--line);outline-offset:-3px}
-.tnote{margin-top:12px;min-height:3.2em}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-.cards .card b{display:block;font:700 22px "Barlow Condensed",sans-serif;margin-bottom:2px}
-.cards .card .n{color:var(--ball);font:700 30px/1 "Barlow Condensed",sans-serif}
-.cards .card p{color:var(--mute);font-size:15px;margin:0}
-
-/* Formations */
-.dot{cursor:pointer}
-.dot circle{stroke:var(--line);stroke-width:2}
-.dot:hover circle{stroke:var(--gold)}
-.dot:focus-visible circle,.dot.sel circle{stroke:var(--ball);stroke-width:4}
-.tag{display:inline-block;font-size:13px;padding:2px 8px;border-radius:99px;background:var(--bg);color:var(--mute);margin:0 4px 4px 0}
-.formnote{color:var(--mute);font-size:15px;border-top:1px solid var(--rule);padding-top:10px;margin-top:10px}
-
-/* Offside */
-.verdict{font:700 30px "Barlow Condensed",sans-serif;margin:8px 0 2px}
-.on{color:var(--good)}.off{color:var(--bad)}
-label{display:block;margin:10px 0 2px;color:var(--mute)}
-input[type=range]{width:100%;accent-color:var(--ball)}
-.fb{color:var(--mute);margin:4px 0 0;font-size:15px}
-
-/* Rules */
-.rtabs{margin-bottom:14px}
-details{background:var(--panel);border-radius:10px;padding:12px 18px;margin-bottom:8px}
-summary{cursor:pointer;font-weight:600}
-summary .new{font-size:12px;background:var(--gold);color:#241a00;border-radius:4px;padding:1px 6px;margin-left:8px;vertical-align:2px}
-details p{margin:8px 0 0;color:var(--mute)}
-
-/* Teams */
-.filters{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin-bottom:16px}
-.filters .btns{margin:0}
-.tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
-.team{background:var(--panel);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden}
-.team::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:linear-gradient(var(--c1) 0 50%,var(--c2) 50%)}
-.team h3{font-size:25px;padding-left:4px}
-.team .meta{color:var(--mute);font-size:14px;padding-left:4px}
-.team dl{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;margin:4px 0 0;font-size:14px;padding-left:4px}
-.team dt{color:var(--mute)}
-.team dd{margin:0}
-.team .know{font-size:15px;padding-left:4px;margin-top:auto;padding-top:8px;border-top:1px solid var(--rule)}
-.badge{position:absolute;right:12px;top:12px;font:700 13px "Barlow Condensed",sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
-.count{color:var(--mute);font-size:15px;margin:0 0 10px}
-
-/* Competitions */
-.wc{display:grid;grid-template-columns:300px minmax(0,1fr);gap:24px;align-items:start}
-@media(max-width:780px){.wc{grid-template-columns:1fr}}
-.bars{display:flex;flex-direction:column;gap:6px}
-.bars button{display:grid;grid-template-columns:96px 1fr 22px;align-items:center;gap:8px;text-align:left;padding:6px 10px;background:transparent;border-color:transparent}
-.bars button:hover{background:var(--panel)}
-.bars button[aria-pressed="true"]{background:var(--panel);color:var(--line);border-color:var(--ball);font-weight:500}
-.bars .fill{height:14px;border-radius:3px;background:var(--gold)}
-.bars .num{font:700 20px "Barlow Condensed",sans-serif;text-align:right}
-.wctable{width:100%;border-collapse:collapse;font-size:15px}
-.wctable th{text-align:left;color:var(--mute);font-weight:500;border-bottom:1px solid var(--rule);padding:6px 8px;position:sticky;top:0;background:var(--bg)}
-.wctable td{padding:7px 8px;border-bottom:1px solid #ffffff12;vertical-align:top}
-.wctable td.yr{font:700 20px "Barlow Condensed",sans-serif;color:var(--gold)}
-.wctable td .story{display:block;color:var(--mute);font-size:13px}
-.wctable tr.dim{opacity:.25}
-.wcwrap{max-height:520px;overflow:auto;border-radius:10px;border:1px solid var(--rule)}
-.comps{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;margin-top:30px}
-.comp{background:var(--panel);border-radius:12px;padding:18px}
-.comp h3{font-size:26px;margin-bottom:2px}
-.comp .since{color:var(--ball);font:600 14px Barlow,sans-serif;margin-bottom:8px}
-.comp p{color:var(--mute);font-size:15px;margin:0 0 10px}
-.comp .facts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.comp .facts div{background:var(--bg);border-radius:8px;padding:8px 10px}
-.comp .facts small{display:block;color:var(--mute);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
-.comp .facts b{font-weight:600;font-size:15px}
-
-/* Glossary */
-input[type=search]{width:100%;max-width:420px;padding:10px 14px;margin-bottom:16px}
-.gloss{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
-.term{background:var(--panel);border-radius:10px;padding:12px 16px}
-.term b{display:block;font:700 22px "Barlow Condensed",sans-serif}
-.term p{margin:0;color:var(--mute);font-size:15px}
-.term mark{background:var(--ball);color:#1a1005;border-radius:2px}
-
-/* Quiz */
-.qprog{height:8px;background:var(--panel);border-radius:99px;overflow:hidden;margin-bottom:18px}
-.qprog div{height:100%;width:0;background:var(--ball);transition:width .3s}
-.q{margin-bottom:22px}.q p.qt{margin:0 0 8px;font-weight:600}
-.q .cat{font-size:12px;color:var(--ball);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
-.opt{display:block;width:100%;text-align:left;margin-bottom:6px}
-.opt.right{border-color:var(--good);background:#1b4d3a}.opt.wrong{border-color:var(--bad);background:#4a2525}
-.result{background:var(--panel);border-radius:12px;padding:18px 20px;display:none}
-.result.show{display:block}
-
-footer{color:var(--mute);font-size:14px;padding-top:24px;border-top:1px solid var(--rule)}
-footer a{color:var(--mute)}
-.totop{position:fixed;right:16px;bottom:16px;z-index:10;opacity:0;pointer-events:none;transition:opacity .2s;border-radius:99px;background:var(--ball);color:#1a1005;border:0;font-weight:600}
-.totop.show{opacity:1;pointer-events:auto}
-</style>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js" defer></script>
+<script src="data.js" defer></script>
+<script src="app.js" defer></script>
 </head>
 <body>
-<nav class="top" aria-label="Sections">
+<nav class="top" aria-label="Pages">
   <div class="in">
-    <a class="brand" href="#start"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="#e9efe6"/><path d="M12 7.2l3.6 2.6-1.4 4.2H9.8L8.4 9.8z" fill="#0e2a2f"/><path d="M12 1.5v5.7M15.6 9.8l5.6-1.6M14.2 14l3.4 5M9.8 14l-3.4 5M8.4 9.8L2.8 8.2" stroke="#0e2a2f" stroke-width="1.2"/></svg>Football<span>101</span></a>
-    <ul>
+    <a class="brand" href="#home"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="#e9efe6"/><path d="M12 7.2l3.6 2.6-1.4 4.2H9.8L8.4 9.8z" fill="#0e2a2f"/><path d="M12 1.5v5.7M15.6 9.8l5.6-1.6M14.2 14l3.4 5M9.8 14l-3.4 5M8.4 9.8L2.8 8.2" stroke="#0e2a2f" stroke-width="1.2"/></svg>Football<span>101</span></a>
+    <ul id="navlist">
+      <li><a class="nl" href="#home">Home</a></li>
       <li><a class="nl" href="#first">First match</a></li>
-      <li><a class="nl" href="#positions">Positions</a></li>
-      <li><a class="nl" href="#offside">Offside</a></li>
+      <li><a class="nl" href="#formations">Formations</a></li>
       <li><a class="nl" href="#rules">Rules</a></li>
-      <li><a class="nl" href="#teams">Teams</a></li>
-      <li><a class="nl" href="#history">History</a></li>
+      <li><a class="nl" href="#clubs">Clubs</a></li>
+      <li><a class="nl" href="#nations">Nations</a></li>
+      <li><a class="nl" href="#competitions">Competitions</a></li>
+      <li><a class="nl" href="#awards">Awards</a></li>
       <li><a class="nl" href="#glossary">Glossary</a></li>
       <li><a class="nl" href="#quiz">Quiz</a></li>
     </ul>
@@ -187,469 +34,217 @@ footer a{color:var(--mute)}
 </nav>
 
 <main>
-<header class="hero" id="start">
-  <p class="kicker">The world's game, explained</p>
-  <h1>Football 101: <em>read the game</em></h1>
-  <p class="sub">A hands-on guide for anyone who wants to watch a match with friends and actually follow it, and for fans who want to know more about the teams and the history behind them.</p>
-  <div class="paths">
-    <a class="path" href="#first"><b>I'm new to football →</b><span>Start with how a match works, where players stand and the offside rule.</span></a>
-    <a class="path" href="#teams"><b>I'm already a fan →</b><span>Jump to famous teams, every World Cup final and the big competitions.</span></a>
+
+<!-- HOME -->
+<section class="page" id="pg-home" aria-labelledby="h-home">
+  <div class="hero">
+    <div>
+      <p class="kicker">The world's game, explained</p>
+      <h1 id="h-home">Football 101: <em>read the game</em></h1>
+      <p class="subt">Everything you need to follow a match with friends, plus the teams, trophies and legends that fans talk about. Pick a topic to start.</p>
+      <div class="cta"><a class="primary" href="#first">I'm new to football →</a><a href="#clubs">I'm already a fan →</a></div>
+    </div>
+    <div class="art" aria-hidden="true">
+      <svg viewBox="0 0 420 420">
+        <defs><radialGradient id="gl" cx="50%" cy="45%" r="55%"><stop offset="0" stop-color="#22763f"/><stop offset="1" stop-color="#0b2226" stop-opacity="0"/></radialGradient></defs>
+        <circle cx="210" cy="210" r="200" fill="url(#gl)"/>
+        <circle cx="210" cy="210" r="150" fill="none" stroke="#ffffff22" stroke-width="2"/>
+        <line x1="10" y1="210" x2="410" y2="210" stroke="#ffffff18" stroke-width="2"/>
+        <g class="ballspin">
+          <circle cx="200" cy="210" r="96" fill="#f3f6ee"/>
+          <path d="M200 160l42 30-16 50h-52l-16-50z" fill="#0e2a2f"/>
+          <path d="M200 114v46M242 190l46-14M226 240l28 40M174 240l-28 40M158 190l-46-14" stroke="#0e2a2f" stroke-width="5"/>
+          <path d="M160 128l40-14 40 14M288 176l6 44-26 34M254 280l-54 22-54-22M132 254l-26-34 6-44" fill="none" stroke="#0e2a2f" stroke-width="5"/>
+        </g>
+        <ellipse cx="200" cy="330" rx="70" ry="10" fill="#000" opacity=".25"/>
+      </svg>
+    </div>
   </div>
+  <div class="ticker" id="ticker" aria-label="Latest champions"></div>
   <div class="stats">
     <div class="stat"><b>11</b><span>players per team on the pitch</span></div>
     <div class="stat"><b>90'</b><span>minutes, plus added time</span></div>
     <div class="stat"><b>211</b><span>national associations in FIFA</span></div>
-    <div class="stat"><b>48</b><span>teams at the 2026 World Cup, the biggest ever</span></div>
+    <div class="stat"><b>48</b><span>teams at the 2026 World Cup</span></div>
   </div>
-</header>
+  <div class="tiles" id="tiles"></div>
+  <div class="didyou"><span style="font-size:28px" aria-hidden="true">💡</span><p id="fact" aria-live="polite"></p><button id="nextFact">Another fact</button></div>
+</section>
 
-<section id="first" aria-labelledby="h-first">
-  <p class="kicker">Step 1 · New to football</p>
+<!-- FIRST MATCH -->
+<section class="page" id="pg-first" aria-labelledby="h-first">
+  <p class="kicker">New to football</p>
   <h2 id="h-first">Your first match, minute by minute</h2>
   <p class="lead">Select a part of the match to see what happens. Knockout games that end level can go to extra time and penalties.</p>
-  <div class="timeline">
-    <div class="tbar" id="tbar" role="group" aria-label="Match timeline"></div>
-    <p class="tnote card" id="tnote" aria-live="polite"></p>
-  </div>
+  <div class="tbar" id="tbar" role="group" aria-label="Match timeline"></div>
+  <p class="tnote card" id="tnote" aria-live="polite"></p>
   <h3 style="margin:8px 0 12px">Five things to watch for</h3>
   <div class="cards">
-    <div class="card"><span class="n">1</span><b>Who has the ball?</b><p>The team in possession attacks; the other team tries to win it back. Watch how quickly the ball changes hands.</p></div>
-    <div class="card"><span class="n">2</span><b>The shape</b><p>Teams keep a formation, like 4-3-3. When they lose the ball, players run back to fill their spaces.</p></div>
-    <div class="card"><span class="n">3</span><b>The offside line</b><p>Defenders step up together to catch attackers offside. A goal can be ruled out for a few centimetres.</p></div>
-    <div class="card"><span class="n">4</span><b>Set pieces</b><p>Corners and free kicks are planned moves. Many goals come from them, so this is a good moment to pay attention.</p></div>
-    <div class="card"><span class="n">5</span><b>The referee</b><p>A raised arm means an indirect free kick. Arms pointing forward mean the referee is playing advantage.</p></div>
+    <div class="card"><span class="n">1</span><b>Who has the ball?</b><p>The team with the ball attacks; the other team tries to win it back.</p></div>
+    <div class="card"><span class="n">2</span><b>The shape</b><p>Teams keep a formation, like 4-3-3. Explore them on the Formations page.</p></div>
+    <div class="card"><span class="n">3</span><b>The offside line</b><p>Defenders step up together to catch attackers offside. Try the Offside lab in Rules.</p></div>
+    <div class="card"><span class="n">4</span><b>Set pieces</b><p>Corners and free kicks are planned moves, and many goals come from them.</p></div>
+    <div class="card"><span class="n">5</span><b>The referee</b><p>Arms, whistles and cards tell you what was given. See Referee signals in Rules.</p></div>
   </div>
+  <div class="nextpage"><a href="#formations">Next: Formations →</a></div>
 </section>
 
-<section id="positions" aria-labelledby="h-form">
-  <p class="kicker">Step 2</p>
-  <h2 id="h-form">Where do players stand?</h2>
-  <p class="lead">Pick a formation. The numbers count outfield players from defence to attack. Select any player to see what the role does.</p>
-  <div class="btns" id="formBtns"></div>
+<!-- FORMATIONS -->
+<section class="page" id="pg-formations" aria-labelledby="h-form">
+  <p class="kicker">Tactics</p>
+  <h2 id="h-form">Formations</h2>
+  <p class="lead">The numbers count outfield players from defence to attack. Pick a formation, then select any player to see what the role does.</p>
+  <div class="fgroups" id="formBtns"></div>
   <div class="grid">
-    <svg id="pitch" viewBox="0 0 300 420" role="group" aria-label="Football pitch with eleven players"></svg>
-    <div class="card" aria-live="polite">
-      <h3 id="roleName">Goalkeeper</h3>
-      <div id="roleTags"></div>
-      <p id="roleText"></p>
-      <p class="formnote" id="formNote"></p>
+    <svg id="pitch" class="pitchsvg" viewBox="0 0 300 420" role="group" aria-label="Football pitch with eleven players"></svg>
+    <div>
+      <div class="card" aria-live="polite">
+        <h3 id="formName"></h3>
+        <p id="formDesc" style="color:var(--mute)"></p>
+        <div class="proscons">
+          <div class="pc-s"><b>Strengths</b><span id="formS"></span></div>
+          <div class="pc-w"><b>Weaknesses</b><span id="formW"></span></div>
+          <div class="pc-f"><b>Famous example</b><span id="formF"></span></div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:12px" aria-live="polite">
+        <h3 id="roleName"></h3>
+        <div id="roleTags"></div>
+        <p id="roleText"></p>
+      </div>
     </div>
   </div>
+  <div class="nextpage"><a href="#rules">Next: Rules →</a></div>
 </section>
 
-<section id="offside" aria-labelledby="h-off">
-  <p class="kicker">Step 3 · The rule everyone argues about</p>
-  <h2 id="h-off">Offside lab</h2>
-  <p class="lead">Your team attacks the top goal. Move the attacker and the passer to see when offside is called.</p>
-  <div class="grid">
-    <svg id="offsvg" viewBox="0 0 300 420" role="img" aria-label="Offside demonstration pitch"></svg>
-    <div class="card">
-      <label for="restart">How is the ball played?</label>
-      <select id="restart"><option value="open">Normal play (pass)</option><option value="throw">Throw-in</option><option value="goalkick">Goal kick</option><option value="corner">Corner kick</option></select>
-      <label for="att">Attacker position: <span id="attV"></span></label>
-      <input id="att" type="range" min="35" max="98" value="85">
-      <label for="pas">Passer position: <span id="pasV"></span></label>
-      <input id="pas" type="range" min="30" max="90" value="60">
-      <div class="verdict" id="verdict" aria-live="polite"></div>
-      <p id="why" class="fb"></p>
-      <p class="fb" style="margin-top:10px;border-top:1px solid var(--rule);padding-top:10px">Good to know: being in an offside position is not an offence by itself. It only counts if the player gets involved in play.</p>
+<!-- RULES -->
+<section class="page" id="pg-rules" aria-labelledby="h-rules">
+  <p class="kicker">Laws of the Game</p>
+  <h2 id="h-rules">Rules</h2>
+  <p class="lead">The official Laws are long. Try the main ones yourself here.</p>
+  <div class="tabs" role="tablist" id="ruleTabs">
+    <button role="tab" aria-selected="true" data-p="pc">Yellow &amp; red cards</button>
+    <button role="tab" aria-selected="false" data-p="po">Offside lab</button>
+    <button role="tab" aria-selected="false" data-p="ps">Referee signals</button>
+    <button role="tab" aria-selected="false" data-p="pa">All rules</button>
+  </div>
+
+  <div class="rpanel on" id="pc" role="tabpanel">
+    <div class="cardtiles" id="cardTiles"></div>
+    <div class="grid">
+      <div>
+        <p class="sub" style="margin-top:0">What did the player do?</p>
+        <div class="scen" id="scen"></div>
+      </div>
+      <div>
+        <div class="stage" id="stage" aria-hidden="true"></div>
+        <div class="cverdict" id="cVerdict" aria-live="polite"></div>
+        <p class="fb" id="cWhy"></p>
+      </div>
     </div>
   </div>
-</section>
 
-<section id="rules" aria-labelledby="h-rules">
-  <p class="kicker">Step 4</p>
-  <h2 id="h-rules">Rules in plain words</h2>
-  <p class="lead">The official Laws of the Game are long. Here are the ones you will actually see in a match.</p>
-  <div class="btns rtabs" id="ruleTabs"></div>
-  <div id="ruleList"></div>
-</section>
-
-<section id="teams" aria-labelledby="h-teams">
-  <p class="kicker">For fans · and future fans</p>
-  <h2 id="h-teams">Teams worth knowing</h2>
-  <p class="lead">The clubs and national teams your friends are most likely to talk about. The coloured bar shows each team's main colours.</p>
-  <div class="filters">
-    <div class="btns" id="typeBtns"></div>
-    <select id="regionSel" aria-label="Filter by region"></select>
+  <div class="rpanel" id="po" role="tabpanel">
+    <p class="lead">Your team attacks the top goal. Move the attacker and the passer to see when offside is called.</p>
+    <div class="grid">
+      <svg id="offsvg" class="pitchsvg" viewBox="0 0 300 420" role="img" aria-label="Offside demonstration pitch"></svg>
+      <div class="card">
+        <label for="restart">How is the ball played?</label>
+        <select id="restart"><option value="open">Normal play (pass)</option><option value="throw">Throw-in</option><option value="goalkick">Goal kick</option><option value="corner">Corner kick</option></select>
+        <label for="att">Attacker position: <span id="attV"></span></label>
+        <input id="att" type="range" min="35" max="98" value="85">
+        <label for="pas">Passer position: <span id="pasV"></span></label>
+        <input id="pas" type="range" min="30" max="90" value="60">
+        <div class="verdict" id="verdict" aria-live="polite"></div>
+        <p id="why" class="fb"></p>
+        <p class="fb" style="margin-top:10px;border-top:1px solid var(--rule);padding-top:10px">Being in an offside position is not an offence by itself. It only counts if the player gets involved in play.</p>
+      </div>
+    </div>
   </div>
-  <p class="count" id="teamCount" aria-live="polite"></p>
-  <div class="tgrid" id="teamGrid"></div>
-</section>
 
-<section id="history" aria-labelledby="h-hist">
-  <p class="kicker">History</p>
-  <h2 id="h-hist">Every World Cup final, 1930 to 2026</h2>
-  <p class="lead">Select a country to highlight its titles. Only eight nations have ever won the men's World Cup.</p>
-  <div class="wc">
-    <div class="bars" id="wcBars" role="group" aria-label="World Cup titles by country"></div>
-    <div class="wcwrap"><table class="wctable"><thead><tr><th>Year</th><th>Final</th><th>Host</th></tr></thead><tbody id="wcBody"></tbody></table></div>
+  <div class="rpanel" id="ps" role="tabpanel">
+    <p class="lead">Select a signal to see what the referee means.</p>
+    <div class="sigs" id="sigs"></div>
+    <p class="card signote" id="sigNote" aria-live="polite"></p>
   </div>
-  <h3 style="margin-top:40px;font-size:30px">The big competitions</h3>
-  <p class="lead" style="margin-top:4px">Holders are correct as of November 2026.</p>
-  <div class="comps" id="comps"></div>
+
+  <div class="rpanel" id="pa" role="tabpanel">
+    <div class="btns" id="ruleCats"></div>
+    <div id="ruleList"></div>
+  </div>
+  <div class="nextpage"><a href="#clubs">Next: Clubs →</a></div>
 </section>
 
-<section id="glossary" aria-labelledby="h-gl">
+<!-- CLUBS -->
+<section class="page" id="pg-clubs" aria-labelledby="h-clubs">
+  <p class="kicker">Club football</p>
+  <h2 id="h-clubs">Clubs around the world</h2>
+  <p class="lead">Choose a continent, then a league. The shirt shows each club's main colours.</p>
+  <div class="regions" id="clubRegions" role="group" aria-label="Continent"></div>
+  <div class="leagues" id="clubLeagues" role="group" aria-label="League"></div>
+  <div class="toolbar"><input type="search" id="clubSearch" placeholder="Search a club, city or nickname" aria-label="Search clubs"></div>
+  <p class="count" id="clubCount" aria-live="polite"></p>
+  <div class="tgrid" id="clubGrid"></div>
+</section>
+
+<!-- NATIONS -->
+<section class="page" id="pg-nations" aria-labelledby="h-nat">
+  <p class="kicker">International football</p>
+  <h2 id="h-nat">National teams</h2>
+  <p class="lead">Grouped by football confederation. Australia is on the Asia page because it plays in the Asian confederation.</p>
+  <div class="regions" id="natRegions" role="group" aria-label="Confederation"></div>
+  <div class="toolbar">
+    <input type="search" id="natSearch" placeholder="Search a country or nickname" aria-label="Search national teams">
+    <select id="natSort" aria-label="Sort"><option value="az">Sort A–Z</option><option value="wc">Most World Cups</option><option value="ct">Most continental titles</option></select>
+  </div>
+  <p class="count" id="natCount" aria-live="polite"></p>
+  <div class="tgrid" id="natGrid"></div>
+</section>
+
+<!-- COMPETITIONS -->
+<section class="page" id="pg-competitions" aria-labelledby="h-comp">
+  <p class="kicker">Trophies</p>
+  <h2 id="h-comp">Competitions</h2>
+  <p class="lead">Select a competition to see who has won it most and which teams played in the latest edition. Holders are correct as of November 2026.</p>
+  <div id="compList"></div>
+</section>
+
+<!-- AWARDS -->
+<section class="page" id="pg-awards" aria-labelledby="h-aw">
+  <p class="kicker">Individual glory</p>
+  <h2 id="h-aw">Player awards</h2>
+  <p class="lead">The prizes for the best individual players. Select an award to see its record holder and recent winners.</p>
+  <div class="agrid" id="awardList" role="group" aria-label="Awards"></div>
+  <div id="awardDetail" aria-live="polite"></div>
+</section>
+
+<!-- GLOSSARY -->
+<section class="page" id="pg-glossary" aria-labelledby="h-gl">
   <p class="kicker">Talk like a fan</p>
   <h2 id="h-gl">Fan glossary</h2>
   <p class="lead">Words commentators and friends use without explaining them.</p>
-  <input type="search" id="glSearch" placeholder="Search a word, e.g. nutmeg" aria-label="Search the glossary">
+  <div class="toolbar"><input type="search" id="glSearch" placeholder="Search a word, e.g. nutmeg" aria-label="Search the glossary"></div>
   <p class="count" id="glCount" aria-live="polite"></p>
   <div class="gloss" id="glossList"></div>
 </section>
 
-<section id="quiz" aria-labelledby="h-quiz">
+<!-- QUIZ -->
+<section class="page" id="pg-quiz" aria-labelledby="h-quiz">
   <p class="kicker">Final whistle</p>
   <h2 id="h-quiz">Check yourself</h2>
-  <p class="lead">Ten questions covering rules, positions and history.</p>
+  <p class="lead">Twelve questions on rules, tactics, history, clubs and awards.</p>
   <div class="qprog" aria-hidden="true"><div id="qbar"></div></div>
   <div id="qlist"></div>
   <div class="result" id="result" aria-live="polite"></div>
 </section>
 
-<footer>
-  <p>Sources: <a href="https://www.theifab.com/laws-of-the-game/">IFAB Laws of the Game</a>, <a href="https://www.fifa.com/">FIFA</a>, <a href="https://www.uefa.com/">UEFA</a> and official club websites. Results and holders checked in November 2026.</p>
-  <p>Built with AI assistance (Claude) as a university project. This is a learning aid, not an official rulebook.</p>
-</footer>
 </main>
-<button class="totop" id="totop" aria-label="Back to top">↑ Top</button>
 
-<script>
-const $=id=>document.getElementById(id);
-const NS="http://www.w3.org/2000/svg";
-function el(t,a,p){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
-function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
-function toggleGroup(box,btn){[...box.children].forEach(b=>b.setAttribute("aria-pressed",b===btn))}
+<dialog id="dlg" aria-labelledby="dlgTitle"></dialog>
 
-/* ---------- Match timeline ---------- */
-const PHASES=[
- ["Kick-off","#2e6f80",4,"Kick-off: one team kicks the ball from the centre spot to start the match. A coin toss decides who kicks off and which end each team attacks."],
- ["First half","var(--grass2)",22,"First half: 45 minutes. The clock keeps running when the ball goes out, so the referee adds time at the end for injuries, substitutions and VAR checks."],
- ["Half-time","#5d6f6d",8,"Half-time: a 15-minute break. Teams swap ends and coaches change tactics. A good moment for snacks."],
- ["Second half","var(--grass1)",22,"Second half: another 45 minutes. Most substitutions happen now; top competitions allow up to five per team."],
- ["Added time","#a35a1a",6,"Added time (stoppage time): the fourth official holds up a board showing the minimum minutes added. Late goals here are often dramatic."],
- ["Extra time","#7a4fa0",14,"Extra time: only in knockout matches that are level after 90 minutes. Two halves of 15 minutes are played."],
- ["Penalties","#b03a4a",10,"Penalty shootout: if it is still level, each team takes five penalties in turn. If still level, it goes to sudden death."]];
-(function(){
- const bar=$("tbar");
- PHASES.forEach((p,i)=>{const d=document.createElement("div");d.textContent=p[0];d.style.background=p[1];d.style.flex=p[2];d.tabIndex=0;d.setAttribute("role","button");
-  const go=()=>{toggleGroup(bar,d);$("tnote").textContent=p[3]};
-  d.onclick=go;d.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();go()}};
-  bar.appendChild(d);if(i===1)go()});
-})();
-
-/* ---------- Formations ---------- */
-const ROLES={
-GK:["Goalkeeper","Defence","The only player allowed to handle the ball, and only inside their own penalty area. Last line of defence and often the one who starts attacks."],
-CB:["Centre-back","Defence","Defends the middle in front of goal. Wins headers, blocks shots and marks the opposing striker."],
-LB:["Left-back","Defence","Defends the left side and often runs forward to support attacks down the wing."],
-RB:["Right-back","Defence","Defends the right side and often runs forward to support attacks down the wing."],
-LWB:["Left wing-back","Defence & attack","Covers the whole left side, defending and attacking. Needs a lot of stamina."],
-RWB:["Right wing-back","Defence & attack","Covers the whole right side, defending and attacking. Needs a lot of stamina."],
-DM:["Defensive midfielder","Midfield","Sits in front of the defence, breaks up attacks and plays simple passes to teammates."],
-CM:["Central midfielder","Midfield","The engine of the team. Links defence and attack, passes, tackles and runs the most."],
-LM:["Left midfielder","Midfield","Works the left side of midfield, delivers crosses and helps the left-back."],
-RM:["Right midfielder","Midfield","Works the right side of midfield, delivers crosses and helps the right-back."],
-AM:["Attacking midfielder","Midfield","Plays just behind the striker. Creates chances with clever passes and often scores."],
-LW:["Left winger","Attack","Stays wide on the left, dribbles past defenders and crosses or cuts inside to shoot."],
-RW:["Right winger","Attack","Stays wide on the right, dribbles past defenders and crosses or cuts inside to shoot."],
-ST:["Striker","Attack","The main goalscorer. Plays closest to the opponent's goal and tries to finish chances."]};
-const D4=[["LB",15,72],["CB",38,74],["CB",62,74],["RB",85,72]];
-const F={
-"4-4-2":{p:[...D4,["LM",15,50],["CM",38,52],["CM",62,52],["RM",85,50],["ST",38,24],["ST",62,24]],n:"Two banks of four plus two strikers. Simple, balanced and classic; famous in English football."},
-"4-3-3":{p:[...D4,["CM",28,50],["DM",50,58],["CM",72,50],["LW",16,26],["ST",50,22],["RW",84,26]],n:"Three forwards press high. Used by possession teams such as Barcelona and Liverpool."},
-"4-2-3-1":{p:[...D4,["DM",38,58],["DM",62,58],["LW",18,40],["AM",50,40],["RW",82,40],["ST",50,20]],n:"Two holding midfielders protect the defence. One of the most common shapes in modern football."},
-"3-5-2":{p:[["CB",25,74],["CB",50,76],["CB",75,74],["LWB",9,54],["CM",30,52],["AM",50,42],["CM",70,52],["RWB",91,54],["ST",38,24],["ST",62,24]],n:"Three centre-backs let the wing-backs push forward. Popular in Italy."},
-"3-4-3":{p:[["CB",25,74],["CB",50,76],["CB",75,74],["LWB",10,52],["CM",38,54],["CM",62,54],["RWB",90,52],["LW",20,28],["ST",50,22],["RW",80,28]],n:"Attacking shape with three forwards. Chelsea won the Premier League with it in 2016-17."},
-"5-3-2":{p:[["LWB",9,66],["CB",28,74],["CB",50,76],["CB",72,74],["RWB",91,66],["CM",28,50],["CM",50,52],["CM",72,50],["ST",38,24],["ST",62,24]],n:"Very defensive: five players at the back. Smaller teams use it against stronger opponents."}};
-const pitch=$("pitch"),fbx=$("formBtns");let curForm="4-3-3";
-function drawPitch(svg){
-  svg.innerHTML="";
-  for(let i=0;i<10;i++)el("rect",{x:0,y:i*42,width:300,height:42,fill:i%2?"var(--grass1)":"var(--grass2)"},svg);
-  const L={stroke:"#e9efe6","stroke-width":2,fill:"none",opacity:.85};
-  el("rect",{x:8,y:8,width:284,height:404,...L},svg);
-  el("line",{x1:8,y1:210,x2:292,y2:210,...L},svg);
-  el("circle",{cx:150,cy:210,r:36,...L},svg);
-  el("circle",{cx:150,cy:210,r:2.5,fill:"#e9efe6"},svg);
-  el("rect",{x:75,y:8,width:150,height:60,...L},svg);
-  el("rect",{x:75,y:352,width:150,height:60,...L},svg);
-  el("rect",{x:115,y:8,width:70,height:22,...L},svg);
-  el("rect",{x:115,y:390,width:70,height:22,...L},svg);
-  el("path",{d:"M120 68 A36 36 0 0 0 180 68",...L},svg);
-  el("path",{d:"M120 352 A36 36 0 0 1 180 352",...L},svg);
-}
-function showRole(c){const r=ROLES[c];$("roleName").textContent=r[0];$("roleTags").innerHTML='<span class="tag">'+r[1]+'</span><span class="tag">'+c+'</span>';$("roleText").textContent=r[2]}
-function setForm(name){
-  curForm=name;
-  [...fbx.children].forEach(b=>b.setAttribute("aria-pressed",b.textContent===name));
-  drawPitch(pitch);
-  [["GK",50,92],...F[name].p].forEach(([c,x,y])=>{
-    const g=el("g",{class:"dot",tabindex:0,role:"button","aria-label":ROLES[c][0]},pitch);
-    el("circle",{cx:x*2.84+8,cy:y*4.04+4,r:15,fill:c==="GK"?"var(--ball)":"#14383f"},g);
-    const t=el("text",{x:x*2.84+8,y:y*4.04+8.5,"text-anchor":"middle","font-size":c.length>2?10:12,"font-weight":700,fill:c==="GK"?"#1a1005":"#e9efe6"},g);t.textContent=c;
-    const pick=()=>{pitch.querySelectorAll(".dot").forEach(d=>d.classList.remove("sel"));g.classList.add("sel");showRole(c)};
-    g.addEventListener("click",pick);g.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();pick()}});
-  });
-  showRole("GK");$("formNote").textContent=name+": "+F[name].n;
-}
-Object.keys(F).forEach(n=>{const b=document.createElement("button");b.textContent=n;b.onclick=()=>setForm(n);fbx.appendChild(b)});
-setForm("4-4-2");
-
-/* ---------- Offside lab ---------- */
-const os=$("offsvg"),att=$("att"),pas=$("pas"),rs=$("restart");
-const DEF=80,Y=p=>410-p*4;
-function drawOff(){
-  const a=+att.value,b=+pas.value,mode=rs.value;
-  $("attV").textContent=a+"%";$("pasV").textContent=b+"%";
-  drawPitch(os);
-  const line=(p,c,lab)=>{el("line",{x1:8,x2:292,y1:Y(p),y2:Y(p),stroke:c,"stroke-width":2,"stroke-dasharray":"6 4"},os);const t=el("text",{x:14,y:Y(p)-5,"font-size":11,fill:c},os);t.textContent=lab};
-  line(DEF,"#6fb7ff","second-last defender");
-  line(b,"#ff7a1a","ball");
-  const ctr=(x,p,col,txt)=>{el("circle",{cx:x,cy:Y(p),r:12,fill:col,stroke:"#e9efe6","stroke-width":2},os);if(txt){const t=el("text",{x,y:Y(p)+4,"text-anchor":"middle","font-size":11,"font-weight":700,fill:"#0e2a2f"},os);t.textContent=txt}};
-  [90,150,210].forEach(x=>ctr(x,DEF,"var(--opp)"));
-  ctr(150,95,"var(--opp)","GK");
-  ctr(110,b,"#f3f6ee","P");
-  el("circle",{cx:134,cy:Y(b)-2,r:5,fill:"#ff7a1a"},os);
-  ctr(235,a,"#f3f6ee","A");
-  const offPos=a>50&&a>b&&a>DEF,free=mode!=="open";
-  const v=$("verdict"),w=$("why"),names={throw:"throw-in",goalkick:"goal kick",corner:"corner kick"};
-  if(free){v.textContent="Onside";v.className="verdict on";w.textContent="You can't be offside directly from a "+names[mode]+(offPos?", even though the attacker is ahead of the defenders.":".")}
-  else if(offPos){v.textContent="Offside";v.className="verdict off";w.textContent="When the pass is played, the attacker is in the opponent's half and closer to the goal line than both the ball and the second-last defender."}
-  else{v.textContent="Onside";v.className="verdict on";w.textContent=a<=50?"The attacker is in their own half, so offside cannot apply.":a<=b?"The attacker is level with or behind the ball.":"The attacker is level with or behind the second-last defender. Level counts as onside."}
-}
-[att,pas,rs].forEach(e=>e.addEventListener("input",drawOff));drawOff();
-
-/* ---------- Rules ---------- */
-const RULES={
-"Basics":[
- ["The match","Each team has up to 11 players on the pitch, including one goalkeeper. A match has two halves of 45 minutes, plus added time for stoppages."],
- ["How a goal counts","The whole ball must cross the goal line between the posts and under the crossbar. The team with more goals wins; if goals are equal, it is a draw."],
- ["Substitutions","In most top competitions a team can make up to five substitutions, in no more than three stops during play (half-time does not count). A player who comes off cannot return."],
- ["Win, draw, lose","In a league, a win is worth 3 points, a draw 1 point and a loss 0. In a knockout cup, someone must go through, so level games go to extra time or penalties."]],
-"Restarts":[
- ["Throw-in","When the ball fully crosses a sideline, the team that did not touch it last restarts with a two-handed throw from behind the head, both feet on the ground."],
- ["Corner kick or goal kick?","If the ball crosses the goal line outside the goal, the last touch decides. Defender touched it last: corner kick to the attackers. Attacker touched it last: goal kick to the defenders."],
- ["Direct and indirect free kicks","A direct free kick can be shot straight into the goal. An indirect one must touch another player first; the referee shows it by raising an arm. Opponents must stand at least 9.15 m (10 yards) away."],
- ["Penalty kick","Given for a foul by a defender inside their own penalty area. The ball is kicked from the penalty mark, 11 m from goal, with only the goalkeeper to beat. The keeper must keep at least part of one foot on the goal line."]],
-"Fouls & cards":[
- ["Fouls","A foul is a challenge on an opponent that is careless, reckless or uses excessive force, such as tripping, pushing or kicking. The other team gets a free kick."],
- ["Handball","It is an offence to deliberately touch the ball with the hand or arm, or to make your body bigger with your arm. The arm starts at the bottom of the armpit; shoulders are allowed."],
- ["Advantage","If a foul happens but the fouled team still has a good attack, the referee can let play continue and stretch both arms forward. A card can still be shown at the next stop."],
- ["Yellow and red cards","A yellow card is a caution. Two yellow cards in one match become a red card. A red card means the player leaves the pitch and the team cannot replace them."]],
-"Tech & tournaments":[
- ["VAR","The Video Assistant Referee reviews four kinds of decision: goals, penalties, direct red cards and mistaken identity. The referee on the pitch still makes the final call, often after watching a screen at the side."],
- ["Goal-line technology","Cameras track the ball and send a signal to the referee's watch within a second when the whole ball has crossed the line."],
- ["Goalkeeper 8-second rule","Since 2025, a goalkeeper who holds the ball in their hands for more than eight seconds gives the other team a corner kick. The referee counts down the last five seconds with a hand.",true],
- ["Extra time and penalties","In knockout games that are level after 90 minutes, two extra halves of 15 minutes are played. If still level, a penalty shootout decides: five kicks each, then sudden death."]]};
-const rt=$("ruleTabs");
-function showRules(cat,btn){toggleGroup(rt,btn);$("ruleList").innerHTML=RULES[cat].map(r=>"<details><summary>"+r[0]+(r[2]?'<span class="new">NEW</span>':"")+"</summary><p>"+r[1]+"</p></details>").join("")}
-Object.keys(RULES).forEach((c,i)=>{const b=document.createElement("button");b.textContent=c;b.onclick=()=>showRules(c,b);rt.appendChild(b);if(!i)showRules(c,b)});
-
-/* ---------- Teams ---------- */
-// [name, type, region, country, founded, home, nickname, colours[c1,c2], known for]
-const TEAMS=[
-["Real Madrid","club","Spain","Spain",1902,"Santiago Bernabéu","Los Blancos",["#ffffff","#d4af37"],"Record 15 European Cup / Champions League titles. Famous for signing global superstars."],
-["FC Barcelona","club","Spain","Spain",1899,"Camp Nou","Barça, Blaugrana",["#a50044","#004d98"],"Motto “More than a club”. Its La Masia academy produced Lionel Messi, Xavi and Iniesta."],
-["Atlético Madrid","club","Spain","Spain",1903,"Riyadh Air Metropolitano","Los Colchoneros",["#cb3524","#ffffff"],"Real Madrid's city rival, known for tough, organised defending."],
-["Manchester United","club","England","England",1878,"Old Trafford","The Red Devils",["#da291c","#000000"],"20 English league titles. Won the treble (league, FA Cup, Champions League) in 1999."],
-["Liverpool","club","England","England",1892,"Anfield","The Reds",["#c8102e","#00b2a9"],"Six European Cups and 20 league titles. Fans sing “You'll Never Walk Alone” before games."],
-["Arsenal","club","England","England",1886,"Emirates Stadium","The Gunners",["#ef0107","#ffffff"],"2025-26 Premier League champions, their first title in 22 years. Went a whole league season unbeaten in 2003-04."],
-["Manchester City","club","England","England",1880,"Etihad Stadium","The Citizens",["#6cabdd","#1c2c5b"],"Won four league titles in a row from 2021 to 2024, and the treble in 2023."],
-["Chelsea","club","England","England",1905,"Stamford Bridge","The Blues",["#034694","#ffffff"],"Two-time European champions and winners of the first 32-team Club World Cup in 2025."],
-["Bayern Munich","club","Germany","Germany",1900,"Allianz Arena","Die Roten (The Reds)",["#dc052d","#0066b2"],"Germany's most successful club by far, with six European Cups."],
-["Borussia Dortmund","club","Germany","Germany",1909,"Signal Iduna Park","BVB, Die Schwarzgelben",["#fde100","#000000"],"Home of the “Yellow Wall”, a single stand of about 25,000 standing fans."],
-["Juventus","club","Italy","Italy",1897,"Allianz Stadium, Turin","La Vecchia Signora (The Old Lady)",["#000000","#ffffff"],"Italy's most successful club, with a record number of Serie A titles."],
-["AC Milan","club","Italy","Italy",1899,"San Siro","I Rossoneri",["#fb090b","#000000"],"Seven European Cups. Shares the San Siro stadium with city rival Inter."],
-["Inter Milan","club","Italy","Italy",1908,"San Siro","I Nerazzurri",["#0068a8","#000000"],"Three-time European champions. The Milan derby is one of the biggest games in Italy."],
-["Paris Saint-Germain","club","Other Europe","France",1970,"Parc des Princes","PSG, Les Parisiens",["#004170","#da291c"],"Won the Champions League two years in a row, in 2025 and 2026."],
-["Ajax","club","Other Europe","Netherlands",1900,"Johan Cruyff Arena","Godenzonen (Sons of the Gods)",["#d2122e","#ffffff"],"Four European Cups and the birthplace of “Total Football”, where every player can play every role."],
-["Benfica","club","Other Europe","Portugal",1904,"Estádio da Luz","As Águias (The Eagles)",["#e30613","#ffffff"],"Portugal's most popular club. A live eagle flies around the stadium before home games."],
-["Boca Juniors","club","Americas & more","Argentina",1905,"La Bombonera","Xeneizes",["#003b94","#f3b229"],"Its derby with River Plate, the Superclásico, is one of the most passionate games in the world."],
-["Flamengo","club","Americas & more","Brazil",1895,"Maracanã","Mengão",["#c3281e","#000000"],"Brazil's best-supported club, playing at the famous Maracanã in Rio de Janeiro."],
-["Al Hilal","club","Americas & more","Saudi Arabia",1957,"Kingdom Arena, Riyadh","Al Za'eem (The Boss)",["#0047ab","#ffffff"],"The most successful club in Asian club competition."],
-["Brazil","nation","South America","",1914,"","A Seleção",["#ffdf00","#009c3b"],"Record five World Cups (1958, 1962, 1970, 1994, 2002). The only team to play at every World Cup."],
-["Argentina","nation","South America","",1893,"","La Albiceleste",["#75aadb","#ffffff"],"Three World Cups (1978, 1986, 2022) and a record 16 Copa América titles. Home of Diego Maradona and Lionel Messi."],
-["Uruguay","nation","South America","",1900,"","La Celeste",["#7b9fd3","#000000"],"Won the first World Cup in 1930 and again in 1950, despite a population of only about 3.5 million."],
-["Spain","nation","Europe","",1913,"","La Roja",["#c60b1e","#ffc400"],"World champions in 2010 and 2026, and four-time European champions, the most of any team."],
-["Germany","nation","Europe","",1900,"","Die Mannschaft",["#ffffff","#000000"],"Four World Cups (1954, 1974, 1990, 2014) and three European Championships."],
-["Italy","nation","Europe","",1898,"","Gli Azzurri",["#0066b3","#ffffff"],"Four World Cups (1934, 1938, 1982, 2006). Famous for strong defending."],
-["France","nation","Europe","",1919,"","Les Bleus",["#002395","#ed2939"],"World champions in 1998 and 2018, and runners-up in 2006 and 2022."],
-["England","nation","Europe","",1863,"","The Three Lions",["#ffffff","#cf081f"],"The Football Association (1863) is the oldest in the world. World champions on home soil in 1966."],
-["Japan","nation","Asia & Africa","",1921,"","Samurai Blue",["#000080","#ffffff"],"Record four AFC Asian Cup titles. Beat both Germany and Spain at the 2022 World Cup."],
-["South Korea","nation","Asia & Africa","",1933,"","Taeguk Warriors",["#cd2e3a","#0047a0"],"Reached the World Cup semi-finals as co-hosts in 2002, the best result by an Asian team."],
-["Morocco","nation","Asia & Africa","",1955,"","Atlas Lions",["#c1272d","#006233"],"In 2022 became the first African team to reach a World Cup semi-final. Co-host of the 2030 World Cup."],
-["United States","nation","North America","",1913,"","USMNT",["#0a3161","#b31942"],"Co-hosted the 2026 World Cup. Its women's team has won a record four Women's World Cups."]];
-const typeBox=$("typeBtns"),regSel=$("regionSel");let tType="all";
-[["all","All teams"],["club","Clubs"],["nation","National teams"]].forEach(([k,l],i)=>{const b=document.createElement("button");b.textContent=l;b.onclick=()=>{tType=k;toggleGroup(typeBox,b);fillRegions();renderTeams()};typeBox.appendChild(b);if(!i)b.setAttribute("aria-pressed",true)});
-function fillRegions(){
-  const regs=[...new Set(TEAMS.filter(t=>tType==="all"||t[1]===tType).map(t=>t[2]))];
-  regSel.innerHTML='<option value="">All regions</option>'+regs.map(r=>"<option>"+r+"</option>").join("");
-}
-regSel.onchange=renderTeams;
-function renderTeams(){
-  const r=regSel.value;
-  const list=TEAMS.filter(t=>(tType==="all"||t[1]===tType)&&(!r||t[2]===r));
-  $("teamCount").textContent="Showing "+list.length+" of "+TEAMS.length+" teams";
-  $("teamGrid").innerHTML=list.map(t=>{
-    const isClub=t[1]==="club";
-    return '<article class="team" style="--c1:'+t[7][0]+';--c2:'+t[7][1]+'">'+
-     '<span class="badge">'+(isClub?"Club":"Nation")+'</span>'+
-     '<h3>'+esc(t[0])+'</h3><div class="meta">'+esc(isClub?t[3]:t[2])+'</div>'+
-     '<dl><dt>Nickname</dt><dd>'+esc(t[6])+'</dd>'+
-     '<dt>'+(isClub?"Founded":"Association")+'</dt><dd>'+t[4]+'</dd>'+
-     (isClub?'<dt>Home</dt><dd>'+esc(t[5])+'</dd>':'')+'</dl>'+
-     '<p class="know">'+esc(t[8])+'</p></article>'}).join("");
-}
-fillRegions();renderTeams();
-
-/* ---------- World Cup history ---------- */
-// [year, host, winner, score, runner-up, note]
-const WC=[
-[1930,"Uruguay","Uruguay","4–2","Argentina","The first World Cup. Only 13 teams took part."],
-[1934,"Italy","Italy","2–1 (a.e.t.)","Czechoslovakia","Uruguay, the holders, refused to travel."],
-[1938,"France","Italy","4–2","Hungary","Italy became the first team to defend the title."],
-[1950,"Brazil","Uruguay","2–1","Brazil","No single final: Uruguay won the deciding game at the Maracanã."],
-[1954,"Switzerland","West Germany","3–2","Hungary","“The Miracle of Bern”: Germany beat a Hungary side unbeaten for four years."],
-[1958,"Sweden","Brazil","5–2","Sweden","A 17-year-old Pelé scored twice in the final."],
-[1962,"Chile","Brazil","3–1","Czechoslovakia","Brazil won again even though Pelé was injured early on."],
-[1966,"England","England","4–2 (a.e.t.)","West Germany","Geoff Hurst scored the only hat-trick in a men's World Cup final until 2022."],
-[1970,"Mexico","Brazil","4–1","Italy","Often called the greatest team ever. Brazil kept the original trophy."],
-[1974,"West Germany","West Germany","2–1","Netherlands","Germany beat the “Total Football” Dutch of Johan Cruyff."],
-[1978,"Argentina","Argentina","3–1 (a.e.t.)","Netherlands","Argentina's first title, at home in Buenos Aires."],
-[1982,"Spain","Italy","3–1","West Germany","Paolo Rossi finished as top scorer and won the Golden Ball."],
-[1986,"Mexico","Argentina","3–2","West Germany","Maradona's tournament, including the “Hand of God” goal against England."],
-[1990,"Italy","West Germany","1–0","Argentina","A late penalty decided a rematch of the 1986 final."],
-[1994,"United States","Brazil","0–0 (3–2 pens)","Italy","The first final decided by penalties."],
-[1998,"France","France","3–0","Brazil","Zinedine Zidane headed two goals for France's first title."],
-[2002,"South Korea & Japan","Brazil","2–0","Germany","First World Cup in Asia. Ronaldo scored both goals in the final."],
-[2006,"Germany","Italy","1–1 (5–3 pens)","France","Remembered for Zidane's red card in his final match."],
-[2010,"South Africa","Spain","1–0 (a.e.t.)","Netherlands","First World Cup in Africa. Andrés Iniesta scored late in extra time."],
-[2014,"Brazil","Germany","1–0 (a.e.t.)","Argentina","Germany had beaten hosts Brazil 7–1 in the semi-final."],
-[2018,"Russia","France","4–2","Croatia","VAR was used at a World Cup for the first time."],
-[2022,"Qatar","Argentina","3–3 (4–2 pens)","France","Messi finally won it; Mbappé scored a hat-trick in the final and still lost."],
-[2026,"USA, Canada & Mexico","Spain","1–0 (a.e.t.)","Argentina","First 48-team World Cup. Ferran Torres scored in extra time at MetLife Stadium."]];
-const norm=n=>n==="West Germany"?"Germany":n;
-const titles={};WC.forEach(w=>{const k=norm(w[2]);titles[k]=(titles[k]||0)+1});
-const order=Object.entries(titles).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]));
-const bars=$("wcBars");let wcSel=null;
-order.forEach(([n,c])=>{const b=document.createElement("button");b.innerHTML='<span>'+n+'</span><span class="fill" style="width:'+(c/5*100)+'%"></span><span class="num">'+c+'</span>';b.setAttribute("aria-label",n+": "+c+" titles");b.setAttribute("aria-pressed",false);
- b.onclick=()=>{wcSel=wcSel===n?null:n;[...bars.children].forEach(x=>x.setAttribute("aria-pressed",x===b&&wcSel===n));renderWC()};bars.appendChild(b)});
-function renderWC(){
-  $("wcBody").innerHTML=WC.map(w=>{const dim=wcSel&&norm(w[2])!==wcSel;
-   return '<tr'+(dim?' class="dim"':'')+'><td class="yr">'+w[0]+'</td><td><b>'+w[2]+'</b> '+w[3]+' '+w[4]+'<span class="story">'+w[5]+'</span></td><td>'+w[1]+'</td></tr>'}).join("");
-}
-renderWC();
-
-const COMPS=[
-["FIFA World Cup","Since 1930 · every 4 years","The biggest event in sport: national teams compete for the trophy. From 2026 it has 48 teams and 104 matches.",[["Most titles","Brazil (5)"],["Holders","Spain (2026)"],["Next","2030: Spain, Portugal & Morocco"],["Format","National teams"]]],
-["UEFA Champions League","Since 1955 · every year","Europe's top club competition, called the European Cup until 1992. Its anthem plays before every game.",[["Most titles","Real Madrid (15)"],["Holders","Paris Saint-Germain (2026)"],["2026 final","PSG beat Arsenal on penalties in Budapest"],["Format","European clubs"]]],
-["UEFA European Championship","Since 1960 · every 4 years","Usually called “the Euros”. The best national teams in Europe, often the strongest tournament after the World Cup.",[["Most titles","Spain (4)"],["Holders","Spain (2024)"],["Next","2028: UK & Ireland"],["Format","European nations"]]],
-["Copa América","Since 1916","The oldest international tournament still played, for South American teams (sometimes with invited guests).",[["Most titles","Argentina (16)"],["Holders","Argentina (2024)"],["Second most","Uruguay (15)"],["Format","South American nations"]]],
-["AFC Asian Cup","Since 1956 · every 4 years","Asia's championship for national teams. Japan and Saudi Arabia are among the most successful.",[["Most titles","Japan (4)"],["Holders","Qatar (2023 edition)"],["Next","2027: Saudi Arabia"],["Format","Asian nations"]]],
-["FIFA Women's World Cup","Since 1991 · every 4 years","The top women's tournament. The 2023 edition in Australia and New Zealand set attendance records.",[["Most titles","United States (4)"],["Holders","Spain (2023)"],["Next","2027: Brazil"],["Format","National teams"]]],
-["Premier League","Since 1992 · August to May","England's top league and the most-watched league in the world. 20 clubs play each other twice; the bottom three are relegated.",[["Most titles","Manchester United (13)"],["Holders","Arsenal (2025-26)"],["Teams","20"],["Format","League, 38 games"]]],
-["FIFA Club World Cup","Expanded in 2025","Club champions from every continent. In 2025 it grew to 32 teams and was held in the United States.",[["2025 winners","Chelsea"],["2025 final","Chelsea 3–0 PSG"],["Teams","32"],["Format","Clubs from all continents"]]]];
-$("comps").innerHTML=COMPS.map(c=>'<article class="comp"><h3>'+c[0]+'</h3><div class="since">'+c[1]+'</div><p>'+c[2]+'</p><div class="facts">'+c[3].map(f=>'<div><small>'+f[0]+'</small><b>'+f[1]+'</b></div>').join("")+'</div></article>').join("");
-
-/* ---------- Glossary ---------- */
-const GL=[
-["Assist","The pass that sets up a goal."],
-["Brace","Two goals by one player in a match."],
-["Hat-trick","Three goals by one player in a match. Fans sometimes throw hats onto the pitch."],
-["Clean sheet","When a team (and its goalkeeper) concedes no goals in a match."],
-["Nil","Zero. A 2–0 score is said “two-nil”."],
-["Derby","A match between two rivals from the same city or region, such as Milan v Inter."],
-["Nutmeg","Passing or dribbling the ball through an opponent's legs. Very embarrassing for the defender."],
-["Own goal","When a player accidentally puts the ball into their own team's net."],
-["Set piece","A planned move from a dead ball: corner, free kick or throw-in."],
-["Cross","A pass from the side of the pitch into the area in front of goal."],
-["Through ball","A pass played into the space behind the defenders for a teammate to run onto."],
-["One-two","A quick pass to a teammate who passes straight back as you run past a defender."],
-["Counter-attack","Attacking at speed right after winning the ball, before the other team can get back."],
-["Pressing","Chasing opponents straight away to win the ball back high up the pitch."],
-["Parking the bus","Defending with almost every player behind the ball to protect a result."],
-["Tiki-taka","A style of short, quick passing made famous by Barcelona and Spain around 2008–2012."],
-["False nine","A striker who drops back into midfield to pull defenders out of position."],
-["Volley","Kicking the ball before it touches the ground."],
-["Bicycle kick","An overhead kick, with the player in the air, back to goal."],
-["Panenka","A cheeky penalty chipped softly down the middle, named after Antonín Panenka (1976)."],
-["Stoppage time","Minutes added at the end of each half for time lost during the game. Also called added time."],
-["Bench","The substitutes and coaches sitting at the side of the pitch."],
-["Captain's armband","The band worn by the team captain, who leads the team and talks to the referee."],
-["Man of the match","The best player in the game, often chosen by broadcasters or fans."],
-["The double","Winning the league and the main domestic cup in the same season."],
-["Treble","Winning three major trophies in one season, usually league, cup and Champions League."],
-["Relegation","Finishing at the bottom of a league and dropping down to the division below."],
-["Promotion","Finishing at the top of a lower league and moving up a division."],
-["Transfer window","The periods when clubs are allowed to buy and sell players, usually summer and January."],
-["xG (expected goals)","A statistic that rates how likely a shot was to be a goal, from 0 to 1."],
-["Golden Boot","The award for the top scorer in a tournament or league."],
-["Woodwork","The goalposts and crossbar. “Hitting the woodwork” means the shot hit the frame of the goal."]];
-const gs=$("glSearch");
-function renderGl(){
-  const q=gs.value.trim().toLowerCase();
-  const hl=s=>{const e=esc(s);if(!q)return e;const i=e.toLowerCase().indexOf(esc(q));return i<0?e:e.slice(0,i)+"<mark>"+e.slice(i,i+esc(q).length)+"</mark>"+e.slice(i+esc(q).length)};
-  const list=GL.filter(g=>!q||g[0].toLowerCase().includes(q)||g[1].toLowerCase().includes(q));
-  $("glCount").textContent=q?list.length+" match"+(list.length===1?"":"es"):GL.length+" words";
-  $("glossList").innerHTML=list.length?list.map(g=>'<div class="term"><b>'+hl(g[0])+'</b><p>'+hl(g[1])+'</p></div>').join(""):'<p class="fb">No words found. Try another search.</p>';
-}
-gs.addEventListener("input",renderGl);renderGl();
-
-/* ---------- Quiz ---------- */
-const Q=[
-["Rules","Can a player be offside directly from a throw-in?",["Yes, if ahead of the defenders","No, never directly","Only in the second half"],1,"There is no offside offence directly from a throw-in, goal kick or corner kick."],
-["Rules","A defender touches the ball last before it crosses their own goal line (outside the goal). What happens?",["Goal kick","Corner kick to the attackers","Throw-in"],1,"Last touch by a defender means a corner kick for the attacking team."],
-["Positions","In a 4-3-3, how many outfield players are there?",["10","11","9"],0,"4 + 3 + 3 = 10 outfield players. The 11th player is the goalkeeper."],
-["Rules","A player gets a second yellow card. What follows?",["A warning only","A red card and they leave the pitch","A free substitution"],1,"A second yellow becomes a red card, and the team plays one player short."],
-["Rules","An attacker is exactly level with the second-last defender when the ball is passed. Verdict?",["Offside","Onside","Depends on the referee's mood"],1,"Level is onside. The attacker must be nearer the goal line to be in an offside position."],
-["Rules","The referee raises one arm straight up for a free kick. What does it mean?",["The kick is indirect","The game is over","A goal has been scored"],0,"A raised arm signals an indirect free kick: another player must touch the ball before a goal can count."],
-["Positions","Which player may handle the ball inside their own penalty area?",["The captain","The goalkeeper","Any defender"],1,"Only the goalkeeper, and only inside their own penalty area."],
-["History","Which country has won the most men's World Cups?",["Germany","Italy","Brazil"],2,"Brazil has five titles: 1958, 1962, 1970, 1994 and 2002."],
-["History","Who won the 2026 World Cup?",["Argentina","Spain","France"],1,"Spain beat Argentina 1–0 after extra time in New Jersey, their second World Cup."],
-["Fan talk","A player scores three goals in one game. What is it called?",["A brace","A clean sheet","A hat-trick"],2,"Three goals is a hat-trick. Two goals is a brace."]];
-let sc=0,done=0;const qb=$("qlist");
-function buildQuiz(){
-  sc=0;done=0;qb.innerHTML="";$("qbar").style.width="0";$("result").className="result";
-  Q.forEach((q,i)=>{
-    const d=document.createElement("div");d.className="q";
-    d.innerHTML='<span class="cat">'+q[0]+'</span><p class="qt">'+(i+1)+". "+esc(q[1])+"</p>";
-    const f=document.createElement("p");f.className="fb";f.setAttribute("aria-live","polite");
-    q[2].forEach((o,j)=>{
-      const b=document.createElement("button");b.className="opt";b.textContent=o;
-      b.onclick=()=>{
-        if(d.dataset.done)return;d.dataset.done=1;done++;
-        const ok=j===q[3];if(ok)sc++;
-        b.classList.add(ok?"right":"wrong");
-        if(!ok)d.querySelectorAll(".opt")[q[3]].classList.add("right");
-        f.textContent=(ok?"Correct. ":"Not quite. ")+q[4];
-        $("qbar").style.width=(done/Q.length*100)+"%";
-        if(done===Q.length)finish();
-      };
-      d.appendChild(b);
-    });
-    d.appendChild(f);qb.appendChild(d);
-  });
-}
-function finish(){
-  const r=$("result");
-  const msg=sc>=9?"World-class. You could commentate the next match.":sc>=6?"Solid performance. You're ready to watch with friends.":"Good start. Try the offside lab and rules again, then have another go.";
-  r.innerHTML='<div class="verdict">Your score: '+sc+' / '+Q.length+'</div><p>'+msg+'</p><button id="retry">Try again</button>';
-  r.className="result show";$("retry").onclick=()=>{buildQuiz();$("quiz").scrollIntoView()};
-}
-buildQuiz();
-
-/* ---------- Nav highlight & back to top ---------- */
-const links=[...document.querySelectorAll("nav.top a.nl")];
-const secs=links.map(a=>document.querySelector(a.getAttribute("href")));
-function onScroll(){
-  const y=scrollY+120;let cur=null;
-  secs.forEach((s,i)=>{if(s.offsetTop<=y)cur=i});
-  links.forEach((a,i)=>a.classList.toggle("act",i===cur));
-  $("totop").classList.toggle("show",scrollY>800);
-}
-addEventListener("scroll",onScroll,{passive:true});onScroll();
-$("totop").onclick=()=>scrollTo({top:0});
-</script>
+<footer>
+  <p>Sources: <a href="https://www.theifab.com/laws-of-the-game/">IFAB Laws of the Game</a>, <a href="https://www.fifa.com/">FIFA</a>, <a href="https://www.uefa.com/">UEFA</a>, official club and league websites and news reports. Results, holders and award winners checked in November 2026. Map data: Natural Earth via world-atlas. Flags: flagcdn.com.</p>
+  <p>Club shirts and trophy icons are simple illustrations, not official logos. Built with AI assistance (Claude) as a university project. A learning aid, not an official rulebook.</p>
+</footer>
 </body>
 </html>

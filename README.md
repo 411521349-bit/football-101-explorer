@@ -9,21 +9,24 @@ An interactive, single-page guide to football for complete beginners and for fan
 - Fans who want a quick reference for famous teams, World Cup history and the big competitions.
 
 ## What it does
-- **Your first match:** an interactive match timeline (kick-off to penalties) and five things to watch for.
-- **Formation explorer:** six formations (4-4-2, 4-3-3, 4-2-3-1, 3-5-2, 3-4-3, 5-3-2). Select any player to see what the role does.
-- **Offside lab:** move the attacker and the passer to see when offside is called, including restarts where offside never applies.
-- **Rules in plain words:** 16 rules in four groups (basics, restarts, fouls and cards, technology and tournaments), including the 2025 goalkeeper 8-second rule.
-- **Teams worth knowing:** 31 clubs and national teams, filterable by type and region, with nickname, founding year, home ground and team colours.
-- **World Cup history:** every final from 1930 to 2026, with a titles chart you can click to highlight a country.
-- **The big competitions:** World Cup, Champions League, Euros, Copa América, Asian Cup, Women's World Cup, Premier League and Club World Cup.
-- **Fan glossary:** 32 terms (hat-trick, nutmeg, clean sheet…) with live search.
-- **Quiz:** ten questions with instant feedback, a progress bar and a final score.
+The site is split into pages; the home page only shows the overview, and the menu opens each page.
+- **Your first match:** an interactive match timeline and five things to watch for.
+- **Formations:** 17 formations in four groups (four at the back, three, five, historic), each with strengths, weaknesses and a famous example. Select any player to see the role.
+- **Rules:** a yellow/red card simulator (11 situations, including the second-yellow animation), the offside lab, illustrated referee signals and 15 rules in plain words.
+- **Clubs:** 67 clubs filtered by continent (with map), league (Premier League, La Liga, Serie A, Bundesliga, Ligue 1, Primeira Liga, Eredivisie and more) and search. Each club has a shirt in its colours.
+- **National teams:** 39 teams by confederation with flags, World Cup and continental titles, search and sorting.
+- **Competitions:** 15 competitions. Each opens a panel with the most-titles ranking and every team in the latest edition (the World Cup also lists every final since 1930).
+- **Player awards:** Ballon d'Or, Ballon d'Or Féminin, European Golden Shoe, The Best FIFA Men's Player, Kopa Trophy and Yashin Trophy, with record holders, most-wins ranking and recent winners up to 2026.
+- **Fan glossary:** 32 terms with live search.
+- **Quiz:** 12 questions with instant feedback and a score.
+
+Club shirts, trophy icons and player cards are original illustrations, not official logos or photos.
 
 ## How to run
-Open `index.html` in any modern browser. No install, no build step, no server.
+Open `index.html` in any modern browser. No install or build step. Files: `index.html`, `style.css`, `data.js` (all facts), `app.js` (interactions). Continent maps and flags load from free CDNs (world-atlas, flagcdn.com) when online.
 
 ## How it was made
-Built with AI assistance (Claude) in a single HTML file with plain HTML, CSS, JavaScript and SVG. Rules were checked against the IFAB Laws of the Game; recent results (2025 Club World Cup, 2026 Champions League final, 2025-26 Premier League, 2026 World Cup) were checked against news reports in November 2026. The page was tested at desktop and phone widths.
+Built with AI assistance (Claude) using plain HTML, CSS, JavaScript and SVG. Rules were checked against the IFAB Laws of the Game; recent results and award winners (2025-26 league champions, 2026 Champions League final, 2026 World Cup, 2026 Ballon d'Or, 2025-26 Golden Shoe, The Best 2025) were checked against news reports in November 2026. The page was tested at desktop and phone widths.
 
 ## Limits
 Simplified for beginners. It does not cover every detail of the Laws or every competition. Team facts and trophy counts are correct as of November 2026 and will need updating after future seasons.
