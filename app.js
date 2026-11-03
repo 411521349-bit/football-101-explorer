@@ -30,8 +30,8 @@ function trophy(kind,col,stripes){
    glove:'<rect x="19" y="20" width="26" height="24" rx="8" fill="'+M+'"/><rect x="19" y="5" width="6" height="20" rx="3" fill="'+M+'"/><rect x="26" y="3" width="6" height="21" rx="3" fill="'+M+'"/><rect x="33" y="4" width="6" height="21" rx="3" fill="'+M+'"/><rect x="40" y="8" width="5" height="17" rx="2.5" fill="'+M+'"/><rect x="9" y="22" width="13" height="6" rx="3" transform="rotate(30 16 25)" fill="'+M+'"/><rect x="20" y="42" width="24" height="8" rx="2" fill="#2a2018"/><path d="M22 46h20" stroke="'+col+'" stroke-width="2"/>'};
   return '<svg class="trophy" viewBox="0 0 64 64" aria-hidden="true">'+defs+(k[kind]||k.cup)+'</svg>';
 }
-const COMP_BADGES={copa:"copa-america",wwc:"womens-world-cup",pl:"premier-league",liga:"la-liga",seriea:"serie-a",bundes:"bundesliga",ligue1:"ligue-1",portugal:"primeira-liga",ered:"eredivisie"};
-function compArtwork(c){const badge=COMP_BADGES[c.id];return badge?'<img class="trophy comp-logo" src="assets/competition-badges/'+badge+'.png" alt="" aria-hidden="true">':trophy(c.icon,c.col,c.stripes)}
+const COMP_BADGES={copa:"copa-america",wwc:"womens-world-cup",pl:"premier-league",liga:"la-liga",seriea:"serie-a",bundes:"bundesliga",ligue1:"ligue-1",portugal:"primeira-liga",ered:"eredivisie",brasileirao:"brasileirao",mls:"mls.svg",spl:"saudi-pro-league",j1:"j1-league"};
+function compArtwork(c){const badge=COMP_BADGES[c.id];return badge?'<img class="trophy comp-logo" src="assets/competition-badges/'+(badge.endsWith(".svg")?badge:badge+'.png')+'" alt="" aria-hidden="true">':trophy(c.icon,c.col,c.stripes)}
 const AWARD_HOLDER_PHOTOS={
  bdo:{"Lionel Messi":"messi-ballon-dor.jpg"},
  bdof:{"Aitana Bonmatí":"aitana-bonmati.png","Alexia Putellas":"alexia-putellas.png"},
@@ -373,7 +373,7 @@ inits.standings=function(){
     const sets=L.groups&&Object.keys(L.groups).length?Object.entries(L.groups):[["",L.rows]];
     $("stOut").innerHTML=sets.map(([g,rows])=>(g?'<p class="sub">'+esc(g)+'</p>':'')+'<div class="stwrap"><table class="sttable">'+head+body(rows,L)+'</table></div>').join("");
   }
-  const fl=l=>{const L=S.leagues[l],c=COMPS.find(x=>x.name===l),badge=c&&COMP_BADGES[c.id];if(badge)return '<img class="league-badge-mini" src="assets/competition-badges/'+badge+'.png" alt="" aria-hidden="true"> ';if(L.flag)return flag(L.flag)+" ";return c&&c.flag?flag(c.flag)+" ":""};
+  const fl=l=>{const L=S.leagues[l],c=COMPS.find(x=>x.name===l),badge=c&&COMP_BADGES[c.id];if(badge)return '<img class="league-badge-mini" src="assets/competition-badges/'+(badge.endsWith(".svg")?badge:badge+'.png')+'" alt="" aria-hidden="true"> ';if(L.flag)return flag(L.flag)+" ";return c&&c.flag?flag(c.flag)+" ":""};
   const EU=names.filter(l=>!S.leagues[l].flag),WO=names.filter(l=>S.leagues[l].flag);
   tabs.innerHTML='<span class="tabg">Europe</span>'+EU.map(l=>'<button data-l="'+esc(l)+'">'+fl(l)+esc(l)+'</button>').join("")+'<span class="tabg">Rest of the world</span>'+WO.map(l=>'<button data-l="'+esc(l)+'">'+fl(l)+esc(l)+'</button>').join("");
   tabs.addEventListener("click",e=>{const b=e.target.closest("button");if(b)show(b.dataset.l)});
@@ -382,7 +382,7 @@ inits.standings=function(){
 
 /* ---------- Competitions ---------- */
 inits.competitions=function(){
-  const G=[["International tournaments",["wc","euro","copa","asian","afcon","wwc"]],["Club competitions",["ucl","cwc"]],["Domestic leagues",["pl","liga","seriea","bundes","ligue1","portugal","ered"]]];
+  const G=[["International tournaments",["wc","euro","copa","asian","afcon","wwc"]],["Club competitions",["ucl","cwc"]],["Domestic leagues",["pl","liga","seriea","bundes","ligue1","portugal","ered","brasileirao","mls","spl","j1"]]];
   $("compList").innerHTML=G.map(([g,ids])=>'<p class="cgroup">'+g+'</p><div class="cgrid">'+ids.map(id=>{const c=COMPS.find(x=>x.id===id);return '<button class="comp" data-c="'+id+'" style="--cc:'+c.col+'">'+compArtwork(c)+'<b>'+(c.flag?flag(c.flag)+" ":"")+c.name+'</b><small>Since '+c.since+'</small><div class="hold"><span>Holder: </span>'+esc(c.holder.length>40?c.holder.split(":")[0]:c.holder)+'</div></button>'}).join("")+'</div>').join("");
   $("compList").addEventListener("click",e=>{const b=e.target.closest(".comp");if(b)openComp(b.dataset.c)});
 };
@@ -445,7 +445,8 @@ function openComp(id){
   if(c.groups)latest='<div class="groups">'+Object.entries(c.groups).map(([g,ts])=>'<div class="grp"><b>Group '+g+'</b>'+ts.map(t=>'<div>'+flag(t)+esc(t)+'</div>').join("")+'</div>').join("")+'</div>';
   else if(c.kind==="nations")latest='<div class="chips">'+c.list.map(t=>'<span class="chipx">'+flag(t)+esc(t)+'</span>').join("")+'</div>';
   else if(c.kind==="clubs")latest='<div class="chips">'+c.list.map(t=>'<span class="chipx">'+flag(t[1])+esc(t[0])+'</span>').join("")+'</div>';
-  else latest='<div class="chips">'+c.list.map(t=>{const j=teamIcon(t,"clubs");return '<span class="chipx'+(j?"":" noflag")+'">'+j+esc(t)+'</span>'}).join("")+'</div>';
+  else if(c.list&&c.list.length)latest='<div class="chips">'+c.list.map(t=>{const j=teamIcon(t,"clubs");return '<span class="chipx'+(j?"":" noflag")+'">'+j+esc(t)+'</span>'}).join("")+'</div>';
+  else latest=c.latestLabel?'<p class="count">'+esc(c.latestLabel)+'</p>':"";
   let rank=0,prev=null;
   const board='<div class="board" style="--cc:'+c.col+'">'+c.titles.map((t,i)=>{if(t[1]!==prev){rank=i+1;prev=t[1]}return '<div class="brow"><span class="rk'+(rank===1?" g":"")+'">'+rank+'</span><span class="nm">'+teamIcon(t[0],c.kind==="nations"?"nations":"clubs")+esc(t[0])+'</span><span class="bar" style="width:'+(t[1]/max*100)+'%"></span><span class="n">'+t[1]+'</span></div>'}).join("")+'</div>';
   let finals="";

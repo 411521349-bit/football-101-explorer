@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" role="img" aria-label="MLS">
+  <path fill="#fff" d="M112 42h276v255c0 82-57 135-138 174C169 432 112 379 112 297z"/>
+  <path fill="#14284b" d="M112 42h276v255c0 82-57 135-138 174C169 432 112 379 112 297z"/>
+  <path fill="#d7193f" d="M137 67h226L137 293z"/>
+  <path fill="#fff" d="M363 67v230c0 65-43 109-113 145V294z"/>
+  <path fill="#4ea3d8" d="M363 67 137 293h35L363 102z"/>
+  <text x="162" y="151" fill="#fff" font-family="Arial,sans-serif" font-size="69" font-weight="800" letter-spacing="2">MLS</text>
+  <g fill="#fff">
+    <path d="m178 173 7 14 15 2-11 10 3 15-14-8-13 8 3-15-11-10 15-2z"/>
+    <path d="m229 173 7 14 15 2-11 10 3 15-14-8-13 8 3-15-11-10 15-2z"/>
+    <path d="m203 221 7 14 15 2-11 10 3 15-14-8-13 8 3-15-11-10 15-2z"/>
+  </g>
+</svg>
