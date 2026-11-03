@@ -389,6 +389,8 @@ inits.competitions=function(){
 function teamIcon(name,kind,size){
   const sz=size||22;
   if(kind==="nations")return flag(name);
+  const badge=CLUB_BADGE_IDS[name];
+  if(badge)return '<img class="club-badge" src="assets/club-badges/'+badge+'.png" alt="" width="'+sz+'" height="'+sz+'" loading="lazy">';
   const c=CLUBS.find(x=>x[0]===name||x[0].replace("FC ","")===name||x[0]==="FC "+name);
   if(c)return jersey(c[8][0],c[8][1],sz,PATTERN[c[0]],c[0]);
   for(const l in LEAGUE_CLUBS){const k=LEAGUE_CLUBS[l].find(x=>x[0]===name);if(k)return jersey(k[2],k[3],sz,k[4],k[0],JVAR[k[0]])}
