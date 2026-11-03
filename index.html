@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=formations-20261104">
+<link rel="stylesheet" href="style.css?v=offside-20261104">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js" defer></script>
 <script src="data.js?v=club-logos-20261104" defer></script>
@@ -153,8 +153,8 @@
 
   <div class="rpanel" id="po" role="tabpanel">
     <p class="lead">Your team attacks the top goal. Move the attacker and the passer to see when offside is called.</p>
-    <div class="grid">
-      <svg id="offsvg" class="pitchsvg" viewBox="0 0 300 420" role="img" aria-label="Offside demonstration pitch"></svg>
+    <div class="grid offgrid">
+      <div class="offpitch"><svg id="offsvg" class="pitchsvg" viewBox="0 0 300 420" role="img" aria-label="Offside demonstration pitch"></svg></div>
       <div class="card">
         <label for="restart">How is the ball played?</label>
         <select id="restart"><option value="open">Normal play (pass)</option><option value="throw">Throw-in</option><option value="goalkick">Goal kick</option><option value="corner">Corner kick</option></select>
