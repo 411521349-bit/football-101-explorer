@@ -328,12 +328,12 @@ inits.clubs=function(){
       const all=big.filter(c=>!st.q||(c[0]+" "+c[1]).toLowerCase().includes(st.q));
       $("clubCount").textContent=all.length+" of "+big.length+" clubs in the "+({"Brazil":"Brazilian Série A","MLS":"MLS"}[st.l]||st.l)+" "+(["Brazil","MLS"].includes(st.l)?"2026":LEAGUE_SEASON)+". Clubs marked ★ have a fact card: select them to open it.";
       $("clubGrid").innerHTML="";
-      $("leagueAll").innerHTML='<div class="lgrid">'+all.map(c=>{const f=featured(c[0]);const head=jersey(c[2],c[3],46,c[4],c[0],JVAR[c[0]])+'<div><b>'+esc(c[0])+(f?' <span class="star">★</span>':'')+'</b><small>'+esc(c[1])+(c[5]?' <span class="promo">Promoted</span>':'')+'</small></div>';
+      $("leagueAll").innerHTML='<div class="lgrid">'+all.map(c=>{const f=featured(c[0]);const head=teamIcon(c[0],"clubs",46)+'<div><b>'+esc(c[0])+(f?' <span class="star">★</span>':'')+'</b><small>'+esc(c[1])+(c[5]?' <span class="promo">Promoted</span>':'')+'</small></div>';
         return f?'<details class="lclub fx"><summary>'+head+'</summary><div class="fxbody"><dl><dt>Nickname</dt><dd>'+esc(f[7])+'</dd><dt>Founded</dt><dd>'+f[5]+'</dd><dt>Home</dt><dd>'+esc(f[6])+'</dd></dl><p>'+esc(f[9])+'</p></div></details>':'<div class="lclub">'+head+'</div>'}).join("")+'</div>';
       return;
     }
     $("clubCount").textContent="Showing "+L.length+" of "+CLUBS.length+" featured clubs";
-    $("clubGrid").innerHTML=L.length?L.map(c=>'<article class="team"><span class="lg">'+esc(c[2])+'</span><div class="head">'+jersey(c[8][0],c[8][1],60,PATTERN[c[0]],c[0])+'<div><h3>'+esc(c[0])+'</h3><div class="meta">'+flag(c[3])+esc(c[4])+', '+esc(c[3])+'</div></div></div><dl><dt>Nickname</dt><dd>'+esc(c[7])+'</dd><dt>Founded</dt><dd>'+c[5]+'</dd><dt>Home</dt><dd>'+esc(c[6])+'</dd></dl><p class="know">'+esc(c[9])+'</p></article>').join(""):'<p class="empty">No clubs match. Try another search or continent.</p>';
+    $("clubGrid").innerHTML=L.length?L.map(c=>'<article class="team"><span class="lg">'+esc(c[2])+'</span><div class="head">'+teamIcon(c[0],"clubs",60)+'<div><h3>'+esc(c[0])+'</h3><div class="meta">'+flag(c[3])+esc(c[4])+', '+esc(c[3])+'</div></div></div><dl><dt>Nickname</dt><dd>'+esc(c[7])+'</dd><dt>Founded</dt><dd>'+c[5]+'</dd><dt>Home</dt><dd>'+esc(c[6])+'</dd></dl><p class="know">'+esc(c[9])+'</p></article>').join(""):'<p class="empty">No clubs match. Try another search or continent.</p>';
     $("leagueAll").innerHTML='<p class="anote">Tip: pick a league above (the seven big European leagues, Brazil, MLS, the Saudi Pro League or the J1 League) to see every club in it this season.</p>';
   }
   leagues();render();
@@ -644,3 +644,4 @@ inits.awards=function(){
 })();
 
 route();
+
