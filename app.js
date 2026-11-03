@@ -32,17 +32,15 @@ function trophy(kind,col,stripes){
 }
 const COMP_BADGES={copa:"copa-america",wwc:"womens-world-cup",pl:"premier-league",liga:"la-liga",seriea:"serie-a",bundes:"bundesliga",ligue1:"ligue-1",portugal:"primeira-liga",ered:"eredivisie"};
 function compArtwork(c){const badge=COMP_BADGES[c.id];return badge?'<img class="trophy comp-logo" src="assets/competition-badges/'+badge+'.png" alt="" aria-hidden="true">':trophy(c.icon,c.col,c.stripes)}
-const AWARD_PHOTOS={
- bdo:[["ballon-dor-trophy.jpg","The Ballon d’Or trophy"],["messi-ballon-dor.jpg","Lionel Messi with the 2023 Ballon d’Or"]],
- bdof:[["alexia-putellas.png","Alexia Putellas with the Ballon d’Or Féminin"],["aitana-bonmati.png","Aitana Bonmatí with the Ballon d’Or Féminin"]],
- shoe:[["messi-golden-shoes.jpg","Lionel Messi with six European Golden Shoes"],["messi-golden-shoe.jpg","Lionel Messi holding a European Golden Shoe"]],
- best:[["messi-the-best.jpg","Lionel Messi with The Best FIFA trophy"]],
- kopa:[["lamine-yamal-kopa.jpg","Lamine Yamal with the Kopa Trophy"]],
- yashin:[["emiliano-martinez-yashin.png","Emiliano Martínez with the Yashin Trophy"],["donnarumma-yashin.jpg","Gianluigi Donnarumma with a goalkeeper award trophy"]]
+const AWARD_HOLDER_PHOTOS={
+ bdo:{"Lionel Messi":"messi-ballon-dor.jpg"},
+ bdof:{"Aitana Bonmatí":"aitana-bonmati.png","Alexia Putellas":"alexia-putellas.png"},
+ shoe:{"Lionel Messi":"messi-golden-shoe-kiss.png"},
+ best:{"Lionel Messi":"messi-the-best-portrait.png"},
+ kopa:{"Lamine Yamal":"lamine-yamal-kopa.jpg"},
+ yashin:{"Emiliano Martínez":"emiliano-martinez-yashin.png","Gianluigi Donnarumma":"donnarumma-yashin.jpg"}
 };
-function awardPhotoGallery(id){const photos=AWARD_PHOTOS[id];return photos?'<section class="award-photo-gallery" aria-label="Award photos"><p class="sub">Award moments</p><div class="award-photo-grid">'+photos.map(([file,caption])=>'<figure class="award-photo"><img src="assets/award-photos/'+file+'" alt="'+esc(caption)+'"><figcaption>'+esc(caption)+'</figcaption></figure>').join("")+'</div></section>':""}
-const AWARD_HOLDER_PHOTOS={"Lionel Messi":"messi-ballon-dor.jpg","Aitana Bonmatí":"aitana-bonmati.png","Alexia Putellas":"alexia-putellas.png","Lamine Yamal":"lamine-yamal-kopa.jpg","Emiliano Martínez":"emiliano-martinez-yashin.png","Gianluigi Donnarumma":"donnarumma-yashin.jpg"};
-function awardHolderAvatar(name,col){const file=AWARD_HOLDER_PHOTOS[name];return file?'<img class="avatar award-holder-photo" src="assets/award-photos/'+file+'" alt="'+esc(name)+'">':avatar(name,col)}
+function awardHolderAvatar(awardId,name,col){const file=(AWARD_HOLDER_PHOTOS[awardId]||{})[name];return file?'<img class="avatar award-holder-photo" src="assets/award-photos/'+file+'" alt="'+esc(name)+'">':avatar(name,col)}
 function hashStr(t){let h=0;for(const ch of String(t))h=(h*31+ch.charCodeAt(0))>>>0;return h}
 const JDET=["none","shoulders","sidepanel","chestline","sleevestripe","pinstripes","yoke"],JCOL=["v","crew","polo"];
 function jersey(c1,c2,size,pat,name,v){
@@ -581,7 +579,7 @@ inits.awards=function(){
     const a=AWARDS.find(x=>x.id===id),top=a.most.filter(m=>m[2]===a.most[0][2]),max=a.most[0][2];
     const H=HIST[id]||[],posOf=n=>{const r=H.find(h=>h[1].replace(/ \(.*\)/,"")===n);return r?r[4]:(POS[n]||"")};
     const heroCard='<div class="hero-player" style="--cc:'+a.col+'"><p class="kicker" style="color:'+a.col+'">'+(top.length>1?"Joint record holders":"Record holder")+'</p>'+
-      top.map(t=>{const yrs=H.filter(h=>!h[5]&&h[1].replace(/ \(.*\)/,"")===t[0]).map(h=>h[0]);return awardHolderAvatar(t[0],a.col)+'<h3>'+esc(t[0])+'</h3><div class="flagrow">'+flag(t[1])+'<span class="pos">'+esc(posOf(t[0]))+'</span></div>'+(yrs.length?'<div class="yrs">'+yrs.map(y=>'<span>'+y+'</span>').join("")+'</div>':'')}).join("")+
+      top.map(t=>{const yrs=H.filter(h=>!h[5]&&h[1].replace(/ \(.*\)/,"")===t[0]).map(h=>h[0]);return awardHolderAvatar(id,t[0],a.col)+'<h3>'+esc(t[0])+'</h3><div class="flagrow">'+flag(t[1])+'<span class="pos">'+esc(posOf(t[0]))+'</span></div>'+(yrs.length?'<div class="yrs">'+yrs.map(y=>'<span>'+y+'</span>').join("")+'</div>':'')}).join("")+
       '<div class="big">'+max+'×</div><small style="color:var(--mute)">'+a.name+' wins</small></div>';
     let rank=0,prev=null;
     const board='<div class="board" style="--cc:'+a.col+'">'+a.most.map((m,i)=>{if(m[2]!==prev){rank=i+1;prev=m[2]}return '<div class="brow"><span class="rk'+(rank===1?" g":"")+'">'+rank+'</span><span class="nm">'+flag(m[1])+esc(m[0])+'</span><span class="bar" style="width:'+(m[2]/max*100)+'%"></span><span class="n">'+m[2]+'</span></div>'}).join("")+'</div>';
@@ -589,7 +587,7 @@ inits.awards=function(){
     const posChart='<div class="poschart">'+["Forwards","Midfielders","Defenders","Goalkeepers"].filter(k=>pc[k]).map(k=>'<div style="flex:'+pc[k]+'"><b>'+pc[k]+'</b><span>'+k+'</span></div>').join("")+'</div>';
     const topN=new Set(top.map(t=>t[0]));
     const hist='<div class="htable" style="--cc:'+a.col+'"><div class="hrow hhead"><span>Year</span><span>Winner</span><span>Position</span><span>Club</span></div>'+H.slice().reverse().map(h=>h[2]?'<div class="hrow'+(topN.has(h[1].replace(/ \(.*\)/,""))?" rec":"")+'"><span class="y">'+h[0]+'</span><span class="p">'+flag(h[2])+'<b>'+esc(h[1])+'</b>'+(h[5]?'<em>'+esc(h[5])+'</em>':'')+'</span><span><i class="pos">'+esc(h[4])+'</i></span><span class="c">'+esc(h[3])+'</span></div>':'<div class="hrow none"><span class="y">'+h[0]+'</span><span>Not awarded</span><span></span><span></span></div>').join("")+'</div>';
-    $("awardDetail").innerHTML='<div class="adetail">'+heroCard+'<div><h3 style="font-size:32px">'+a.name+'</h3><p style="color:var(--mute);margin:4px 0 0">'+a.about+' Awarded by '+a.by+'.</p><p class="sub">Most wins (all-time)</p>'+board+'<p class="sub">Winners by position, '+H[0][0]+' to now</p>'+posChart+'<p class="anote">'+a.note+'</p></div></div>'+awardPhotoGallery(id)+'<p class="sub" style="margin-top:22px">Every winner, '+H[0][0]+' to now (record holder highlighted)</p>'+hist;
+    $("awardDetail").innerHTML='<div class="adetail">'+heroCard+'<div><h3 style="font-size:32px">'+a.name+'</h3><p style="color:var(--mute);margin:4px 0 0">'+a.about+' Awarded by '+a.by+'.</p><p class="sub">Most wins (all-time)</p>'+board+'<p class="sub">Winners by position, '+H[0][0]+' to now</p>'+posChart+'<p class="anote">'+a.note+'</p></div></div><p class="sub" style="margin-top:22px">Every winner, '+H[0][0]+' to now (record holder highlighted)</p>'+hist;
   }
   show("bdo");
 };
