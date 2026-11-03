@@ -489,3 +489,27 @@ details.lclub[open]{grid-column:span 2;background:var(--panel2)}
 .hist{list-style:none;padding:0;margin:0;display:grid;gap:6px}
 .hist li{display:flex;align-items:center;gap:8px;background:var(--panel);border-radius:8px;padding:6px 10px}
 .hist li>span{color:var(--gold);font:600 15px "Barlow Condensed",sans-serif;min-width:84px}
+
+/* Squad picker */
+.sqpick{background:var(--panel);border-radius:16px;padding:14px;margin-bottom:14px}
+.sqtop{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:12px}
+.sqlg{display:flex;gap:6px;overflow-x:auto;scrollbar-width:thin;padding-bottom:2px;max-width:100%}
+.sqlg button{display:inline-flex;align-items:center;gap:6px;white-space:nowrap;border-radius:999px;padding:6px 12px;font-size:15px;background:var(--bg2)}
+.sqlg button small{background:#ffffff1a;border-radius:999px;padding:0 7px;font-size:12px;color:var(--mute)}
+.sqlg button[aria-pressed="true"] small{background:#0003;color:inherit}
+.sqlg img{width:20px;height:14px;object-fit:cover;border-radius:2px}
+#sqFind{flex:1 1 220px;max-width:320px}
+.sqclubs{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+.sqc{display:flex;align-items:center;gap:10px;text-align:left;padding:10px 12px;border-radius:12px;background:var(--bg2)}
+.sqc span{display:flex;flex-direction:column;min-width:0}
+.sqc b{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sqc small{color:var(--mute);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sqc[aria-pressed="true"]{outline:2px solid var(--ball);background:var(--panel2)}
+.sqc[aria-pressed="true"] small{color:var(--line)}
+@media(max-width:600px){.sqclubs{grid-template-columns:1fr 1fr}.sqc{padding:8px}#sqFind{max-width:none}}
+.sqlg{flex-wrap:wrap;overflow:visible}
+.sqlg button[aria-pressed="true"]{background:var(--ball);border-color:var(--ball);color:#1a1005}
+.sqc{min-width:0;overflow:hidden;color:var(--line)}
+.sqc[aria-pressed="true"]{color:var(--line);border-color:var(--ball)}
+@media(max-width:600px){.sqlg{flex-wrap:nowrap;overflow-x:auto}.sqlg button{font-size:14px;padding:5px 10px}}
+@media(max-width:600px){.sqc b{white-space:normal;line-height:1.15}}

@@ -497,13 +497,22 @@ inits.squads=function(){
   const names=Object.keys(SQUADS);let cur=names[0],pos="all";
   const LG=n=>{for(const l in LEAGUE_CLUBS)if(LEAGUE_CLUBS[l].some(x=>x[0]===n))return l;const c=CLUBS.find(x=>x[0]===n);return c?c[2]:"Other"};
   const groups={};names.forEach(n=>{(groups[LG(n)]=groups[LG(n)]||[]).push(n)});
-  $("sqClubs").innerHTML=Object.entries(groups).map(([l,ns])=>'<span class="tabg">'+esc(l)+'</span>'+ns.map(n=>'<button data-c="'+esc(n)+'">'+teamIcon(n,"clubs",24)+esc(n)+'</button>').join("")).join("");
-  $("sqClubs").addEventListener("click",e=>{const b=e.target.closest("button");if(b){cur=b.dataset.c;render()}});
+  const LGF={"Premier League":"gb-eng","La Liga":"es","Bundesliga":"de","Serie A":"it","Ligue 1":"fr","Primeira Liga":"pt","Eredivisie":"nl"};
+  let lg=LG(cur),sqq="";
+  function picker(){
+    const ls=Object.keys(groups);
+    $("sqLeagues").innerHTML=ls.map(l=>'<button data-l="'+esc(l)+'" aria-pressed="'+(l===lg&&!sqq)+'">'+(LGF[l]?flag(LGF[l]):"")+'<span>'+esc(l)+'</span><small>'+groups[l].length+'</small></button>').join("");
+    const list=sqq?names.filter(n=>n.toLowerCase().includes(sqq)||SQUADS[n].p.some(p=>p[1].toLowerCase().includes(sqq))):groups[lg];
+    $("sqClubs").innerHTML=list.length?list.map(n=>{const pl=sqq&&!n.toLowerCase().includes(sqq)?SQUADS[n].p.find(p=>p[1].toLowerCase().includes(sqq)):null;return '<button class="sqc" data-c="'+esc(n)+'" aria-pressed="'+(n===cur)+'">'+teamIcon(n,"clubs",34)+'<span><b>'+esc(n)+'</b><small>'+(pl?'Player: '+esc(pl[1]):esc(SQUADS[n].coach)+' · '+SQUADS[n].p.length+' players')+'</small></span></button>'}).join(""):'<p class="empty">No club or player matches.</p>';
+  }
+  $("sqLeagues").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;lg=b.dataset.l;sqq="";$("sqFind").value="";picker()});
+  $("sqFind").addEventListener("input",e=>{sqq=e.target.value.trim().toLowerCase();picker()});
+  $("sqClubs").addEventListener("click",e=>{const b=e.target.closest("button");if(b){cur=b.dataset.c;lg=LG(cur);render();picker();$("sqHead").scrollIntoView({behavior:"smooth",block:"start"})}});
+  picker();
   $("sqPos").addEventListener("click",e=>{const b=e.target.closest("button");if(b){pos=b.dataset.p;render()}});
   const PN={GK:"Goalkeeper",DF:"Defender",MF:"Midfielder",FW:"Forward"};
   function render(){
     const q=SQUADS[cur],hasStats=true,hasA=true;
-    $("sqClubs").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.c===cur));
     $("sqPos").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.p===pos));
     const ga=p=>(p[4]||0)+(p[5]||0);
     let star=null;if(hasStats){star=q.p.reduce((a,b)=>ga(b)>ga(a)?b:a);if(!ga(star))star=null}
