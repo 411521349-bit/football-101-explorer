@@ -11,7 +11,7 @@ let _gid=0;
 function shade(hex,amt){const n=parseInt(hex.slice(1),16);let r=n>>16,g=(n>>8)&255,b=n&255;const t=amt<0?0:255,p=Math.abs(amt);r=Math.round((t-r)*p+r);g=Math.round((t-g)*p+g);b=Math.round((t-b)*p+b);return"#"+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1)}
 const TROPHY_ART={globe:"world-cup",goblet:"champions-league",chalice:"euro",tall:"afcon",medal:"club-world-cup",plate:"asian-cup",ball:"ballon-dor",best:"the-best",kopa:"kopa",glove:"yashin",boot:"golden-boot"};
 function trophy(kind,col,stripes){
-  if(TROPHY_ART[kind])return '<img class="trophy" src="assets/trophies/'+TROPHY_ART[kind]+'.png" alt="" aria-hidden="true">';
+  if(TROPHY_ART[kind])return '<img class="trophy" src="assets/trophies/'+TROPHY_ART[kind]+'.png?v=competition-cutouts-20261104" alt="" aria-hidden="true">';
   const id="m"+(++_gid),M="url(#"+id+")",S="url(#"+id+"s)";
   const defs='<defs><linearGradient id="'+id+'" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="'+shade(col,-.35)+'"/><stop offset=".35" stop-color="'+shade(col,.45)+'"/><stop offset=".55" stop-color="'+col+'"/><stop offset="1" stop-color="'+shade(col,-.45)+'"/></linearGradient><radialGradient id="'+id+'s" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="'+shade(col,.6)+'"/><stop offset=".5" stop-color="'+col+'"/><stop offset="1" stop-color="'+shade(col,-.5)+'"/></radialGradient></defs>';
   const base='<path d="M24 50h16l2 4H22z" fill="'+M+'"/><rect x="18" y="54" width="28" height="7" rx="2" fill="#2a2018"/><rect x="18" y="54" width="28" height="2" fill="#ffffff" opacity=".12"/>';
@@ -31,7 +31,7 @@ function trophy(kind,col,stripes){
   return '<svg class="trophy" viewBox="0 0 64 64" aria-hidden="true">'+defs+(k[kind]||k.cup)+'</svg>';
 }
 const COMP_BADGES={copa:"copa-america",wwc:"womens-world-cup",pl:"premier-league",liga:"la-liga",seriea:"serie-a",bundes:"bundesliga",ligue1:"ligue-1",portugal:"primeira-liga",ered:"eredivisie",brasileirao:"brasileirao",mls:"mls.svg",spl:"saudi-pro-league",j1:"j1-league"};
-function compArtwork(c){const badge=COMP_BADGES[c.id];return badge?'<img class="trophy comp-logo" src="assets/competition-badges/'+(badge.endsWith(".svg")?badge:badge+'.png')+'" alt="" aria-hidden="true">':trophy(c.icon,c.col,c.stripes)}
+function compArtwork(c){const badge=COMP_BADGES[c.id];return badge?'<img class="trophy comp-logo" src="assets/competition-badges/'+(badge.endsWith(".svg")?badge:badge+'.png')+'?v=competition-cutouts-20261104'+'" alt="" aria-hidden="true">':trophy(c.icon,c.col,c.stripes)}
 const AWARD_HOLDER_PHOTOS={
  bdo:{"Lionel Messi":"messi-ballon-dor.jpg"},
  bdof:{"Aitana Bonmatí":"aitana-bonmati.png","Alexia Putellas":"alexia-putellas.png"},
@@ -380,7 +380,7 @@ inits.standings=function(){
     const sets=L.groups&&Object.keys(L.groups).length?Object.entries(L.groups):[["",L.rows]];
     $("stOut").innerHTML=sets.map(([g,rows])=>(g?'<p class="sub">'+esc(g)+'</p>':'')+'<div class="stwrap"><table class="sttable">'+head+body(rows,L)+'</table></div>').join("");
   }
-  const fl=l=>{const L=S.leagues[l],c=COMPS.find(x=>x.name===l),badge=c&&COMP_BADGES[c.id];if(badge)return '<img class="league-badge-mini" src="assets/competition-badges/'+(badge.endsWith(".svg")?badge:badge+'.png')+'" alt="" aria-hidden="true"> ';if(L.flag)return flag(L.flag)+" ";return c&&c.flag?flag(c.flag)+" ":""};
+  const fl=l=>{const L=S.leagues[l],c=COMPS.find(x=>x.name===l),badge=c&&COMP_BADGES[c.id];if(badge)return '<img class="league-badge-mini" src="assets/competition-badges/'+(badge.endsWith(".svg")?badge:badge+'.png')+'?v=competition-cutouts-20261104'+'" alt="" aria-hidden="true"> ';if(L.flag)return flag(L.flag)+" ";return c&&c.flag?flag(c.flag)+" ":""};
   const EU=names.filter(l=>!S.leagues[l].flag),WO=names.filter(l=>S.leagues[l].flag);
   tabs.innerHTML='<span class="tabg">Europe</span>'+EU.map(l=>'<button data-l="'+esc(l)+'">'+fl(l)+esc(l)+'</button>').join("")+'<span class="tabg">Rest of the world</span>'+WO.map(l=>'<button data-l="'+esc(l)+'">'+fl(l)+esc(l)+'</button>').join("");
   tabs.addEventListener("click",e=>{const b=e.target.closest("button");if(b)show(b.dataset.l)});
