@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=club-logos-squadpick-20261104">
+<link rel="stylesheet" href="style.css?v=sqlink-20261104">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js" defer></script>
 <script src="data.js?v=club-logos-20261104" defer></script>
@@ -16,7 +16,7 @@
 <script src="standings.js" defer></script>
 <script src="extra.js" defer></script>
 <script src="profiles.js" defer></script>
-<script src="app.js?v=club-crests-squadpick-20261104" defer></script>
+<script src="app.js?v=sqlink-20261104" defer></script>
 </head>
 <body>
 <nav class="top" aria-label="Pages">
@@ -229,6 +229,7 @@
     <div class="sqtop"><div class="sqlg" id="sqLeagues" role="tablist" aria-label="League"></div><input type="search" id="sqFind" placeholder="Search a club or player" aria-label="Search a club or player"></div>
     <div class="sqclubs" id="sqClubs" role="group" aria-label="Club"></div>
   </div>
+  <div id="sqBack" class="sqback" hidden></div>
   <div id="sqHead"></div>
   <div class="btns" id="sqPos" role="group" aria-label="Position"><button data-p="all">All players</button><button data-p="GK">Goalkeepers</button><button data-p="DF">Defenders</button><button data-p="MF">Midfielders</button><button data-p="FW">Forwards</button></div>
   <p class="count" id="sqMeta"></p>

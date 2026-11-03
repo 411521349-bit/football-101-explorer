@@ -515,3 +515,13 @@ details.lclub[open]{grid-column:span 2;background:var(--panel2)}
 @media(max-width:600px){.sqc b{white-space:normal;line-height:1.15}}
 
 .club-badge{display:inline-block;flex:none;object-fit:contain;vertical-align:middle}
+/* click a club in the tables to open its squad */
+.sttable tr.clk{cursor:pointer}
+.sttable tr.clk:hover td,.sttable tr.clk:focus td{background:#ffffff14}
+.sqhint{margin-left:8px;font-size:12px;color:var(--ball);font-weight:600;opacity:0;transition:opacity .15s}
+.sttable tr.clk:hover .sqhint,.sttable tr.clk:focus .sqhint{opacity:1}
+@media(hover:none){.sqhint{opacity:1}}
+.sqback{margin:0 0 10px}
+.sqback a{display:inline-block;color:var(--line);background:var(--panel);border:1px solid #ffffff33;border-radius:999px;padding:6px 14px;text-decoration:none;font-weight:600}
+.sqback a:hover{border-color:var(--ball)}
+.sqlink{display:inline-block;margin-top:4px;font-size:12px;font-weight:600;color:var(--ball);text-decoration:none}

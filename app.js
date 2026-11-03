@@ -98,6 +98,7 @@ function route(){
   document.title=id==="home"?TITLES.home:TITLES[id]+" · Football 101";
   if(inits[id]&&!inits[id].done){inits[id].done=true;inits[id]()}
   scrollTo({top:0});
+  if(id==="squads"&&window.squadSelect){if(SQ_PENDING){window.squadSelect(SQ_PENDING);SQ_PENDING=null}else{SQ_BACK=null;const b=$("sqBack");if(b)b.hidden=true}}
 }
 addEventListener("hashchange",route);
 
@@ -328,7 +329,7 @@ inits.clubs=function(){
       const all=big.filter(c=>!st.q||(c[0]+" "+c[1]).toLowerCase().includes(st.q));
       $("clubCount").textContent=all.length+" of "+big.length+" clubs in the "+({"Brazil":"Brazilian Série A","MLS":"MLS"}[st.l]||st.l)+" "+(["Brazil","MLS"].includes(st.l)?"2026":LEAGUE_SEASON)+". Clubs marked ★ have a fact card: select them to open it.";
       $("clubGrid").innerHTML="";
-      $("leagueAll").innerHTML='<div class="lgrid">'+all.map(c=>{const f=featured(c[0]);const head=teamIcon(c[0],"clubs",46)+'<div><b>'+esc(c[0])+(f?' <span class="star">★</span>':'')+'</b><small>'+esc(c[1])+(c[5]?' <span class="promo">Promoted</span>':'')+'</small></div>';
+      $("leagueAll").innerHTML='<div class="lgrid">'+all.map(c=>{const f=featured(c[0]);const head=teamIcon(c[0],"clubs",46)+'<div><b>'+esc(c[0])+(f?' <span class="star">★</span>':'')+'</b><small>'+esc(c[1])+(c[5]?' <span class="promo">Promoted</span>':'')+'</small></div>'+(sqKey(c[0])?'<a class="sqlink" href="#squads" data-sq="'+esc(sqKey(c[0]))+'" data-back="clubs">Squad ›</a>':'');
         return f?'<details class="lclub fx"><summary>'+head+'</summary><div class="fxbody"><dl><dt>Nickname</dt><dd>'+esc(f[7])+'</dd><dt>Founded</dt><dd>'+f[5]+'</dd><dt>Home</dt><dd>'+esc(f[6])+'</dd></dl><p>'+esc(f[9])+'</p></div></details>':'<div class="lclub">'+head+'</div>'}).join("")+'</div>';
       return;
     }
@@ -357,12 +358,18 @@ inits.nations=function(){
 };
 
 
+/* ---------- Open a club's squad from anywhere ---------- */
+function sqKey(n){if(typeof SQUADS==="undefined")return null;if(SQUADS[n])return n;if(SQUADS["FC "+n])return "FC "+n;const k=Object.keys(SQUADS).find(k=>k.replace(/^FC /,"")===n.replace(/^FC /,""));return k||null}
+let SQ_PENDING=null,SQ_BACK=null;
+function openSquad(n,back){const k=sqKey(n);if(!k)return;SQ_PENDING=k;SQ_BACK=back||null;if(location.hash==="#squads"&&window.squadSelect){window.squadSelect(k)}else location.hash="#squads"}
+document.addEventListener("click",e=>{const t=e.target.closest("[data-sq]");if(!t)return;e.preventDefault();openSquad(t.dataset.sq,t.dataset.back)});
+
 /* ---------- Standings ---------- */
 inits.standings=function(){
   const S=window.STANDINGS;if(!S){$("stMeta").textContent="League tables could not be loaded.";return}
   const tabs=$("stTabs"),names=Object.keys(S.leagues);
   const head='<thead><tr><th title="Position">Pos</th><th>Club</th><th title="Played">Played</th><th title="Won">Won</th><th title="Drawn">Drawn</th><th title="Lost">Lost</th><th title="Goals for">GF</th><th title="Goals against">GA</th><th title="Goal difference">GD</th><th>Points</th></tr></thead>';
-  const body=(rows,L)=>{const n=rows.length;return '<tbody>'+rows.map((r,i)=>{const z=i<L.top?"top":L.rel&&i>=n-L.rel?"rel":"";const d=r[5]-r[6];return '<tr class="'+z+'"><td>'+(i+1)+'</td><td><span class="nm">'+teamIcon(r[0],"clubs",26)+esc(r[0])+'</span></td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td><td>'+r[4]+'</td><td>'+r[5]+'</td><td>'+r[6]+'</td><td>'+(d>0?"+"+d:d)+'</td><td><b>'+r[7]+'</b></td></tr>'}).join("")+'</tbody>'};
+  const body=(rows,L)=>{const n=rows.length;return '<tbody>'+rows.map((r,i)=>{const z=i<L.top?"top":L.rel&&i>=n-L.rel?"rel":"";const d=r[5]-r[6];const k=sqKey(r[0]);return '<tr class="'+z+(k?' clk':'')+'"'+(k?' data-sq="'+esc(k)+'" data-back="standings" tabindex="0" title="See the '+esc(r[0])+' squad"':'')+'><td>'+(i+1)+'</td><td><span class="nm">'+teamIcon(r[0],"clubs",26)+esc(r[0])+(k?'<span class="sqhint">Squad ›</span>':'')+'</span></td><td>'+r[1]+'</td><td>'+r[2]+'</td><td>'+r[3]+'</td><td>'+r[4]+'</td><td>'+r[5]+'</td><td>'+r[6]+'</td><td>'+(d>0?"+"+d:d)+'</td><td><b>'+r[7]+'</b></td></tr>'}).join("")+'</tbody>'};
   function show(l){
     const L=S.leagues[l];
     tabs.querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.l===l));
@@ -509,7 +516,10 @@ inits.squads=function(){
   }
   $("sqLeagues").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;lg=b.dataset.l;sqq="";$("sqFind").value="";picker()});
   $("sqFind").addEventListener("input",e=>{sqq=e.target.value.trim().toLowerCase();picker()});
-  $("sqClubs").addEventListener("click",e=>{const b=e.target.closest("button");if(b){cur=b.dataset.c;lg=LG(cur);render();picker();$("sqHead").scrollIntoView({behavior:"smooth",block:"start"})}});
+  $("sqClubs").addEventListener("click",e=>{const b=e.target.closest("button");if(b){cur=b.dataset.c;lg=LG(cur);render();picker();scrollTo({top:$("sqHead").getBoundingClientRect().top+scrollY-80,behavior:"smooth"})}});
+  window.squadSelect=n=>{cur=n;lg=LG(n);sqq="";$("sqFind").value="";render();picker();backBar();setTimeout(()=>{const t=($("sqBack").hidden?$("sqHead"):$("sqBack")).getBoundingClientRect().top+scrollY-80;scrollTo({top:t})},0)};
+  function backBar(){const b=$("sqBack");if(SQ_BACK==="standings"){b.innerHTML='<a href="#standings">← Back to league tables</a>';b.hidden=false}else if(SQ_BACK==="clubs"){b.innerHTML='<a href="#clubs">← Back to clubs</a>';b.hidden=false}else b.hidden=true}
+  if(SQ_PENDING){cur=SQ_PENDING;lg=LG(cur)}
   picker();
   $("sqPos").addEventListener("click",e=>{const b=e.target.closest("button");if(b){pos=b.dataset.p;render()}});
   const PN={GK:"Goalkeeper",DF:"Defender",MF:"Midfielder",FW:"Forward"};
@@ -527,7 +537,7 @@ inits.squads=function(){
       '<div class="honours"><small>Trophies won last season (2025-26)</small>'+(q.honours.length?q.honours.map(h=>'<span class="hon">🏆 '+esc(h)+'</span>').join(""):'<span class="none">No league or European title</span>')+'</div></div>'+
       '<div class="natbar">'+Object.entries(nats).sort((a,b)=>b[1]-a[1]).map(([c,n])=>'<span title="'+esc(cname(c))+'">'+flag(c)+esc(cname(c))+' <b>'+n+'</b></span>').join("")+'</div>';
     const rows=q.p.filter(p=>pos==="all"||p[2]===pos).slice().sort((a,b)=>"GKDFMFFW".indexOf(a[2])-"GKDFMFFW".indexOf(b[2])||(a[0]??999)-(b[0]??999));
-    $("sqTable").innerHTML='<thead><tr><th>No.</th><th>Player</th><th>Position</th><th>Nationality</th>'+(hasStats?'<th title="Goals">G</th>'+(hasA?'<th title="Assists">A</th><th title="Goals plus assists">G/A</th>':''):'')+'</tr></thead><tbody>'+rows.map(p=>{const isC=p[1]===q.captain,isS=star&&p===star;return '<tr class="pl'+(isS?" star":"")+'" data-n="'+esc(p[1])+'" tabindex="0" title="Show player profile"><td><span class="shirtno">'+(p[0]??"–")+'</span></td><td><b>'+esc(p[1])+'</b>'+(isC?' <span class="cap" title="Captain">C</span>':'')+(isS?' <span class="stari" title="Brightest player: most goals + assists">★</span>':'')+'</td><td><span class="pos p'+p[2]+'">'+p[2]+'</span> <small class="pn">'+PN[p[2]]+'</small></td><td>'+(p[3]?flag(p[3])+esc(cname(p[3])):'<span class="pn">–</span>')+'</td><td>'+(PF(p[1]).value!=null?'<b>'+money(PF(p[1]).value)+'</b>':'<span class="pn">–</span>')+'</td>'+(hasStats?'<td>'+(p[4]??0)+(p[6]?'<sup class="apx" title="Approximate: the source gave a range">≈</sup>':'')+'</td>'+(hasA?'<td>'+(p[5]??0)+'</td><td><b>'+ga(p)+'</b></td>':''):'')+'</tr>'}).join("")+'</tbody>';
+    $("sqTable").innerHTML='<thead><tr><th>No.</th><th>Player</th><th>Position</th><th>Nationality</th><th title="Transfermarkt market value">Value</th>'+(hasStats?'<th title="Goals">G</th>'+(hasA?'<th title="Assists">A</th><th title="Goals plus assists">G/A</th>':''):'')+'</tr></thead><tbody>'+rows.map(p=>{const isC=p[1]===q.captain,isS=star&&p===star;return '<tr class="pl'+(isS?" star":"")+'" data-n="'+esc(p[1])+'" tabindex="0" title="Show player profile"><td><span class="shirtno">'+(p[0]??"–")+'</span></td><td><b>'+esc(p[1])+'</b>'+(isC?' <span class="cap" title="Captain">C</span>':'')+(isS?' <span class="stari" title="Brightest player: most goals + assists">★</span>':'')+'</td><td><span class="pos p'+p[2]+'">'+p[2]+'</span> <small class="pn">'+PN[p[2]]+'</small></td><td>'+(p[3]?flag(p[3])+esc(cname(p[3])):'<span class="pn">–</span>')+'</td><td>'+(PF(p[1]).value!=null?'<b>'+money(PF(p[1]).value)+'</b>':'<span class="pn">–</span>')+'</td>'+(hasStats?'<td>'+(p[4]??0)+(p[6]?'<sup class="apx" title="Approximate: the source gave a range">≈</sup>':'')+'</td>'+(hasA?'<td>'+(p[5]??0)+'</td><td><b>'+ga(p)+'</b></td>':''):'')+'</tr>'}).join("")+'</tbody>';
     $("sqMeta").textContent="Squad as of "+q.asOf+" · source: "+q.src+(hasStats?" · goals"+(hasA?" and assists":"")+" are for 2026-27 so far, all competitions":" · this source has no goal figures yet")+(q.p.some(p=>p[6])?" · ≈ = approximate, the source gave a range":"");
   }
   const PN2={GK:"Goalkeeper",CB:"Centre-back",LB:"Left-back",RB:"Right-back",LWB:"Left wing-back",RWB:"Right wing-back",DM:"Defensive midfielder",CM:"Central midfielder",AM:"Attacking midfielder",LM:"Left midfielder",RM:"Right midfielder",LW:"Left winger",RW:"Right winger",SS:"Second striker",CF:"Centre-forward",ST:"Striker"};
