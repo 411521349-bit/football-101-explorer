@@ -6,10 +6,12 @@ function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;","
 function press(box,btn){[...box.querySelectorAll("button")].forEach(b=>b.setAttribute("aria-pressed",b===btn))}
 function flag(code,cls){const iso=ISO[code]||code;if(!iso)return"";return '<img class="flag'+(cls?" "+cls:"")+'" src="https://flagcdn.com/w80/'+iso+'.png" alt="" loading="lazy" onerror="this.style.visibility=\'hidden\'">'}
 
-/* ---------- Illustrations (original, generic designs) ---------- */
+/* ---------- Trophy art (reference photos and original SVG icons) ---------- */
 let _gid=0;
 function shade(hex,amt){const n=parseInt(hex.slice(1),16);let r=n>>16,g=(n>>8)&255,b=n&255;const t=amt<0?0:255,p=Math.abs(amt);r=Math.round((t-r)*p+r);g=Math.round((t-g)*p+g);b=Math.round((t-b)*p+b);return"#"+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1)}
+const TROPHY_ART={globe:"world-cup",goblet:"champions-league",chalice:"euro",tall:"afcon",medal:"club-world-cup",plate:"asian-cup",best:"the-best",kopa:"kopa",glove:"yashin",boot:"golden-boot"};
 function trophy(kind,col,stripes){
+  if(TROPHY_ART[kind])return '<img class="trophy" src="assets/trophies/'+TROPHY_ART[kind]+'.png" alt="" aria-hidden="true" loading="lazy">';
   const id="m"+(++_gid),M="url(#"+id+")",S="url(#"+id+"s)";
   const defs='<defs><linearGradient id="'+id+'" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="'+shade(col,-.35)+'"/><stop offset=".35" stop-color="'+shade(col,.45)+'"/><stop offset=".55" stop-color="'+col+'"/><stop offset="1" stop-color="'+shade(col,-.45)+'"/></linearGradient><radialGradient id="'+id+'s" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="'+shade(col,.6)+'"/><stop offset=".5" stop-color="'+col+'"/><stop offset="1" stop-color="'+shade(col,-.5)+'"/></radialGradient></defs>';
   const base='<path d="M24 50h16l2 4H22z" fill="'+M+'"/><rect x="18" y="54" width="28" height="7" rx="2" fill="#2a2018"/><rect x="18" y="54" width="28" height="2" fill="#ffffff" opacity=".12"/>';
