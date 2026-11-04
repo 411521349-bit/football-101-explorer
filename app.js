@@ -116,7 +116,8 @@ addEventListener("hashchange",route);
 /* ---------- Home ---------- */
 (function(){
   const T=[["2026 World Cup","Spain","es"],["Champions League 2026","Paris Saint-Germain","fr"],["Ballon d'Or 2026","Harry Kane","gb-eng"],["Premier League","Arsenal","gb-eng"],["La Liga","Barcelona","es"],["Serie A","Inter Milan","it"],["Bundesliga","Bayern Munich","de"],["Ligue 1","Paris Saint-Germain","fr"],["Euro 2024","Spain","es"],["Copa América 2024","Argentina","ar"],["Club World Cup 2025","Chelsea","gb-eng"],["The Best 2025","Ousmane Dembélé","fr"]];
-  $("ticker").innerHTML=T.map(t=>'<div class="tick">'+flag(t[2])+'<small>'+t[0]+'</small><b>'+t[1]+'</b></div>').join("");
+  const tkRow=t=>'<div class="tkRow"'+t+'>'+T.map(x=>'<div class="tick">'+flag(x[2])+'<small>'+x[0]+'</small><b>'+x[1]+'</b></div>').join("")+'</div>';
+  $("ticker").innerHTML='<div class="tkTrack">'+tkRow("")+tkRow(' aria-hidden="true"')+'</div>';
   const ic=(svg)=>'<span class="ic">'+svg+'</span>';
   const TL=[
    ["first","Your first match","How a match works, minute by minute",ic('<svg width="30" height="30" viewBox="0 0 24 24"><circle cx="12" cy="13" r="8" fill="none" stroke="#ff7a1a" stroke-width="2"/><path d="M12 9v4l3 2M10 2h4" stroke="#ff7a1a" stroke-width="2" stroke-linecap="round" fill="none"/></svg>')],
