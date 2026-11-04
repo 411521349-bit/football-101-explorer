@@ -51,6 +51,7 @@ nav.top ul::-webkit-scrollbar{display:none}
 nav.top a.nl{display:block;padding:6px 10px;border-radius:6px;color:var(--mute);text-decoration:none;font-weight:500;white-space:nowrap;font-size:15px}
 nav.top a.nl:hover{color:var(--line)}
 nav.top a.nl.act{color:#1a1005;background:var(--ball)}
+nav.top .brand img.logo{width:34px;height:34px;border-radius:50%;flex:none;box-shadow:0 0 0 1px var(--rule)}
 nav.top a.nl.hm{display:inline-flex;align-items:center;gap:6px}
 nav.top a.nl .hi{width:16px;height:16px;flex:none;transition:transform .2s ease}
 nav.top a.nl.hm:hover .hi{transform:translateY(-1px)}
