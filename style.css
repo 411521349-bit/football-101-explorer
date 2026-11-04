@@ -580,3 +580,9 @@ nav.top a.nl:focus-visible,nav.top .moreBtn:focus-visible{outline:2px solid var(
 .player-photo{width:46px;height:46px;object-fit:cover;object-position:center 24%;border-radius:50%;background:var(--panel2);border:2px solid var(--gold);padding:2px;vertical-align:middle}.sttable td:nth-child(2)>.player-photo{margin-right:7px}
 
 .ytip .player-photo{width:32px;height:32px;object-fit:cover;border-radius:50%;vertical-align:middle;margin-right:6px}
+
+.vrow.clk{cursor:pointer;transition:background .15s,box-shadow .15s}
+.vrow.clk:hover{background:#ffffff0d}
+.vrow.clk:focus-visible{outline:2px solid var(--ball);outline-offset:2px}
+.vrow.clk.sel{box-shadow:inset 3px 0 0 var(--ball);background:#ffffff12}
+.tvhead{font:700 26px "Barlow Condensed",sans-serif;margin:26px 0 10px}
