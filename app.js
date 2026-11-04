@@ -597,7 +597,7 @@ inits.transfers=function(){
     if(k==="squads"){const m=v=>v>=1000?"€"+(v/1000).toFixed(2)+"bn":"€"+(v<10?v.toFixed(2):Math.round(v*10)/10)+"m";
       const show=l=>{const R=TEAM_VALUES[l],mx=R[0][5];
         $("trOut").querySelectorAll(".vrow.clk").forEach(b=>{const on=b.dataset.l===l;b.classList.toggle("sel",on);b.setAttribute("aria-pressed",on)});
-        $("tvOut").innerHTML='<h3 class="tvhead">'+esc(l)+' · '+R.length+' clubs, squad values</h3><div class="vlist">'+R.map((r,i)=>'<div class="vrow"><span class="rk'+(i<1?" g":"")+'">'+(i+1)+'</span><span class="vn">'+teamIcon(r[0],"clubs",26)+'<span><b>'+esc(r[0])+'</b><small>'+r[1]+' players · avg age '+r[2]+' · '+r[3]+' foreign · avg '+m(r[4])+'</small></span></span><span class="vbar" style="width:'+(r[5]/mx*100)+'%"></span><span class="vv">'+m(r[5])+'</span></div>').join("")+'</div>'};
+        $("tvOut").innerHTML='<h3 class="tvhead">'+esc(l)+' · '+R.length+' clubs, squad values</h3><div class="svgrid">'+R.map((r,i)=>'<article class="svc'+(i<1?' top':'')+'"><div class="svtop">'+teamIcon(r[0],"clubs",40)+'<b>'+esc(r[0])+'</b><span class="svrk">#'+(i+1)+'</span></div><div class="svval">'+m(r[5])+'<small>squad value</small></div><div class="svchips"><span>'+r[1]+' players</span><span>avg age '+r[2]+'</span><span>'+r[3]+' foreign</span><span>avg '+m(r[4])+'</span></div><div class="svbar"><i style="width:'+(r[5]/mx*100)+'%"></i></div></article>').join("")+'</div>'};
       $("trOut").onclick=e=>{const r=e.target.closest(".vrow.clk");if(r)show(r.dataset.l)};
       $("trOut").onkeydown=e=>{const r=e.target.closest(".vrow.clk");if(r&&(e.key==="Enter"||e.key===" ")){e.preventDefault();show(r.dataset.l)}};
       show(Object.keys(TEAM_VALUES)[0])}

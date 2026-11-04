@@ -586,3 +586,18 @@ nav.top a.nl:focus-visible,nav.top .moreBtn:focus-visible{outline:2px solid var(
 .vrow.clk:focus-visible{outline:2px solid var(--ball);outline-offset:2px}
 .vrow.clk.sel{box-shadow:inset 3px 0 0 var(--ball);background:#ffffff12}
 .tvhead{font:700 26px "Barlow Condensed",sans-serif;margin:26px 0 10px}
+
+.svgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-bottom:24px}
+.svc{background:linear-gradient(160deg,#ffffff0d,#ffffff03),var(--panel);border:1px solid var(--rule);border-radius:14px;padding:14px 16px;transition:transform .15s,border-color .15s}
+.svc:hover{transform:translateY(-2px);border-color:#ffffff33}
+.svc.top{border-color:var(--ball)}
+.svtop{display:flex;align-items:center;gap:10px}
+.svtop b{font:700 19px/1.2 "Barlow Condensed",sans-serif;flex:1;min-width:0}
+.svrk{font:700 13px "Barlow Condensed",sans-serif;color:var(--mute);background:#ffffff14;border-radius:99px;padding:2px 9px;flex:none}
+.svc.top .svrk{background:var(--ball);color:#1a1005}
+.svval{font:700 32px/1 "Barlow Condensed",sans-serif;color:var(--line);margin:14px 0 2px}
+.svval small{font:500 13px "Barlow",sans-serif;color:var(--mute);margin-left:8px}
+.svchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.svchips span{font-size:12.5px;background:var(--bg);border-radius:99px;padding:3px 9px;color:var(--mute);white-space:nowrap}
+.svbar{height:6px;background:#ffffff14;border-radius:99px;margin-top:14px;overflow:hidden}
+.svbar i{display:block;height:100%;background:linear-gradient(90deg,var(--ball),#ffb35c);border-radius:99px}
