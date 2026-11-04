@@ -614,7 +614,7 @@ nav.top a.nl:focus-visible,nav.top .moreBtn:focus-visible{outline:2px solid var(
 
 /* Player and coach portraits in Premier League squads. */
 .squad-person,.squad-coach{display:inline-flex;align-items:center;gap:10px}
-.squad-portrait,.coach-portrait{width:48px;height:48px;flex:0 0 48px;object-fit:cover;object-position:center top;border-radius:50%;background:#12343a;border:2px solid #2d5960}
+.squad-portrait,.coach-portrait{width:48px;height:48px;flex:0 0 48px;object-fit:cover;object-position:center center;border-radius:50%;background:#12343a;border:2px solid #2d5960}
 .sqt td img.squad-portrait{margin-right:0}
 .dlg-head .squad-portrait{width:64px;height:64px;flex-basis:64px}
 @media(max-width:600px){.squad-portrait,.coach-portrait{width:42px;height:42px;flex-basis:42px}.squad-person,.squad-coach{gap:7px}}
