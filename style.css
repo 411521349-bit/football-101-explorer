@@ -69,7 +69,7 @@ nav.top a.nl.hm:hover .hi{transform:translateY(-1px)}
 .cta a.primary{background:var(--ball);border-color:var(--ball);color:#1a1005}
 .cta a:hover{transform:translateY(-1px)}
 .art svg{width:100%;height:auto;max-width:420px;margin-left:auto}
-.art img.heroLogo{display:block;width:100%;height:auto;max-width:420px;margin-left:auto;border-radius:50%;box-shadow:0 0 0 1px #ffffff14,0 0 70px #22763f66}
+.art img.heroLogo{display:block;width:100%;height:auto;max-width:300px;margin-left:auto;border-radius:50%;box-shadow:0 0 0 1px #ffffff14,0 0 70px #22763f66}
 .ballspin{transform-origin:200px 210px;animation:spin 18s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .ticker{display:flex;gap:10px;overflow-x:auto;scrollbar-width:thin;padding:20px 0 6px;margin-top:10px}
