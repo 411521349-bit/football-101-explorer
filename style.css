@@ -51,6 +51,9 @@ nav.top ul::-webkit-scrollbar{display:none}
 nav.top a.nl{display:block;padding:6px 10px;border-radius:6px;color:var(--mute);text-decoration:none;font-weight:500;white-space:nowrap;font-size:15px}
 nav.top a.nl:hover{color:var(--line)}
 nav.top a.nl.act{color:#1a1005;background:var(--ball)}
+nav.top a.nl.hm{display:inline-flex;align-items:center;gap:6px}
+nav.top a.nl .hi{width:16px;height:16px;flex:none;transition:transform .2s ease}
+nav.top a.nl.hm:hover .hi{transform:translateY(-1px)}
 
 /* Home */
 .hero{position:relative;padding:40px 0 10px;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:24px;align-items:center}
