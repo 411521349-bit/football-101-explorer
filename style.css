@@ -618,3 +618,6 @@ nav.top a.nl:focus-visible,nav.top .moreBtn:focus-visible{outline:2px solid var(
 .sqt td img.squad-portrait{margin-right:0}
 .dlg-head .squad-portrait{width:64px;height:64px;flex-basis:64px}
 @media(max-width:600px){.squad-portrait,.coach-portrait{width:42px;height:42px;flex-basis:42px}.squad-person,.squad-coach{gap:7px}}
+
+/* Keep nationality flags aligned in the squad table. */
+.sqt th:nth-child(4),.sqt td:nth-child(4){text-align:left}
